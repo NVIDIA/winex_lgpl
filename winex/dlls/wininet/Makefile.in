@@ -1,0 +1,28 @@
+EXTRAINCL = -I$(TOPSRCDIR)/include-lgpl -I$(TOPOBJDIR)/include-lgpl
+EXTRADEFS = -D__WINESRC__ -DSTRICT -D_WINX32_
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = wininet
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).@OUTPUTEXT@
+
+C_SRCS = \
+	cookie.c \
+	dialogs.c \
+	ftp.c \
+	gopher.c \
+	http.c \
+	internet.c \
+	netconnection.c \
+	urlcache.c \
+	utility.c \
+	wininet_main.c
+
+RC_SRCS = wininet.rc
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

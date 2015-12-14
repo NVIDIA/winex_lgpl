@@ -1,0 +1,40 @@
+DLLFLAGS  = @DLLFLAGS@
+DEFS      = -D__WINE__
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MOD       = msdos
+
+C_SRCS = \
+	dosconf.c \
+	dosmem.c \
+	dpmi.c \
+	int11.c \
+	int12.c \
+	int13.c \
+	int15.c \
+	int1a.c \
+	int20.c \
+	int21.c \
+	int25.c \
+	int26.c \
+	int2a.c \
+	int2f.c \
+	int3d.c \
+	int41.c \
+	int4b.c \
+	int5c.c \
+	interrupts.c \
+	ioports.c \
+	ppdev.c \
+	vxd.c
+
+all: $(MOD).o
+
+@MAKE_RULES@
+
+$(MOD).o: $(OBJS) Makefile.in $(TOPSRCDIR)/Make.rules.in
+	$(LDCOMBINE) $(OBJS) -o $@
+
+### Dependencies:

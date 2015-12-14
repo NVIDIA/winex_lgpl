@@ -1,0 +1,370 @@
+#!/bin/sh 
+#
+# Create menu/desktop entries for an application
+# This is used by the IShellLink interface
+#
+# Copyright 2000 Alexandre Julliard
+# Copyright (c) 2002-2015 NVIDIA CORPORATION. All rights reserved.
+#
+mode=""
+args=""
+menu=""
+icon=""
+descr=""
+link=""
+path=""
+workdir=""
+name=""
+fe_icon=""
+png=""
+
+WINE_LOADER=${WINE_LOADER:-wine}
+
+
+usage()
+{
+    cat <<EOF
+usage: wineshelllink options
+
+options:
+  --desktop     create a desktop link
+  --menu        create a menu entry
+  --path xx     path to the application
+  --link xx     name of link to create
+  --args xx     command-line arguments for the application
+  --icon xx     icon to display
+  --workdir xx  working directory for the application
+  --descr xx    application description
+  --png         icon is a png
+
+EOF
+    exit 1
+}
+
+if [ $# -eq 0 ] ; then
+    usage
+fi
+
+while [ $# -gt 0 ]
+do
+  case "$1" in
+    --desktop) mode="desktop"; shift 1 ;;
+    --menu)    mode="menu"; shift 1 ;;
+    --path)    path="$2"; shift 2 ;;
+    --link)    link="$2"; shift 2 ;;
+    --args)    args="$2"; shift 2 ;;
+    --icon)    icon="$2"; shift 2 ;;
+    --descr)   descr="$2"; shift 2 ;;
+    --workdir) workdir="$2"; shift 2 ;;
+    --png)     png=1; shift 1;;
+    *) usage ;;
+  esac
+done
+
+if [ "$mode" = ""  ] ; then
+    echo Either --desktop or --menu required
+    usage
+fi
+
+if [ "$link" = ""  ] ; then
+    echo You must specify a link name with --link
+    usage
+fi
+
+# Workaround limitations of Bourne-shell echo...
+altecho()
+{
+cat <<EOF
+$*
+EOF
+}
+
+# Set up the loader command to use the working dir if it's winex.
+# Generally, setting the 'path' in many desktop systems does the
+# wrong thing.
+# Note that if we're using the winex launcher script we don't want 
+# any double-dashes contaminating the input. That's the signal to 
+# the winex script that 'I know what I'm doing, don't mess with my 
+# input'.  
+if [ -n "$workdir" -a ["$WINE_LOADER" = "winex" -o "$WINE_LOADER" = "winex3" -o "$WINE_LOADER" = "cedega"] ]; then
+    WINE_MENU="$WINE_LOADER -workdir \\\"$workdir\\\""
+    WINE_START="$WINE_LOADER -workdir \"$workdir\""
+    DOUBLEDASH=""
+else
+    WINE_MENU=$WINE_LOADER
+    WINE_START=$WINE_LOADER
+    DOUBLEDASH="--"
+fi
+
+# We need to determine the KDE version (and without crapping out if it's
+# not found.)
+if which kde-config > /dev/null 2>&1 ; then  
+    kdeversionmajor=`kde-config --version |grep KDE | cut -f2 -d \ | cut -d. -f1`
+    kdeversionminor=`kde-config --version |grep KDE | cut -f2 -d \ | cut -d. -f0,2`
+else
+    kdeversionmajor=
+    kdeversionminor=
+fi
+
+# The insanity below is needed to make sure that the correct quoting
+# occurs when going 1st to the .menu/wine file, and then from there
+# to the appropriate desktop system entries via update-menus.  Note
+# that every round trip through the shell string processing affects
+# the count of slashes.  Thus, four \s here == 1 in the menu file.
+# Thus, the first replacement below actually replaces each input \ 
+# in the path with 8 \s in the menu file.  That in turn gets mashed
+# into 2 \s in the kde and gnome desktop links created by update-menus
+
+# Unfortunately, this doesn't actually seem to work for the test
+# case that it was meant to handle (3DMark2000).  We'll leave the 
+# code in here though anyway, since it seems like it's quite close
+
+# Substitutions for mdk_entry
+mdk_args=`altecho "$args" | perl -e '$t = pack('C', 39); while (<>) { s,\\\\,\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\,g; s,([ "]),\\\\$1,g; s,$t,\\\\$t,g; print "$_"; }'`
+
+# We use a slightly different substitution if we're going directly 
+# to the desktop system ourselves.  Note that kde2 and gnome share
+# the same format of desktop entries.
+# Substitutions for gnome_entry
+gnome_args=`altecho "$args" | perl -e '$t = pack('C', 39); while (<>) { s,\\\\,\\\\\\\\,g; print "$_"; }'`
+
+# We would do something similar to the above for the actual launch path,
+# but we run into problems with gnome, which does an extra shell evaluation 
+# pass, but *only* for menu items, not desktop entries.  A better solution
+# is to simply reverse the slash direction in the path.  Wine will do
+# the right thing, and we avoid all troubles with backslashes and quoting.
+path=`altecho "$path" | sed -e 's,\\\\,/,g'` 
+
+kde_entry()
+{
+    xname=`basename "$link"`
+    cat <<EOF
+# KDE Config File
+[KDE Desktop Entry]
+Name=$xname
+Exec=$WINE_START "$path" $DOUBLEDASH $args
+Type=Application
+Comment=$descr
+EOF
+    [ -z "$workdir" ] || echo "Path=\"$workdir\""
+    [ -z "$icon_filename" ] || echo "Icon=$icon_filename"
+}
+
+gnome_entry()
+{
+    xname=`basename "$link"`
+    cat <<EOF
+[Desktop Entry]
+Name=`basename "$link"`
+Exec=$WINE_START "$path" $DOUBLEDASH $gnome_args
+Type=Application
+Comment=$descr
+EOF
+    [ -z "$workdir" ] || echo "Path=\"$workdir\""
+    [ -z "$icon_filename" ] || echo "Icon=$icon_filename"
+}
+
+mdk_entry()
+{
+    base=`basename "$link"`
+    section=`dirname "$link"`
+    [ -z "$icon" ] || xicon="icon=\"$icon_filename\""
+    echo "?package(local.Wine):needs=x11 section=\"TransGaming/$section\" title=\"$base\" longtitle=\"$descr\" command=\"$WINE_MENU \\\"$path\\\" $DOUBLEDASH $mdk_args\" $xicon"
+}
+
+# copy the icon file to a specified dir and set icon_filename to the resulting path
+copy_icon()
+{
+  dir="$1"
+  mkdir -p "$dir"
+  mkdir -p "$dir/""`dirname "$link"`" || true
+  if [ -f "$icon" ]
+  then
+    if [ -z "$png" ] ; then
+       cp "$icon" "$dir/$link.xpm"
+       icon_filename="$dir/$link.xpm"
+       cp "$icon" "$WINEPREFIX""/icons/`basename "$link"`.xpm"
+    else
+       cp "$icon" "$dir/$link.png"
+       icon_filename="$dir/$link.png"
+       cp "$icon" "$WINEPREFIX""/icons/`basename "$link"`.png"
+    fi
+  else
+    icon_filename=""
+  fi
+}
+
+
+# Cedega GUI - if we're running from the GUI ( commandline or GUI-based) 
+# don't install icons elsewhere.
+
+# The line below defines a lock file to be made.  This file will in
+# effect lock games.ini.new, and stop it from being altered by the GUI 
+# while it's still being written.  While installing, Cedega GUI monitors
+# the gamedir every 5 seconds or so for a "games.ini.new" file, which is
+# created by wineshelllnk during the course of the install process. If this
+# file is found ( whether partially written or not ), the GUI will
+# rename it, attempt to read from it, and then delete it.  An issue was
+# appearing during instances where the GUI was renaming games.ini.new
+# before wineshelllink was finished with it.  Thus, the creation of
+# a temporary .lock file during the course of the below code.  The
+# GUI will check for the games.ini.new, but only work with it if if there
+# is not .lock file.  If it's present, it'll check again in 0.5 seconds.
+# After wineshelllink is done creating the games.ini.new file, the .lock
+# file is deleted.  Commandline icons now appear everytime as opposed to
+# intermittently.
+LOCK_FILE="$WINEPREFIX/.lock"
+if [ -n "$WINEX_INSTALL_FILE" ];
+then
+
+   # Create $LOCK_FILE if it doesn't exist; if it does (meaning that the
+   # GUI is currently processing games.ini.new), keep trying until the GUI
+   # is done and deletes $LOCK_FILE
+   while true
+   do
+      if (set -C; : > $LOCK_FILE) 2> /dev/null
+      then
+         break
+      fi
+   done
+
+   name="`basename "$link"`"
+   if [ -z "$png" ] ; then
+     cp "$icon" "$WINEPREFIX""/icons/`basename "$link"`.xpm"
+     fe_icon="$WINEPREFIX""/icons/`basename "$link"`.xpm"
+   else
+     cp "$icon" "$WINEPREFIX""/icons/`basename "$link"`.png"
+     fe_icon="$WINEPREFIX""/icons/`basename "$link"`.png"
+   fi
+
+if [ -n "$WINEX_INSTALL_FILE_V2" ];
+then
+
+cat << EOF >> $WINEX_INSTALL_FILE_V2
+V2L6
+N$name
+E$path
+I$fe_icon
+W$workdir
+A$args
+D$mode
+EOF
+
+else
+
+cat << EOF >> $WINEX_INSTALL_FILE
+$name
+$path
+$fe_icon
+$workdir
+EOF
+
+fi
+
+# Is there a .lock file around?
+if [ -n "$LOCK_FILE" ];
+then
+# Remove it...
+rm "$LOCK_FILE"
+fi
+
+exit 0
+fi
+
+# Debian/Mandrake
+
+which update-menus > /dev/null 2>&1
+if [ $? = 0 -a $mode = "menu" ]
+then
+  if [ -z "$png" ] ; then
+    iconname="`basename "$link"`.xpm"
+  else
+    iconname="`basename "$link"`.png"
+  fi
+  dir="$HOME/.menu/icons"
+  if [ -f "$icon" ]
+  then
+    mkdir -p $dir
+    cp "$icon" "$dir/$iconname"
+    icon_filename="$dir/$iconname"
+  else
+    icon_filename=""
+  fi
+  if [ "$kdeversionmajor" = 3 ]
+  then
+    if [ -d "$HOME/.kde3" ]
+    then
+      if [ ! -d "$HOME/.kde3/share/applnk-mdk/TransGaming" ]
+      then
+	mkdir "$HOME/.kde3/share/applnk-mdk/TransGaming"  
+      fi
+      copy_icon "$HOME/.kde3/share/applnk-mdk/TransGaming"
+      if [ $mode = "menu" ]
+      then
+        gnome_entry > "$HOME/.kde3/share/applnk-mdk/TransGaming/$link.desktop"
+      elif [ -d "$HOME/Desktop" ]
+      then
+        gnome_entry > "$HOME/Desktop/$link.desktop"
+      fi
+    else						  
+      copy_icon "$HOME/.kde/share/applnk-mdk/TransGaming"
+      if [ $mode = "menu" ]
+      then
+	gnome_entry > "$HOME/.kde/share/applnk-mdk/TransGaming/$link.desktop"
+      elif [ -d "$HOME/Desktop" ]
+      then
+        gnome_entry > "$HOME/Desktop/$link.desktop"
+      fi
+    fi
+    kbuildsycoca &> /dev/null
+  else
+    mdk_entry >> "$HOME/.menu/wine"
+    update-menus > /dev/null 2>&1
+  fi
+fi
+
+# KDE
+
+if [ -d "$HOME/.kde" ]
+then
+  copy_icon "$HOME/.kde/share/applnk/TransGaming"
+  if [ $mode = "menu" ]
+  then
+    gnome_entry > "$HOME/.kde/share/applnk/TransGaming/$link.desktop"
+  elif [ -d "$HOME/Desktop" ]
+  then
+    gnome_entry > "$HOME/Desktop/$link.desktop"
+  fi
+fi
+if [ -d "$HOME/.kde3" ]
+then
+  copy_icon "$HOME/.kde3/share/applnk/TransGaming"
+  if [ $mode = "menu" ]
+  then
+    gnome_entry > "$HOME/.kde3/share/applnk/TransGaming/$link.desktop"
+  elif [ -d "$HOME/Desktop" ]
+  then
+    gnome_entry > "$HOME/Desktop/$link.desktop"
+  fi
+  kbuildsycoca &> /dev/null
+fi
+						    
+
+
+# Gnome
+
+if [ -d "$HOME/.gnome" ]
+then
+  copy_icon "$HOME/.gnome/apps/TransGaming"
+  if [ $mode = "menu" ]
+  then
+    gnome_entry > "$HOME/.gnome/apps/TransGaming/$link.desktop"
+  elif [ -d "$HOME/.gnome-desktop" ]
+  then
+    gnome_entry > "$HOME/.gnome-desktop/$link.desktop"
+  fi
+fi
+
+ 
+
+exit 0

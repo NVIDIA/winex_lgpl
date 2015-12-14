@@ -1,0 +1,42 @@
+DLLFLAGS  = @DLLFLAGS@
+DEFS      = -D__WINE__
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+LIBEXT    = @LIBEXT@
+MODULE    = none
+SONAME    = libwine_port.$(LIBEXT)
+EXTRALIBS = @DLLIBS@
+
+C_SRCS = \
+	port.c \
+	mmap.c \
+	mkstemps.c
+
+all: $(SONAME)
+
+@MAKE_RULES@
+
+$(SONAME): $(OBJS)
+	$(LDSHARED) @PACKAGE_LINK@ $(OBJS) $(EXTRALIBS) $(LIBS) -o $@
+
+install_so: $(SONAME)
+	[ -d $(libdir) ] || $(MKDIR) $(libdir)
+	$(INSTALL_PROGRAM) $(SONAME) $(libdir)/$(SONAME)
+
+install_dylib: install_so
+
+install_a: libwine.a
+	[ -d $(libdir) ] || $(MKDIR) $(libdir)
+	$(INSTALL_DATA) libwine.a $(libdir)/libwine.a
+
+install:: all $(LIBEXT:%=install_%)
+
+uninstall::
+	cd $(libdir) && $(RM) libwine.a $(SONAME) 
+
+clean::
+	$(RM) $(SONAME)
+
+### Dependencies:

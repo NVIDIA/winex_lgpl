@@ -1,0 +1,143 @@
+<!doctype set PUBLIC "-//OASIS//DTD DocBook V3.1//EN" [
+
+<!-- *** Include list of authors *** -->
+<!entity % authors SYSTEM "authors.ent">
+%authors;
+
+<!-- *** Entities for Wine User Guide *** -->
+<!entity introduction SYSTEM "introduction.sgml">
+<!entity getting SYSTEM "getting.sgml">
+<!entity installing SYSTEM "installing.sgml">
+<!entity configuring SYSTEM "configuring.sgml">
+<!entity registry SYSTEM "registry.sgml">
+<!entity fonts SYSTEM "fonts.sgml">
+<!entity printing SYSTEM "printing.sgml">
+<!entity running SYSTEM "running.sgml">
+<!entity bugs SYSTEM "bugs.sgml">
+
+<!-- *** Entities for Wine Developer Guide *** -->
+<!entity compiling SYSTEM "compiling.sgml">
+<!entity debugging SYSTEM "debugging.sgml">
+<!entity documentation SYSTEM "documentation.sgml">
+<!entity patches SYSTEM "patches.sgml">
+<!entity i18n SYSTEM "i18n.sgml">
+<!entity porting SYSTEM "porting.sgml">
+<!entity architecture SYSTEM "architecture.sgml">
+<!entity ole SYSTEM "ole.sgml">
+<!entity debugger SYSTEM "debugger.sgml">
+<!entity consoles SYSTEM "consoles.sgml">
+<!entity implementation SYSTEM "implementation.sgml">
+<!entity opengl SYSTEM "opengl.sgml">
+<!entity build SYSTEM "build.sgml">
+<!entity tools SYSTEM "tools.sgml">
+<!entity dlls SYSTEM "dlls.sgml">
+<!entity cvs-regression SYSTEM "cvs-regression.sgml">
+<!entity multimedia SYSTEM "multimedia.sgml">
+
+<!-- *** Entities for Wine Developer Guide *** -->
+<!entity winelib-user SYSTEM "winelib-user.sgml">
+
+<!-- *** Entities for Winelib User Guide *** -->
+<!entity winelib-intro SYSTEM "winelib-intro.sgml">
+<!entity winelib-porting SYSTEM "winelib-porting.sgml">
+<!entity winelib-toolkit SYSTEM "winelib-toolkit.sgml">
+<!entity winelib-mfc SYSTEM "winelib-mfc.sgml">
+<!entity winelib-bindlls SYSTEM "winelib-bindlls.sgml">
+<!entity winelib-packaging SYSTEM "winelib-pkg.sgml">
+
+<!-- *** Entities for Wine Packager Guide *** -->
+<!entity packaging SYSTEM "packaging.sgml">
+
+]>
+
+<set id="index">
+  <setinfo>
+    <title>Wine Documentation</title>
+
+    <releaseinfo>
+      <emphasis>
+        The following documentation has been extracted from the Wine
+        source tree, from the <filename>wine/documentation</filename>
+        directory.  All credit should go to the original authors, who
+        are attributed according the the "written by" comments in
+        those files.  Additional content has also been added.
+      </emphasis>
+    </releaseinfo>
+  </setinfo>
+
+  <!-- *** Wine User Guide *** -->
+  <book id="index-user">
+    <bookinfo>
+      <title>Wine User Guide</title>
+    </bookinfo>
+
+    &introduction;
+    &getting;
+
+    &installing;
+    &configuring;
+    &running;
+    &bugs;
+  </book>
+
+  <!-- *** Wine Developer Guide *** -->
+  <book id="index-developer">
+    <bookinfo>
+      <title>Wine Developer's Guide</title>
+    </bookinfo>
+
+    <part id="part-one">
+      <title>Developing Wine</title>
+      &compiling;
+      &debugger;
+      &documentation;
+      &patches;
+      &i18n;
+      &tools;
+    </part>
+
+    <part id="part-two">
+      <title>Wine Architecture</title>
+      &architecture;
+      &debugging;
+      &ole;
+      &opengl;
+      &build;
+      &dlls;
+      &multimedia;
+    </part>
+
+    <part>
+      <title>Advanced Topics</title>
+      &implementation;
+      &porting;
+      &consoles;
+      &cvs-regression;
+    </part>
+  </book>
+
+
+  <!-- *** Winelib User Guide *** -->
+<book id="index-winelib">
+  <bookinfo>
+    <title>Winelib User's Guide</title>
+  </bookinfo>
+
+  &winelib-intro;
+  &winelib-porting;
+  &winelib-toolkit;
+  &winelib-mfc;
+  &winelib-bindlls;
+  &winelib-packaging;
+
+</book>
+
+  <!-- *** Wine Packager Guide *** -->
+  <book id="index-pkg">
+    <bookinfo>
+      <title>Wine Packagers Guide</title>
+    </bookinfo>
+
+    &packaging;
+  </book>
+</set>

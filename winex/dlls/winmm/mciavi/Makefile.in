@@ -1,0 +1,21 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = mciavi.drv
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).@OUTPUTEXT@
+
+C_SRCS = \
+	info.c \
+	mciavi.c \
+	mmoutput.c \
+	wnd.c
+
+RC_SRCS = \
+	mciavi_res.rc
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

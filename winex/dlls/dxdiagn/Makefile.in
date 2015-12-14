@@ -1,0 +1,23 @@
+EXTRAINCL = -I$(TOPSRCDIR)/include-lgpl -I$(TOPOBJDIR)/include-lgpl @SSLINCL@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = dxdiagn
+EXTRALIBS = $(LIBUUID) $(LIBUNICODE)
+SYMBOLFILE = $(MODULE).@OUTPUTEXT@
+
+C_SRCS = \
+	container.c \
+	dxdiag_main.c \
+	provider.c
+
+RC_SRCS = dxdiagn.rc
+
+#IDL_H_SRCS = \
+#    dxdiagn.idl \
+#    fil_data.idl
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

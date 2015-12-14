@@ -1,0 +1,20 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = clock
+
+LICENSELANG = En
+
+C_SRCS = \
+	language.c \
+	license.c \
+	main.c \
+	winclock.c \
+	$(LICENSELANG:%=License_%.c)
+
+RC_SRCS = rsrc.rc
+
+@MAKE_PROG_RULES@
+
+### Dependencies:

@@ -1,0 +1,24 @@
+EXTRAINCL = -I$(TOPSRCDIR)/include-lgpl -I$(TOPOBJDIR)/include-lgpl @SSLINCL@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = credui
+NEEDCROSSLIB = yes
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).@OUTPUTEXT@
+
+C_SRCS = \
+	credui_main.c
+
+RC_SRCS = credui.rc
+
+SVG_SRCS = \
+	banner.svg
+
+EXTRATARGETS = @CROSSLIB@
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

@@ -1,0 +1,561 @@
+% dlls/advapi32/advapi32.spec
+
+dlls/advapi32
+memory
+misc
+
+% dlls/avicap32/avicap32.spec
+
+dlls/avicap32
+
+% dlls/avifil32/avifil32.spec
+
+dlls/avifil32
+
+% dlls/avifil32/avifile.spec
+
+dlls/avifil32
+
+% dlls/comcat/comcat.spec
+
+dlls/comcat
+
+% dlls/comctl32/comctl32.spec
+
+dlls/comctl32
+
+% dlls/commdlg/comdlg32.spec
+
+dlls/commdlg
+
+% dlls/commdlg/commdlg.spec
+
+dlls/commdlg
+
+% dlls/crtdll/crtdll.spec
+
+dlls/crtdll
+
+% dlls/crypt32/crypt32.spec
+
+dlls/crypt32
+
+% dlls/dciman32/dciman32.spec
+
+dlls/dciman32
+
+% dlls/ddraw/ddraw.spec
+
+dlls/ddraw
+dlls/ddraw/dclipper
+
+% dlls/devenum/devenum.spec
+
+dlls/devenum
+
+% dlls/dinput/dinput.spec
+
+dlls/dinput
+
+% dlls/dplay/dplay.spec
+
+% dlls/dplayx/dplayx.spec
+
+dlls/dplayx
+
+% dlls/dsound/dsound.spec
+
+dlls/dsound
+
+% dlls/gdi/dispdib.spec
+
+graphics
+
+% dlls/gdi/gdi.exe.spec
+
+dlls/gdi
+dlls/gdi/enhmfdrv
+dlls/gdi/mfdrv
+dlls/gdi/win16drv
+graphics
+objects
+
+% dlls/gdi/gdi32.spec
+
+dlls/gdi
+dlls/gdi/enhmfdrv
+dlls/gdi/mfdrv
+dlls/gdi/win16drv
+graphics
+objects
+
+% dlls/gdi/wing.spec
+
+dlls/gdi
+
+% dlls/glu32/glu32.spec
+
+dlls/glu32
+
+% dlls/icmp/icmp.spec
+
+dlls/icmp
+
+% dlls/imagehlp/imagehlp.spec
+
+dlls/imagehlp
+
+% dlls/imm32/imm.spec
+
+% dlls/imm32/imm32.spec
+
+dlls/imm32
+
+% dlls/kernel/comm.spec
+
+% dlls/kernel/krnl386.exe.spec
+
+dlls/kernel
+files
+loader/ne
+loader
+memory
+misc
+msdos
+scheduler
+win32
+
+% dlls/kernel/kernel32.spec
+
+dlls/kernel
+files
+if1632
+loader/ne
+loader
+memory
+misc
+ole
+scheduler
+win32
+
+% dlls/mapi32/mapi32.spec
+
+dlls/mapi32
+
+% dlls/msimg32/msimg32.spec
+
+dlls/msimg32
+
+% dlls/msisys/msisys.ocx.spec
+
+dlls/msisys
+
+% dlls/msrle32/msrle32.spec
+
+dlls/msrle32
+
+% dlls/msvcrt/msvcrt.spec
+
+dlls/msvcrt
+
+% dlls/msvcrt20/msvcrt20.spec
+
+dlls/msvcrt20
+
+% dlls/kernel/stress.spec
+
+dlls/kernel
+
+% dlls/kernel/system.spec
+
+memory
+misc
+
+% dlls/kernel/toolhelp.spec
+
+dlls/kernel
+loader/ne
+loader
+memory
+
+% dlls/kernel/wprocs.spec
+
+msdos
+
+% dlls/kernel/win87em.spec
+
+dlls/kernel
+
+% dlls/kernel/windebug.spec
+
+dlls/kernel
+
+% dlls/lzexpand/lz32.spec
+
+dlls/lzexpand
+
+% dlls/lzexpand/lzexpand.spec
+
+dlls/lzexpand
+
+% dlls/msdmo/msdmo.spec
+
+dlls/msdmo
+
+% dlls/mpr/mpr.spec
+
+dlls/mpr
+
+% dlls/msacm/msacm.spec
+
+dlls/msacm
+
+% dlls/msacm/msacm32.spec
+
+dlls/msacm
+
+% dlls/msacm/imaadp32/imaadp32.acm.spec
+
+dlls/msacm/imaadp32
+
+% dlls/msacm/msg711/msg711.drv.spec
+
+dlls/msacm/msg711
+
+% dlls/msnet32/msnet32.spec
+
+% dlls/msvideo/msvfw32.spec
+
+dlls/msvideo
+
+% dlls/msvideo/msvideo.spec
+
+dlls/msvideo
+
+% dlls/netapi32/netapi32.spec
+
+dlls/netapi32
+
+% dlls/ntdll/ntdll.spec
+
+dlls/ntdll
+misc
+scheduler
+
+% dlls/odbc32/odbc32.spec
+
+dlls/odbc32
+
+% dlls/ole32/compobj.spec
+
+dlls/ole32
+
+% dlls/ole32/ole2.spec
+
+dlls/ole32
+
+% dlls/ole32/ole32.spec
+
+dlls/ole32
+
+% dlls/ole32/ole2conv.spec
+
+% dlls/ole32/ole2nls.spec
+
+dlls/ole32
+
+% dlls/ole32/ole2prox.spec
+
+% dlls/ole32/ole2thk.spec
+
+% dlls/ole32/storage.spec
+
+dlls/ole32
+
+% dlls/oleaut32/ole2disp.spec
+
+dlls/oleaut32
+
+% dlls/oleaut32/oleaut32.spec
+
+dlls/oleaut32
+
+% dlls/qcap/qcap.spec
+
+dlls/qcap
+
+% dlls/oleaut32/typelib.spec
+
+dlls/oleaut32
+
+% dlls/olecli/olecli.spec
+
+dlls/olecli
+
+% dlls/olecli/olecli32.spec
+
+dlls/olecli
+
+% dlls/oledlg/oledlg.spec
+
+dlls/oledlg
+
+% dlls/olepro32/olepro32.spec
+
+dlls/olepro32
+
+% dlls/olesvr/olesvr.spec
+
+dlls/olesvr
+
+% dlls/olesvr/olesvr32.spec
+
+dlls/olesvr
+
+% dlls/opengl32/opengl32.spec
+
+dlls/opengl32
+
+% dlls/psapi/psapi.spec
+
+dlls/psapi
+
+% dlls/quartz/quartz.spec
+
+dlls/quartz
+
+% dlls/rasapi32/rasapi16.spec
+
+% dlls/rasapi32/rasapi32.spec
+
+dlls/rasapi32
+
+% dlls/richedit/riched32.spec
+
+dlls/richedit
+
+% dlls/rpcrt4/rpcrt4.spec
+
+dlls/rpcrt4
+
+% dlls/serialui/serialui.spec
+
+dlls/serialui
+
+% dlls/setupapi/setupapi.spec
+
+dlls/setupapi
+
+% dlls/setupapi/setupx.spec
+
+dlls/setupapi
+
+% dlls/shell32/shell.spec
+
+dlls/shell32
+misc
+
+% dlls/shell32/shell32.spec
+
+dlls/shell32
+
+% dlls/shdocvw/shdocvw.spec
+
+dlls/shdocvw
+
+% dlls/shfolder/shfolder.spec
+
+% dlls/shlwapi/shlwapi.spec
+
+dlls/shlwapi
+
+% dlls/snmpapi/snmpapi.spec
+
+dlls/snmpapi
+
+% dlls/tapi32/tapi32.spec
+
+dlls/tapi32
+
+% dlls/sti/sti.spec
+
+dlls/sti
+
+% dlls/ttydrv/ttydrv.spec
+
+dlls/ttydrv
+
+% dlls/twain/twain_32.spec
+
+dlls/twain
+
+% dlls/urlmon/urlmon.spec
+
+dlls/urlmon
+
+% dlls/user/ddeml.spec
+
+dlls/user/dde
+
+% dlls/user/display.spec
+
+dlls/user
+objects
+
+% dlls/user/keyboard.spec
+
+dlls/user
+windows
+
+% dlls/user/mouse.spec
+
+dlls/user
+
+% dlls/url/url.spec
+
+dlls/url
+
+% dlls/user/user.exe.spec
+
+controls
+dlls/user
+misc
+windows
+
+% dlls/user/user32.spec
+
+controls
+dlls/user
+dlls/user/dde
+loader
+objects
+windows
+
+% dlls/version/ver.spec
+
+dlls/version
+
+% dlls/version/version.spec
+
+dlls/version
+
+% dlls/win32s/w32skrnl.spec
+
+dlls/win32s
+
+% dlls/win32s/w32sys.spec
+
+dlls/win32s
+
+% dlls/win32s/win32s16.spec
+
+dlls/win32s
+
+% dlls/winaspi/winaspi.spec
+
+dlls/winaspi
+
+% dlls/winaspi/wnaspi32.spec
+
+dlls/winaspi
+
+% dlls/winedos/winedos.spec
+
+dlls/winedos
+
+% dlls/wineps/wineps.spec
+
+dlls/wineps
+
+% dlls/wineps/wineps16.spec
+
+dlls/wineps
+
+% dlls/wininet/wininet.spec
+
+dlls/wininet
+
+% dlls/winmm/sound.spec
+
+dlls/winmm
+
+% dlls/winmm/joystick/joystick.drv.spec
+
+dlls/winmm/joystick
+
+% dlls/winmm/mcianim/mcianim.drv.spec
+
+dlls/winmm/mcianim
+
+% dlls/winmm/mciavi/mciavi.drv.spec
+
+dlls/winmm/mciavi
+
+% dlls/winmm/mcicda/mcicda.drv.spec
+
+dlls/winmm/mcicda
+
+% dlls/winmm/mciseq/mciseq.drv.spec
+
+dlls/winmm/mciseq
+
+% dlls/winmm/mciwave/mciwave.drv.spec
+
+dlls/winmm/mciwave
+
+% dlls/winmm/midimap/midimap.drv.spec
+
+dlls/winmm/midimap
+
+% dlls/winmm/wavemap/msacm.drv.spec
+
+dlls/winmm/wavemap
+
+% dlls/winmm/winearts/winearts.drv.spec
+
+dlls/winmm/winearts
+
+% dlls/winmm/wineoss/wineoss.drv.spec
+
+dlls/winmm/wineoss
+
+% dlls/winmm/mmsystem.spec
+
+dlls/winmm
+
+% dlls/winmm/winmm.spec
+
+dlls/winmm
+
+% dlls/winnls/winnls.spec
+
+dlls/winnls
+
+% dlls/winnls/winnls32.spec
+
+% dlls/winsock/winsock.spec
+
+dlls/winsock
+
+% dlls/winsock/ws2_32.spec
+
+dlls/winsock
+
+% dlls/wsock32/wsock32.spec
+
+dlls/wsock32
+
+% dlls/winspool/winspool.drv.spec
+
+dlls/winspool
+
+% dlls/wintrust/wintrust.spec
+
+dlls/wintrust
+
+% dlls/wow32/wow32.spec
+
+% dlls/x11drv/x11drv.spec
+
+dlls/x11drv
+graphics/x11drv

@@ -1,0 +1,4 @@
+import "unknwn.idl";
+
+typedef GUID CATID;
+typedef REFGUID REFCATID;

@@ -1,0 +1,9 @@
+#define WINE_FILEVERSION 6,6,7,5
+#define WINE_PRODUCTVERSION 6,6,7,5
+#define WINE_FILEDESCRIPTION_STR "dbghelp DLL"
+#define WINE_FILENAME_STR "dbghelp"
+#define WINE_PRODUCTVERSION_STR "6,6,7,5"
+#define WINE_PRODUCTNAME_STR "NVIDIA Corporation WineX"
+#define WINE_FILEVERSION_STR "6.6.7.5 built by: WineX"
+
+#include "wine/wine_common_ver.rc"

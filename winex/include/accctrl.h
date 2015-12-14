@@ -1,0 +1,133 @@
+#ifndef WINE_ACCCTRL_H
+#define WINE_ACCCTRL_H
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+typedef enum _SE_OBJECT_TYPE
+{
+  SE_UNKNOWN_OBJECT_TYPE = 0, 
+  SE_FILE_OBJECT, 
+  SE_SERVICE, 
+  SE_PRINTER, 
+  SE_REGISTRY_KEY, 
+  SE_LMSHARE, 
+  SE_KERNEL_OBJECT, 
+  SE_WINDOW_OBJECT, 
+  SE_DS_OBJECT, 
+  SE_DS_OBJECT_ALL, 
+  SE_PROVIDER_DEFINED_OBJECT, 
+  SE_WMIGUID_OBJECT, 
+  SE_REGISTRY_WOW64_32KEY
+} SE_OBJECT_TYPE;
+
+
+typedef enum _ACCESS_MODE
+{
+    NOT_USED_ACCESS = 0,
+    GRANT_ACCESS,
+    SET_ACCESS,
+    DENY_ACCESS,
+    REVOKE_ACCESS,
+    SET_AUDIT_SUCCESS,
+    SET_AUDIT_FAILURE
+} ACCESS_MODE;
+
+
+typedef enum _MULTIPLE_TRUSTEE_OPERATION
+{
+    NO_MULTIPLE_TRUSTEE,
+    TRUSTEE_IS_IMPERSONATE,
+} MULTIPLE_TRUSTEE_OPERATION;
+
+
+typedef enum _TRUSTEE_TYPE
+{
+    TRUSTEE_IS_UNKNOWN,
+    TRUSTEE_IS_USER,
+    TRUSTEE_IS_GROUP,
+    TRUSTEE_IS_DOMAIN,
+    TRUSTEE_IS_ALIAS,
+    TRUSTEE_IS_WELL_KNOWN_GROUP,
+    TRUSTEE_IS_DELETED,
+    TRUSTEE_IS_INVALID,
+    TRUSTEE_IS_COMPUTER
+} TRUSTEE_TYPE;
+
+
+typedef enum _TRUSTEE_FORM
+{
+    TRUSTEE_IS_SID,
+    TRUSTEE_IS_NAME,
+    TRUSTEE_BAD_FORM,
+    TRUSTEE_IS_OBJECTS_AND_SID,
+    TRUSTEE_IS_OBJECTS_AND_NAME
+} TRUSTEE_FORM;
+
+
+typedef struct _TRUSTEE_A
+{
+    struct _TRUSTEE_A          *pMultipleTrustee;
+    MULTIPLE_TRUSTEE_OPERATION  MultipleTrusteeOperation;
+    TRUSTEE_FORM                TrusteeForm;
+    TRUSTEE_TYPE                TrusteeType;
+    LPSTR                       ptstrName;
+} TRUSTEE_A, *PTRUSTEE_A, TRUSTEEA, *PTRUSTEEA;
+
+typedef struct _TRUSTEE_W
+{
+    struct _TRUSTEE_W          *pMultipleTrustee;
+    MULTIPLE_TRUSTEE_OPERATION  MultipleTrusteeOperation;
+    TRUSTEE_FORM                TrusteeForm;
+    TRUSTEE_TYPE                TrusteeType;
+    LPWSTR                      ptstrName;
+} TRUSTEE_W, *PTRUSTEE_W, TRUSTEEW, *PTRUSTEEW;
+
+#ifdef UNICODE
+typedef TRUSTEE_W TRUSTEE_;
+typedef PTRUSTEE_W PTRUSTEE_;
+typedef TRUSTEEW TRUSTEE;
+typedef PTRUSTEEW PTRUSTEE;
+#else
+typedef TRUSTEE_A TRUSTEE_;
+typedef PTRUSTEE_A PTRUSTEE_;
+typedef TRUSTEEA TRUSTEE;
+typedef PTRUSTEEA PTRUSTEE;
+#endif
+
+
+typedef struct _EXPLICIT_ACCESS_A
+{
+    DWORD        grfAccessPermissions;
+    ACCESS_MODE  grfAccessMode;
+    DWORD        grfInheritance;
+    TRUSTEE_A    Trustee;
+} EXPLICIT_ACCESS_A, *PEXPLICIT_ACCESS_A, EXPLICIT_ACCESSA, *PEXPLICIT_ACCESSA;
+
+typedef struct _EXPLICIT_ACCESS_W
+{
+    DWORD        grfAccessPermissions;
+    ACCESS_MODE  grfAccessMode;
+    DWORD        grfInheritance;
+    TRUSTEE_W    Trustee;
+} EXPLICIT_ACCESS_W, *PEXPLICIT_ACCESS_W, EXPLICIT_ACCESSW, *PEXPLICIT_ACCESSW;
+
+#ifdef UNICODE
+typedef EXPLICIT_ACCESS_W EXPLICIT_ACCESS_;
+typedef PEXPLICIT_ACCESS_W PEXPLICIT_ACCESS_;
+typedef EXPLICIT_ACCESSW EXPLICIT_ACCESS;
+typedef PEXPLICIT_ACCESSW PEXPLICIT_ACCESS;
+#else
+typedef EXPLICIT_ACCESS_A EXPLICIT_ACCESS_;
+typedef PEXPLICIT_ACCESS_A PEXPLICIT_ACCESS_;
+typedef EXPLICIT_ACCESSA EXPLICIT_ACCESS;
+typedef PEXPLICIT_ACCESSA PEXPLICIT_ACCESS;
+#endif
+
+#ifdef __cplusplus
+};
+#endif
+
+#endif /* WINE_ACCCTRL_H */

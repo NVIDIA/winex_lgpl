@@ -1,0 +1,19 @@
+%long
+
+DWORD
+HRESULT
+LONG
+
+%ptr
+
+CLSID *
+IID *
+void **
+
+%str
+
+LPSTR
+
+%wstr
+
+LPWSTR

@@ -1,0 +1,59 @@
+#!/bin/sh
+
+# if we are executing from a source tree, find the root dir
+# if we are executing from a launch script, use the given binary.
+if [ "$WINEXINSTALLDIR" ]; then
+    WINE_BASEDIR="$WINEXINSTALLDIR/winex/bin"
+elif [ -x "./wine" ]; then
+    WINE_BASEDIR="$PWD"
+elif [ -x "../wine" ]; then
+    WINE_BASEDIR="$PWD/.."
+elif [ -x "../../wine" ]; then
+    WINE_BASEDIR="$PWD/../.."
+elif [ -x "../../../wine" ]; then
+    WINE_BASEDIR="$PWD/../../.."
+elif [ "$WINEDIR" ]; then
+    WINE_BASEDIR="$WINEDIR"
+else
+    echo "Wine binary not found"
+    exit 0
+fi
+
+if [ -z "$LD_LIBRARY_PATH" ]; then
+    export LD_LIBRARY_PATH="$WINE_BASEDIR:$WINE_BASEDIR/dlls"
+fi
+
+if [ -z "$WINESERVER" ]; then
+    if [ -x "$WINE_BASEDIR/server/wineserver" ]; then
+        WINESERVER="$WINE_BASEDIR/server/wineserver"
+    elif [ -x "$WINE_BASEDIR/wineserver" ]; then
+        WINESERVER="$WINE_BASEDIR/wineserver"
+    else
+        echo "Couldn't find the wineserver"
+        exit 0
+    fi
+    export WINESERVER
+fi
+
+if [ -z "$WINEPRELOADER" ]; then
+    WINEPRELOADER="$WINE_BASEDIR/wine-preloader"
+fi
+
+if [ ! -x "$WINEPRELOADER" ]; then
+    WINEPRELOADER=""
+fi
+
+# now find the program .so
+LAUNCHLIB=$0.so
+if [ ! -x "$LAUNCHLIB" ]; then
+    echo "Couldn't find $0.so to execute"
+    exit 0
+fi
+export WINEPRELOAD="$LAUNCHLIB"
+
+if [ "$WINEPRELOADER" ]; then
+    exec "$WINEPRELOADER" "$WINE_BASEDIR/wine" $*
+else
+    exec "$WINE_BASEDIR/wine" $*
+fi
+
