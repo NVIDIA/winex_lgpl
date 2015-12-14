@@ -1,0 +1,29 @@
+%long
+
+BOOL
+DWORD
+HRESULT
+long
+
+%ptr
+
+DWORD *
+IBindCtx *
+IBindCtx **
+IBindStatusCallback *
+IBindStatusCallback **
+IEnumFORMATETC *
+IMoniker *
+IMoniker **
+LPVOID
+LPVOID *
+REFCLSID
+REFIID
+
+%str
+
+LPCSTR
+
+%wstr
+
+LPCWSTR

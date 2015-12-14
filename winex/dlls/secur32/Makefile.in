@@ -1,0 +1,19 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+EXTRAINCL = @SSLINCL@
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = secur32
+EXTRALIBS = $(LIBUNICODE)
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).@OUTPUTEXT@
+
+C_SRCS = \
+	secur32.c \
+	thunks.c \
+	wrapper.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

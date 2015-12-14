@@ -1,0 +1,74 @@
+/*
+ * Copyright (c) 2002-2015 NVIDIA CORPORATION. All rights reserved.
+ */
+
+import "wtypes.idl";
+
+/* COM vtable compatibility macros for g++ */
+/* Included here because the generated header needs them */
+
+cpp_quote("#if defined(__cplusplus) && !defined(CINTERFACE)")
+cpp_quote(" #ifdef ICOM_USE_COM_INTERFACE_ATTRIBUTE")
+cpp_quote("  #define ICOM_COM_INTERFACE_ATTRIBUTE __attribute__((com_interface))")
+cpp_quote(" #else")
+cpp_quote("  #define ICOM_COM_INTERFACE_ATTRIBUTE")
+cpp_quote(" #endif")
+cpp_quote("#else")
+cpp_quote(" #ifdef ICOM_MSVTABLE_COMPAT")
+cpp_quote("  #define ICOM_MSVTABLE_COMPAT_FIELDS \\")
+cpp_quote("    long dummyRTTI1; \\")
+cpp_quote("    long dummyRTTI2;")
+cpp_quote("  #define ICOM_MSVTABLE_COMPAT_DummyRTTIVALUE 0,0,")
+cpp_quote(" #else")
+cpp_quote("  #define ICOM_MSVTABLE_COMPAT_FIELDS")
+cpp_quote("  #define ICOM_MSVTABLE_COMPAT_DummyRTTIVALUE")
+cpp_quote(" #endif")
+cpp_quote("#endif")
+
+/* Interfaces */
+
+[
+  local,
+  object,
+  uuid(00000000-0000-0000-C000-000000000046),
+  pointer_default(unique)
+]
+interface IUnknown
+{
+  typedef [unique] IUnknown *LPUNKNOWN;
+
+  HRESULT QueryInterface(
+    [in] REFIID riid,
+    [out, iid_is(riid)] void **ppvObject);
+  ULONG AddRef();
+  ULONG Release();
+}
+
+[
+  object,
+  uuid(00000001-0000-0000-C000-000000000046),
+  pointer_default(unique)
+]
+interface IClassFactory : IUnknown
+{
+  typedef [unique] IClassFactory *LPCLASSFACTORY;
+
+  [local]
+  HRESULT CreateInstance(
+    [in, unique] IUnknown *pUnkOuter,
+    [in] REFIID riid,
+    [out, iid_is(riid)] void **ppvObject);
+
+  [call_as(CreateInstance)]
+  HRESULT RemoteCreateInstance(
+    [in] REFIID riid,
+    [out, iid_is(riid)] IUnknown **ppvObject);
+
+  [local]
+  HRESULT LockServer(
+    [in] BOOL fLock);
+
+  [call_as(LockServer)]
+  HRESULT RemoteLockServer(
+    [in] BOOL fLock);
+}

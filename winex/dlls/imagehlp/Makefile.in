@@ -1,0 +1,20 @@
+EXTRAINCL = -I$(TOPSRCDIR)/include-lgpl -I$(TOPOBJDIR)/include-lgpl 
+EXTRADEFS = -D__WINESRC__ -DSTRICT -D_IMAGEHLP_SOURCE_
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = imagehlp
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).@OUTPUTEXT@
+
+C_SRCS = \
+	access.c \
+	imagehlp_main.c \
+	integrity.c \
+	modify.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

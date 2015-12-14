@@ -1,0 +1,25 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = winebrowserlink
+
+C_SRCS = winebrowserlink.c
+
+all: $(MODULE)
+
+install:: $(MODULE:%=%.so)
+	[ -d $(bindir) ] || $(MKDIR) $(bindir)
+	$(INSTALL_PROGRAM) winebrowserlink.so $(bindir)/winebrowserlink.so
+	cd $(bindir) && $(LN_S) wine winebrowserlink
+	@echo "Please update your registry's 'Software\\Classes\\http\\shell\\open\\comman'"
+	@echo "entry to point to the windows path of " $(bindir)"/winebrowserlink"
+
+
+uninstall::
+	$(RM) $(bindir)/winebrowserlink.so
+	$(RM) $(bindir)/winebrowserlink
+
+@MAKE_PROG_RULES@
+
+### Dependencies:

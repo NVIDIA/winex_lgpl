@@ -1,0 +1,15 @@
+This tree contains the components for the public source release of
+the winex engine.  This tree primarily exists for compliance with
+LGPL-licensed modules.
+
+Forge title branches:
+* Metal Gear Rising Revengeance (LGPL-10854-branch)
+
+Cider title branches:
+* EVE Online (LGPL-10430-branch)
+* Final Fantasy XIV (LGPL-10603-branch)
+* Nancy Drew (LGPL-7217-branch) requires 4.2.1
+* Guild Wars 2 (LGPL-8313-branch)
+* XCOM (LGPL-9402-branch)
+* Star Trek Online (LGPL-9738-branch)
+* Metal Gear Rising Revengeance (LGPL-9777-branch)

@@ -1,0 +1,22 @@
+%long
+
+BOOL
+DWORD
+UINT
+
+%ptr
+
+LPDWORD
+LPVOID
+LPVOID *
+UINT *
+
+%str
+
+LPSTR
+LPCSTR
+
+%wstr
+
+LPCWSTR
+LPWSTR

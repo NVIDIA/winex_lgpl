@@ -1,0 +1,33 @@
+DLLFLAGS  = @DLLFLAGS@
+DEFS      = -D__WINE__
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+LIBEXT    = @LIBEXT@
+MODULE    = uuid
+EXTRAINCL = -I$(TOPSRCDIR)/include-lgpl -I$(TOPOBJDIR)/include-lgpl
+SONAME    = libwine_uuid.$(LIBEXT)
+EXTRALIBS = @DLLIBS@
+
+C_SRCS = \
+	uuid.c
+
+all: $(SONAME)
+
+@MAKE_RULES@
+
+$(SONAME): $(OBJS)
+	$(LDSHARED) @PACKAGE_LINK@ $(OBJS) $(EXTRALIBS) $(LIBS) -o $@
+
+install: $(SONAME)
+	[ -d $(libdir) ] || $(MKDIR) $(libdir)
+	$(INSTALL_PROGRAM) $(SONAME) $(libdir)/$(SONAME)
+
+uninstall::
+	cd $(libdir) && $(RM) $(SONAME)
+
+clean::
+	$(RM) $(SONAME)
+
+### Dependencies:

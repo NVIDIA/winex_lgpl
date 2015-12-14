@@ -1,0 +1,86 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = none
+BOOKNAME  = wine-doc
+DB2HTML   = db2html
+
+EXTRASUBDIRS = samples status
+
+BOOK_SRCS = \
+	architecture.sgml \
+	bugs.sgml \
+	build.sgml \
+	compiling.sgml \
+	configuring.sgml \
+	consoles.sgml \
+	cvs-regression.sgml \
+	debugger.sgml \
+	debugging.sgml \
+	dlls.sgml \
+	documentation.sgml \
+	fonts.sgml \
+	getting.sgml \
+	i18n.sgml \
+	implementation.sgml \
+	installing.sgml \
+	introduction.sgml \
+	ole.sgml \
+	opengl.sgml \
+	packaging.sgml \
+	patches.sgml \
+	porting.sgml \
+	printing.sgml \
+	registry.sgml \
+	running.sgml \
+	tools.sgml \
+	wine-doc.sgml \
+	winelib-bindlls.sgml \
+	winelib-intro.sgml \
+	winelib-mfc.sgml \
+	winelib-pkg.sgml \
+	winelib-porting.sgml \
+	winelib-toolkit.sgml \
+	winelib-user.sgml
+
+MAN_TARGETS = wine.man
+
+BOOK_TARGETS = \
+	$(BOOKNAME)/index.html \
+	$(BOOKNAME).pdf \
+	$(BOOKNAME).ps
+
+all: $(MAN_TARGETS) $(BOOK_TARGETS)
+
+@MAKE_RULES@
+
+$(BOOKNAME)/index.html: $(BOOK_SRCS)
+	$(DB2HTML) $(BOOKNAME).sgml
+
+$(BOOKNAME).pdf: $(BOOK_SRCS)
+	db2pdf -d ./print.dsl $(BOOKNAME).sgml > /dev/null
+
+$(BOOKNAME).ps: $(BOOK_SRCS)
+	db2ps $(BOOKNAME).sgml > /dev/null
+
+wine.man: wine.man.in
+	sed -e 's,@bindir\@,$(bindir),g' -e 's,@libdir\@,$(libdir),g' $(SRCDIR)/wine.man.in >$@ || $(RM) $@
+
+install:: $(MAN_TARGETS)
+	$(INSTALL) -d $(mandir)/man$(prog_manext)
+	$(INSTALL) -d $(mandir)/man$(conf_manext)
+	$(INSTALL_DATA) wine.man $(mandir)/man$(prog_manext)/wine.$(prog_manext)
+	$(INSTALL_DATA) $(SRCDIR)/winemaker.man $(mandir)/man$(prog_manext)/winemaker.$(prog_manext)
+	$(INSTALL_DATA) $(SRCDIR)/wine.conf.man $(mandir)/man$(conf_manext)/wine.conf.$(conf_manext)
+
+uninstall::
+	$(RM) $(mandir)/man$(prog_manext)/wine.$(prog_manext)
+	$(RM) $(mandir)/man$(prog_manext)/winemaker.$(prog_manext)
+	$(RM) $(mandir)/man$(conf_manext)/wine.conf.$(conf_manext)
+
+clean::
+	$(RM) *.aux *.dvi *.out *.pdf *.ps *.tex *.log $(BOOKNAME).pdf $(BOOKNAME).ps $(MAN_TARGETS)
+	$(RM) -r $(BOOKNAME) html man3w *.junk DBTOHTML_OUTPUT_DIR*
+
+### Dependencies:

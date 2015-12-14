@@ -1,0 +1,52 @@
+/*
+ * COM interfaces for shell objects
+ *
+ * Copyright (C) 1999 Juergen Schmied
+ * Copyright (C) 2003 Alexandre Julliard
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+ */
+
+import "objidl.idl";
+import "oleidl.idl";
+import "oaidl.idl";
+import "shtypes.idl";
+import "servprov.idl";
+import "comcat.idl";
+import "propidl.idl";
+/*import "prsht.idl";*/
+/*import "msxml.idl";*/
+/*****************************************************************************
+ * IShellLinkDataList interface
+ */
+[
+    object,
+    uuid(45e2b4ae-b1c3-11d0-b92f-00a0c90312e1),
+    pointer_default(unique)
+]
+interface IShellLinkDataList : IUnknown
+{
+    [local] HRESULT AddDataBlock(
+                [in] void *pDataBlock);
+    [local] HRESULT CopyDataBlock(
+                [in] DWORD dwSig,
+                [out] void **ppDataBlock);
+    HRESULT RemoveDataBlock(
+                [in] DWORD dwSig);
+    HRESULT GetFlags(
+                [out] DWORD *pdwFlags);
+    HRESULT SetFlags(
+                [in] DWORD dwFlags);
+}

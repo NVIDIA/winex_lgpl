@@ -1,0 +1,25 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = uxtheme
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).@OUTPUTEXT@
+
+C_SRCS = \
+	buffer.c \
+	draw.c \
+	main.c \
+	metric.c \
+	msstyles.c \
+	property.c \
+	stylemap.c \
+	system.c \
+	uxini.c
+
+RC_SRCS = version.rc
+
+@MAKE_DLL_RULES@
+
+### Dependencies:
