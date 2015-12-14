@@ -1,0 +1,28 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ..
+SRCDIR    = @srcdir@
+VPATH	  = @srcdir@
+MODULE	  = none
+
+INSTALLED_INCLUDES = \
+	windns.h \
+	wine/list.h
+
+EXTRASUBDIRS = wine
+
+all:
+
+@MAKE_RULES@
+
+install::
+	[ -d $(includedir) ] || $(MKDIR) $(includedir)
+	[ -d $(includedir)/wine ] || $(MKDIR) $(includedir)/wine
+	for f in $(INSTALLED_INCLUDES); do $(INSTALL_DATA) $(SRCDIR)/$$f $(includedir)/$$f; done
+
+# Don't just do a rm -rf on $(includedir) -- don't want to wipe out 
+# anything extra the user may have put there.
+uninstall::
+	cd $(includedir) && $(RM) $(INSTALLED_INCLUDES)
+	-rmdir $(includedir)/msvcrt/sys $(includedir)/msvcrt $(includedir)/wine $(includedir)
+
+### Dependencies:

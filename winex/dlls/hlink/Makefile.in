@@ -1,0 +1,25 @@
+EXTRADEFS = -D__WINESRC__ -DSTRICT
+EXTRAINCL = -I$(TOPSRCDIR)/include-lgpl -I$(TOPOBJDIR)/include-lgpl 
+EXTRALIBS = $(LIBUUID)
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = hlink
+NEEDCROSSLIB = yes
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).@OUTPUTEXT@
+
+C_SRCS = \
+	browse_ctx.c \
+	extserv.c \
+	hlink_main.c \
+	link.c
+
+# Build the cross-compiling library for testing (if we can)
+EXTRATARGETS = @CROSSLIB@
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

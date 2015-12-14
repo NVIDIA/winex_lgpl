@@ -1,0 +1,28 @@
+EXTRAINCL = -I$(TOPSRCDIR)/include-lgpl -I$(TOPOBJDIR)/include-lgpl @SSLINCL@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = winhttp
+EXTRALIBS = $(LIBUUID)
+NEEDCROSSLIB = yes
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).@OUTPUTEXT@
+
+C_SRCS = \
+	cookie.c \
+	handle.c \
+	main.c \
+	net.c \
+	request.c \
+	session.c \
+	url.c
+
+IDL_SRCS = winhttp_tlb.idl
+
+RC_SRCS = rsrc.rc
+
+EXTRATARGETS = @CROSSLIB@
+
+@MAKE_DLL_RULES@

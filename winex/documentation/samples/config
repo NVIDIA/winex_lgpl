@@ -1,0 +1,256 @@
+WINE REGISTRY Version 2
+;; All keys relative to \\Machine\\Software\\Wine\\Wine\\Config
+
+;; If you think it is nescessary to show others your complete config for a 
+;; bug report, filter out empty lines and comments with
+;; grep -v "^;" ~/.wine/config | grep '.' 
+;;
+;; MS-DOS drives configuration
+;;
+;; Each section has the following format:
+;; [Drive X]
+;; "Path"="xxx"       (Unix path for drive root)
+;; "Type"="xxx"       (supported types are 'floppy', 'hd', 'cdrom' and 'network')
+;; "Label"="xxx"      (drive label, at most 11 characters)
+;; "Serial"="xxx"     (serial number, 8 characters hexadecimal number)
+;; "Filesystem"="xxx" (supported types are 'msdos'/'dos'/'fat', 'win95'/'vfat', 'unix')
+;;   This is the FS Wine is supposed to emulate on a certain
+;;   directory structure.
+;;   Recommended:
+;;   - "win95" for ext2fs, VFAT and FAT32
+;;   - "msdos" for FAT16 (ugly, upgrading to VFAT driver strongly recommended)
+;;   DON'T use "unix" unless you intend to port programs using Winelib !
+;; "Device"="/dev/xx" (only if you want to allow raw device access)
+;;
+[Drive C]
+"Path" = "${HOME}/.transgaming/c_drive/"
+"Type" = "hd"
+"Label" = "Dos Drive"
+"Filesystem" = "win95"
+ 
+[Drive D]
+"Path" = "${HOME}"
+"Type" = "hd"
+"Label" = "My Home"
+"Filesystem" = "win95"
+ 
+[Drive E]
+"Path" = "/tmp"
+"Type" = "hd"
+"Label" = "tmp"
+"Filesystem" = "win95"
+ 
+[Drive G]
+"Path" = "/"
+"Type" = "hd"
+"Label" = "root"
+"Filesystem" = "win95"
+
+[wine]
+"Windows" = "c:\\windows"
+"System" = "c:\\windows\\system32\\"
+"Temp" = "e:\\"
+"Path" = "c:\\windows\\;c:\\windows\\system32\\"
+"GraphicsDriver" = "x11drv" 
+; Wine doesn't pass directory symlinks to Windows programs by default.
+; Enabling this may crash some programs that do recursive lookups of a whole
+; subdir tree in case of a symlink pointing back to itself.
+;"ShowDirSymlinks" = "1"
+; Note: The WINESHELLLINK Environment variable will override this setting.
+;       (which is set in the winex startup script)
+"ShellLinker" = "/usr/lib/transgaming/winex/bin/wineshelllink"
+; Note: The WINEBROWSER Environment variable will override this setting.
+;       you may format the string by placing a %s where you want
+;       the URL to go, if its left off then the URL will be appended to the end.
+; This option is used by the winelib app 'winebrowserlink'
+"Browser" = "/usr/bin/mozilla %s"
+
+# <wineconf>
+
+[Version]
+; This doesn't work in WineX, but its here for WineHQ compatability.
+; can be (win95, win98, winme, nt351, nt40, win2k, winxp, win20, win30, win31)
+"Windows" = "win98"
+; dos version
+;"DOS" = "6.22"
+
+[DllDefaults]
+"DefaultLoadOrder" = "native, builtin, so"
+
+[DllOverrides]
+"commdlg"      = "builtin, native"
+"comdlg32"     = "builtin, native"
+"ver"          = "builtin, native"
+"version"      = "builtin, native"
+"shell"        = "builtin, native"
+"shell32"      = "builtin, native"
+"shfolder"     = "builtin, native"
+"shlwapi"      = "builtin, native"
+"shdocvw"      = "builtin, native"
+"lzexpand"     = "builtin, native"
+"lz32"         = "builtin, native"
+"comctl32"     = "builtin, native"
+"commctrl"     = "builtin, native"
+"advapi32"     = "builtin, native"
+"crtdll"       = "builtin, native"
+"mpr"          = "builtin, native"
+"winspool.drv" = "builtin, native"
+"d3d8"         = "builtin, native"
+"d3drm"        = "builtin, native"
+"ddraw"        = "builtin, native"
+"dinput"       = "builtin, native"
+"dinput8"      = "builtin, native"
+"dmusic"       = "builtin, native"
+"dsound"       = "builtin, native"
+"opengl32"     = "builtin, native"
+"msvcrt"       = "native, builtin"
+"rpcrt4"       = "native, builtin"
+"msvideo"      = "builtin, native"
+"msvfw32"      = "builtin, native"
+"mcicda.drv"   = "builtin, native"
+"mciseq.drv"   = "builtin, native"
+"mciwave.drv"  = "builtin, native"
+"mciavi.drv"   = "native, builtin"
+"mcianim.drv"  = "native, builtin"
+"msacm.drv"    = "builtin, native"
+"msacm"        = "builtin, native"
+"msacm32"      = "builtin, native"
+"midimap.drv"  = "builtin, native"  
+
+[x11drv]
+; Number of colors to allocate from the system palette
+"AllocSystemColors" = "100"
+; Number of colors to copy from the default palette
+"CopyDefaultColors" = "0"
+; Use a private color map
+"PrivateColorMap" = "N"
+; Favor correctness over speed in some graphics operations
+"PerfectGraphics" = "N"
+; Color depth to use on multi-depth screens
+;;"ScreenDepth" = "16"
+; Name of X11 display to use
+;;"Display" = ":0.0"
+; Allow the window manager to manage created windows
+"Managed" = "Y"
+; Use a desktop window of 640x480 for Wine
+;"Desktop" = "800x600"
+; Use XFree86 DGA extension if present
+; (make sure /dev/mem is accessible by you !)
+"UseDGA" = "N"
+; Use XShm extension if present
+"UseXShm" = "Y"
+; Enable DirectX mouse grab
+"DXGrab" = "Y"
+; Use XVidMode extension if present
+"UseXVidMode" = "Y"
+; Create the desktop window with a double-buffered visual
+; (useful to play OpenGL games)
+"DesktopDoubleBuffered" = "Y"
+; Code page used for captions in managed mode
+; 0 means default ANSI code page (CP_ACP == 0)
+"TextCP" = "0"
+; Use this if you have more than one port for video on your setup 
+; (Wine uses for now the first 'input image' it finds).
+;; "XVideoPort" = "43"
+; Use this to make your X server execute all commands
+; sequentially rather than buffering commands. Will make
+; everything really SLOW but can be nice for debugging.
+;; "Synchronous" = "Y"
+
+
+[fonts]
+;Read documentation/fonts before adding aliases
+"Resolution" = "96"
+"Default" = "-adobe-times-"
+
+[FontPatterns]
+"Pattern0" = "-adobe-times*"
+"Pattern1" = "-adobe-helvetica*"
+"Pattern2" = "-adobe-courier*"
+"Pattern3" = "-misc-fixed*"
+                              
+[serialports]
+"Com1" = "/dev/ttyS0"
+"Com2" = "/dev/ttyS1"
+"Com3" = "/dev/ttyS2"
+"Com4" = "/dev/modem"
+
+[parallelports]
+"Lpt1" = "/dev/lp0"
+
+[spooler]
+"LPT1:" = "|lpr"
+"LPT2:" = "|gs -sDEVICE=bj200 -sOutputFile=/tmp/fred -q -"
+"LPT3:" = "/dev/lp3"
+
+[ports]
+;"read" = "0x779,0x379,0x280-0x2a0"
+; "write" = "0x779,0x379,0x280-0x2a0"
+
+[spy]
+"Exclude" = "WM_SIZE;WM_TIMER;"
+
+[registry]
+;These are all booleans.  Y/y/T/t/1 are true, N/n/F/f/0 are false.
+;Defaults are read all, write to Home
+; Global registries (stored in /etc)
+"LoadGlobalRegistryFiles" = "n"
+; Home registries (stored in ~user/.wine/)
+"LoadHomeRegistryFiles" = "Y"
+; Load Windows registries from the Windows directory
+"LoadWindowsRegistryFiles" = "n"
+; TRY to write all changes to home registries
+"WritetoHomeRegistryFiles" = "Y"
+; Registry periodic save timeout in seconds
+; "PeriodicSave" = "600"
+; Save only modified keys
+"SaveOnlyUpdatedKeys" = "Y"
+
+[Tweak.Layout]
+;; supported styles are 'Win31'(default), 'Win95', 'Win98'
+"WineLook" = "Win98"
+
+[Console]
+"Drivers" = "xterm"
+;"Drivers" = "tty"
+"XtermProg" = "konsole"
+;"InitialRows" = "25"
+;"InitialColumns" = "80"
+;"TerminalType" = "nxterm"
+
+[Clipboard]
+"ClearAllSelections" = "0"
+"PersistentSelection" = "1"
+
+; List of all directories directly contain .AFM files
+[afmdirs]
+;"1" = "/usr/share/ghostscript/fonts"
+;"2" = "/usr/share/a2ps/afm"
+;"3" = "/usr/share/enscript"
+;"4" = "/usr/X11R6/lib/X11/fonts/Type1"
+
+[WinMM]
+"Drivers" = "wineoss.drv"
+"WaveMapper" = "msacm.drv"
+"MidiMapper" = "midimap.drv"
+
+[wineoss]
+"UseMMap" = "Y"
+"FullDuplex" = "N"
+
+;; sample AppDefaults entries
+;[AppDefaults\\iexplore.exe\\DllOverrides]
+;"shlwapi" = "native"
+;"rpcrt4" = "native"
+;"ole32" = "native"
+;"shdocvw" = "native"
+;"wininet" = "native"
+;"shfolder" = "native"
+;"shell32" = "native"
+;"shell" = "native"
+;"comctl32" = "native"
+;
+;[AppDefaults\\setup.exe\\x11drv]
+;"Desktop" = "800x600"
+
+# </wineconf>

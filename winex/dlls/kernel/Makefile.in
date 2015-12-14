@@ -1,0 +1,68 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = kernel32
+SOVERSION = 1.0
+ALTNAMES  = comm kernel stress system toolhelp windebug win87em wprocs
+IMPORTS   = ntdll
+EXTRALIBS = $(LIBUNICODE)
+
+C_SRCS = \
+	change.c \
+	comm.c \
+	console.c \
+	debugger.c \
+	error16.c \
+	format_msg.c \
+	isolated.c \
+	iocompport.c \
+	kernel_main.c \
+	newfns.c \
+	pointers.c \
+	resource.c \
+	stress.c \
+	string.c \
+	sync.c \
+	tape.c \
+	thread.c \
+	threadpool.c \
+	thunk.c \
+	time.c \
+	toolhelp.c \
+	utthunk.c \
+	win87em.c \
+	windebug.c \
+	wowthunk.c
+
+RC_SRCS = \
+	kernel.rc
+
+RC_SRCS16 = \
+	version16.rc
+
+MC_SRCS = \
+	messages/winerr_enu.mc
+
+GLUE = utthunk.c
+
+EXTRASUBDIRS = \
+	messages \
+	nls \
+	tests
+
+PLTESTS = \
+	tests/atom.pl
+
+@MAKE_DLL_RULES@
+
+kernel.res: $(MC_SRCS:.mc=.mc.rc)
+
+# Special rules for 16-bit resource files
+
+version16.res: version16.rc
+	$(LDPATH) $(WRC) $(DIVINCL) -o $@ -w16 -m -r $(SRCDIR)/version16.rc
+
+$(OBJDIR)/kernel.spec.c: version16.res
+
+### Dependencies:

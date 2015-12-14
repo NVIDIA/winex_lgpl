@@ -1,0 +1,29 @@
+EXTRADEFS = -DCOM_NO_WINDOWS_H
+
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = rsaenh
+EXTRALIBS = $(LIBUNICODE)
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).@OUTPUTEXT@
+
+C_SRCS = \
+	aes.c \
+	des.c \
+	handle.c \
+	implglue.c \
+	md2.c \
+	mpi.c \
+	rc2.c \
+	rc4.c \
+	rsa.c \
+	rsaenh.c \
+	sha2.c
+
+RC_SRCS = version.rc
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

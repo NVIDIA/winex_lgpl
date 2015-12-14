@@ -1,0 +1,13 @@
+This repository includes everything required to build the LGPL components of 
+NVIDIA's Cider and Forge engines, including full source code for LGPL portions
+as well as additional libraries required to allow those components to be built.  
+The repository does not contain the remaining source code for the product, and 
+also does not include a loader component to allow EXE files to be launched.
+
+To build on Linux, simply run the following shell commands:
+
+$ autoconf
+$ ./configure
+$ make
+
+

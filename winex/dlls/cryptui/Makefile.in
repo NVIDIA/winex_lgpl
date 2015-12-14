@@ -1,0 +1,21 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = cryptui
+EXTRALIBS = $(LIBUUID)
+NEEDCROSSLIB = yes
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).@OUTPUTEXT@
+
+C_SRCS = \
+	main.c
+
+RC_SRCS = cryptui.rc
+
+EXTRATARGETS = @CROSSLIB@
+
+@MAKE_DLL_RULES@
+
+### Dependencies:
