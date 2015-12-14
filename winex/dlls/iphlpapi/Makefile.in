@@ -1,0 +1,15 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = iphlpapi
+EXTRALIBS = $(LIBRESOLV)
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).tmp.o
+
+C_SRCS = \
+	ifenum.c \
+	iphlpapi_main.c \
+	ipstats.c
+
+@MAKE_DLL_RULES@

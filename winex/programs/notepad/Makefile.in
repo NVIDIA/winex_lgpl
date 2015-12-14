@@ -1,0 +1,21 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = notepad
+
+LICENSELANG = En
+
+C_SRCS = \
+	dialog.c \
+	language.c \
+	license.c \
+	main.c \
+	search.c \
+	$(LICENSELANG:%=License_%.c)
+
+RC_SRCS = rsrc.rc
+
+@MAKE_PROG_RULES@
+
+### Dependencies:

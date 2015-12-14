@@ -1,0 +1,1305 @@
+# These entries must apparently exist in any win95-compatible registry.
+# (feed this to `regapi setValue' to install)
+
+# Shell Folders. The purpose of these are pretty self-evident.
+# Primarily used by installation programs and the Explorer.
+
+[HKEY_USERS\.Default\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders]
+"Fonts"="C:\WINDOWS\Fonts"
+
+[HKEY_USERS\.Default\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders]
+
+# Same as above, but for HKEY_CURRENT_USER, not HKEY_USERS\.Default
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders]
+"Fonts"="C:\WINDOWS\Fonts"
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders]
+
+[HKEY_CURRENT_USER\Control Panel\desktop]
+"DragFullWindows"="0"
+
+#
+# Override default load address of BDE (Borland database engine),
+# since it's not available on Linux
+#
+
+[HKEY_LOCAL_MACHINE\Software\Borland\Database Engine\Settings\SYSTEM\INIT]
+"SHAREDMEMLOCATION"="9000"
+
+#
+# General OLE/DCOM config
+#
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\OLE]
+# allow cross-machine calls (RPC) (default Y)
+"EnableDCOM"="Y"
+# allow incoming connections ? (def. N)
+"EnableRemoteConnect"="N"
+
+#
+# General installation config
+#
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion]
+"ProgramFilesDir"="C:\Program Files"
+"CommonFilesDir"="C:\Program Files\Common Files"
+"RegisteredOrganization"="Change preferred organization in ~/.wine/system.reg"
+"RegisteredOwner"="Change preferred owner in ~/.wine/system.reg"
+"FirstInstallDateTime"=hex:21,81,7c,23
+
+# Font name to font file mappings
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Fonts]
+# "Arial (TrueType)"="ARIAL.TTF"      # sample entry
+@=""
+
+# This is intended for a centrally managed (server) directory where
+# system files and e.g. fonts can reside. Most installs have this set
+# to C:\WINDOWS, though.
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Setup]
+"SharedDir"="C:\WINDOWS"
+
+#
+# Cryptography stuff
+#
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Cryptography]
+"MachineGuid"="5436453a-bc53-d43a-22a8-88433ae03991"
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Cryptography\Defaults\Provider Types\Type 001]
+"Name"="Microsoft Strong Cryptographics Provider"
+"TypeName"="RSA Full (Signature and Key Exchange)"
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Cryptography\Defaults\Provider\Microsoft Base Cryptographic Provider v1.0]
+"Image Path"="C:\WINDOWS\System32\rsaenh.dll"
+"SigInFile"=dword:00000000
+"Type"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Cryptography\Defaults\Provider\Microsoft Strong Cryptographics Provider]
+"Image Path"="C:\WINDOWS\System32\rsaenh.dll"
+"SigInFile"=dword:00000000
+"Type"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography\Defaults\Provider\Microsoft Enhanced Cryptographic Provider v1.0]
+"Image Path"="rsaenh.dll"
+"Type"=dword:00000001
+"SigInFile"=dword:00000000
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Cryptography\Defaults\Provider\Microsoft Enhanced RSA and AES Cryptographic Provider]
+"Image Path"="rsaenh.dll"
+"Signature"=hex:ef,be,ad,de
+"Type"=dword:00000018
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Cryptography\Defaults\Provider\Microsoft RSA SChannel Cryptographic Provider]
+"Image Path"="rsaenh.dll"
+"Signature"=hex:ef,be,ad,de
+"Type"=dword:0000000c
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Cryptography\Defaults\Provider\Microsoft Strong Cryptographic Provider]
+"Image Path"="rsaenh.dll"
+"Signature"=hex:ef,be,ad,de
+"Type"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Cryptography\Defaults\Provider Types\Type 012]
+"Name"="Microsoft RSA SChannel Cryptographic Provider"
+"TypeName"="RSA SChannel"
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Cryptography\Defaults\Provider Types\Type 024]
+"Name"="Microsoft Enhanced RSA and AES Cryptographic Provider"
+"TypeName"="RSA Full and AES"
+
+
+#
+# Configuration for unhandled exceptions
+#
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\AeDebug]
+# command line to start a debugger when an exception occurs
+"Debugger"="programs/winedbg/winedbg -- --auto %ld %ld"
+# to 0 if a message box has to be presented before running the debugger
+"Auto"="1"
+
+#
+# This identifies the files for available code pages
+#
+
+[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Nls\Codepage]
+"ACP"="1252"
+"OEMCP"="437"
+
+#
+# Entries for OLE32 (COM/OLE base)
+#
+
+# OLE32's built-in marshaler, handles standard interfaces such as IClassFactory.
+# (PSFactoryBuffer = Proxy/Stub factory)
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{00000320-0000-0000-C000-000000000046}]
+@="PSFactoryBuffer"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{00000320-0000-0000-C000-000000000046}\InProcServer32]
+@="ole32.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{0000030b-0000-0000-C000-000000000046}]
+@="DfMarshal"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{0000030b-0000-0000-C000-000000000046}\InProcServer32]
+@="ole32.dll"
+"ThreadingModel"="Both"
+
+# IUnknown, the superclass for everything COM/OLE.
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Interface\{00000000-0000-0000-C000-000000000046}]
+@="IUnknown"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Interface\{00000000-0000-0000-C000-000000000046}\BaseInterface]
+@=""
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Interface\{00000000-0000-0000-C000-000000000046}\NumMethods]
+@="3"
+
+# IClassFactory, standard interface for creating instances of classes.
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Interface\{00000001-0000-0000-C000-000000000046}]
+@="IClassFactory"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Interface\{00000001-0000-0000-C000-000000000046}\NumMethods]
+@="5"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Interface\{00000001-0000-0000-C000-000000000046}\ProxyStubClsid32]
+@="{00000320-0000-0000-C000-000000000046}"
+
+#
+# Entries for OLEAUT32 (OLE Automation)
+#
+
+# OLE Automation built-in marshalers
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{00020420-0000-0000-C000-000000000046}]
+@="PSDispatch"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{00020420-0000-0000-C000-000000000046}\InProcServer]
+@="ole2disp.dll"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{00020420-0000-0000-C000-000000000046}\InProcServer32]
+@="oleaut32.dll"
+"ThreadingModel"="Both"
+
+# The Universal Marshaler, also known as the Type Library Marshaler.
+# (PSOAInterface = Proxy/Stub OLE Automation interface)
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{00020424-0000-0000-C000-000000000046}]
+@="PSOAInterface"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{00020424-0000-0000-C000-000000000046}\InProcServer]
+@="ole2disp.dll"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{00020424-0000-0000-C000-000000000046}\InProcServer32]
+@="oleaut32.dll"
+"ThreadingModel"="Both"
+
+# OLE Automation type libraries.
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\TypeLib\{00020430-0000-0000-C000-000000000046}\1.0]
+@="OLE Automation"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\TypeLib\{00020430-0000-0000-C000-000000000046}\1.0\0\win16]
+@="stdole.tlb"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\TypeLib\{00020430-0000-0000-C000-000000000046}\1.0\0\win32]
+@="stdole32.tlb"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\TypeLib\{00020430-0000-0000-C000-000000000046}\1.0\FLAGS]
+@="1"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\TypeLib\{00020430-0000-0000-C000-000000000046}\2.0]
+@="OLE Automation"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\TypeLib\{00020430-0000-0000-C000-000000000046}\2.0\0\win32]
+@="stdole2.tlb"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\TypeLib\{00020430-0000-0000-C000-000000000046}\2.0\FLAGS]
+@="0"
+
+# IDispatch, OLE Automation's main interface
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Interface\{00020400-0000-0000-C000-000000000046}]
+@="IDispatch"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Interface\{00020400-0000-0000-C000-000000000046}\NumMethods]
+@="8"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Interface\{00020400-0000-0000-C000-000000000046}\ProxyStubClsid32]
+@="{00020420-0000-0000-C000-000000000046}"
+
+#
+# SHELL32 entries base classes of the desktop/ shelllinks
+# Used by common dialogs, programs creating and many others
+#
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{00021400-0000-0000-C000-000000000046}]
+@="Shortcut"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{00021400-0000-0000-C000-000000000046}\InProcServer32]
+@="shell32.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{00021401-0000-0000-C000-000000000046}]
+@="Shortcut"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{00021401-0000-0000-C000-000000000046}\InProcServer32]
+@="shell32.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{00021401-0000-0000-C000-000000000046}\shellex\MayChangeDefaultMenu]
+@=""
+
+#
+# Entries for DirectX. Used by high-performance multimedia applications, like games.
+#
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\DirectX]
+"Version"="4.09.00.0904"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D7B70EE0-4340-11CF-B063-0020AFC2CD35}]
+@="DirectDraw Object"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D7B70EE0-4340-11CF-B063-0020AFC2CD35}\InprocServer32]
+@="ddraw.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{593817A0-7DB3-11CF-A2DE-00AA00B93356}]
+@="DirectDraw Clipper Object"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{593817A0-7DB3-11CF-A2DE-00AA00B93356}\InprocServer32]
+@="ddraw.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D1EB6D20-8923-11D0-9D97-00A0C90A43CB}]
+@="DirectPlay Object"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D1EB6D20-8923-11D0-9D97-00A0C90A43CB}\InprocServer32]
+@="dplayx.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{2FE8F810-B2A5-11d0-A787-0000F803ABFC}]
+@="DirectPlayLobby Object"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{2FE8F810-B2A5-11d0-A787-0000F803ABFC}\InprocServer32]
+@="dplayx.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\DirectPlayLobby\CLSID]
+@="{2FE8F810-B2A5-11d0-A787-0000F803ABFC}"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{47D4D946-62E8-11cf-93BC-444553540000}]
+@="DirectSound Object"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{47D4D946-62E8-11cf-93BC-444553540000}\InprocServer32]
+@="dsound.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{3901CC3F-84B5-4FA4-BA35-AA8172B8A09B}]
+@="DirectSound 8.0 Object"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{3901CC3F-84B5-4FA4-BA35-AA8172B8A09B}\InprocServer32]
+@="dsound.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{636B9F10-0C7D-11D1-95B2-0020AFDC7421}]
+@="DirectMusic"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{636B9F10-0C7D-11D1-95B2-0020AFDC7421}\InprocServer32]
+@="dmusic.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{636B9F10-0C7D-11D1-95B2-0020AFDC7421}\ProgID]
+@="Microsoft.DirectMusic.1"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{636B9F10-0C7D-11D1-95B2-0020AFDC7421}\VersionIndependentProgID]
+@="Microsoft.DirectMusic"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2881-B39B-11D1-8704-00600893B1BD}]
+@="DirectMusicPerformance"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2881-B39B-11D1-8704-00600893B1BD}\InProcServer32]
+@="dmime.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2881-B39B-11D1-8704-00600893B1BD}\ProgID]
+@="Microsoft.DirectMusicPerformance.1"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2881-B39B-11D1-8704-00600893B1BD}\VersionIndependentProgID]
+@="Microsoft.DirectMusicPerformance"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2882-B39B-11D1-8704-00600893B1BD}]
+@="DirectMusicSegment"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2882-B39B-11D1-8704-00600893B1BD}\InProcServer32]
+@="dmime.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2882-B39B-11D1-8704-00600893B1BD}\ProgID]
+@="Microsoft.DirectMusicSegment.1"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2882-B39B-11D1-8704-00600893B1BD}\VersionIndependentProgID]
+@="Microsoft.DirectMusicSegment"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2883-B39B-11D1-8704-00600893B1BD}]
+@="DirectMusicSegmentState"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2883-B39B-11D1-8704-00600893B1BD}\InProcServer32]
+@="dmime.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2883-B39B-11D1-8704-00600893B1BD}\ProgID]
+@="Microsoft.DirectMusicSegmentState.1"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2883-B39B-11D1-8704-00600893B1BD}\VersionIndependentProgID]
+@="Microsoft.DirectMusicSegmentState"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2885-B39B-11D1-8704-00600893B1BD}]
+@="DirectMusicTempoTrack"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2885-B39B-11D1-8704-00600893B1BD}\InProcServer32]
+@="dmime.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2885-B39B-11D1-8704-00600893B1BD}\ProgID]
+@="Microsoft.DirectMusicTempoTrack.1"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2885-B39B-11D1-8704-00600893B1BD}\VersionIndependentProgID]
+@="Microsoft.DirectMusicTempoTrack"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2886-B39B-11D1-8704-00600893B1BD}]
+@="DirectMusicSeqTrack"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2886-B39B-11D1-8704-00600893B1BD}\InProcServer32]
+@="dmime.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2886-B39B-11D1-8704-00600893B1BD}\ProgID]
+@="Microsoft.DirectMusicSeqTrack.1"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2886-B39B-11D1-8704-00600893B1BD}\VersionIndependentProgID]
+@="Microsoft.DirectMusicSeqTrack"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2887-B39B-11D1-8704-00600893B1BD}]
+@="DirectMusicSysExTrack"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2887-B39B-11D1-8704-00600893B1BD}\InProcServer32]
+@="dmime.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2887-B39B-11D1-8704-00600893B1BD}\ProgID]
+@="Microsoft.DirectMusicSysExTrack.1"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2887-B39B-11D1-8704-00600893B1BD}\VersionIndependentProgID]
+@="Microsoft.DirectMusicSysExTrack"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2888-B39B-11D1-8704-00600893B1BD}]
+@="DirectMusicTimeSigTrack"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2888-B39B-11D1-8704-00600893B1BD}\InProcServer32]
+@="dmime.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2888-B39B-11D1-8704-00600893B1BD}\ProgID]
+@="Microsoft.DirectMusicTimeSigTrack.1"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2888-B39B-11D1-8704-00600893B1BD}\VersionIndependentProgID]
+@="Microsoft.DirectMusicTimeSigTrack"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{EED36461-9EA5-11D3-9BD1-0080C7150A74}]
+@="DirectMusicWaveTrack"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{EED36461-9EA5-11D3-9BD1-0080C7150A74}\InProcServer32]
+@="dmime.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{EED36461-9EA5-11D3-9BD1-0080C7150A74}\ProgID]
+@="Microsoft.DirectMusicWaveTrack.1"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{EED36461-9EA5-11D3-9BD1-0080C7150A74}\VersionIndependentProgID]
+@="Microsoft.DirectMusicWaveTrack"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{8A667154-F9CB-11D2-AD8A-0060B0575ABC}]
+@="Microsoft DirectSound Wave"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{8A667154-F9CB-11D2-AD8A-0060B0575ABC}\InProcServer32]
+@="dswave.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{8A667154-F9CB-11D2-AD8A-0060B0575ABC}\ProgID]
+@="Microsoft.DirectSoundWave.1"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{8A667154-F9CB-11D2-AD8A-0060B0575ABC}\VersionIndependentProgID]
+@="Microsoft.DirectSoundWave"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2892-B39B-11D1-8704-00600893B1BD}]
+@="DirectMusicLoader"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2892-B39B-11D1-8704-00600893B1BD}\InProcServer32]
+@="dmloader.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2892-B39B-11D1-8704-00600893B1BD}\ProgID]
+@="Microsoft.DirectMusicLoader.1"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{D2AC2892-B39B-11D1-8704-00600893B1BD}\VersionIndependentProgID]
+@="Microsoft.DirectMusicLoader"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{58C2B4D0-46E7-11D1-89AC-00A0C9054129}]
+@="DirectMusicSynth"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{58C2B4D0-46E7-11D1-89AC-00A0C9054129}\InProcServer32]
+@="dmsynth.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{58C2B4D0-46E7-11D1-89AC-00A0C9054129}\ProgID]
+@="Microsoft.DirectMusicSynth.1"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{58C2B4D0-46E7-11D1-89AC-00A0C9054129}\VersionIndependentProgID]
+@="Microsoft.DirectMusicSynth"
+
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{AEC17CE3-A514-11D1-AFA6-00AA0024D8B6}]
+@="DirectMusicSynthSink"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{AEC17CE3-A514-11D1-AFA6-00AA0024D8B6}\InProcServer32]
+@="dmsynth.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{AEC17CE3-A514-11D1-AFA6-00AA0024D8B6}\ProgID]
+@="Microsoft.DirectMusicSynthSink.1"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{AEC17CE3-A514-11D1-AFA6-00AA0024D8B6}\VersionIndependentProgID]
+@="Microsoft.DirectMusicSynthSink"
+
+#
+# DXDIAGN
+#
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{A65B8071-3BFE-4213-9A5B-491DA4461CA7}]
+@="DxDiagProvider"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{A65B8071-3BFE-4213-9A5B-491DA4461CA7}\InprocServer32]
+@="dxdiagn.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{A65B8071-3BFE-4213-9A5B-491DA4461CA7}\ProgID]
+@="DxDiag.DxDiagProvider.1"
+
+#
+# DirectPlay8
+#
+
+#     Client
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{743F1DC6-5ABA-429f-8BDF-C54D03253DC2}]
+@="DirectPlay8Client Object"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{743F1DC6-5ABA-429f-8BDF-C54D03253DC2}\InProcServer32]
+@="dpnet.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{743F1DC6-5ABA-429f-8BDF-C54D03253DC2}\ProgID]
+@="DirectPlay8.Client.1"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{743F1DC6-5ABA-429f-8BDF-C54D03253DC2}\VersionIndependentProgID]
+@="DirectPlay8.Client"
+
+#     Server
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{DA825E1B-6830-43d7-835D-0B5AD82956A2}]
+@="DirectPlay8Server Object"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{DA825E1B-6830-43d7-835D-0B5AD82956A2}\InProcServer32]
+@="dpnet.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{DA825E1B-6830-43d7-835D-0B5AD82956A2}\ProgID]
+@="DirectPlay8.Server.1"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{DA825E1B-6830-43d7-835D-0B5AD82956A2}\VersionIndependentProgID]
+@="DirectPlay8.Server"
+
+#     Peer
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{286f484d-375E-4458-A272-B138E2f80A6A}]
+@="DirectPlay8Peer Object"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{286f484d-375E-4458-A272-B138E2f80A6A}\InProcServer32]
+@="dpnet.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{286f484d-375E-4458-A272-B138E2f80A6A}\ProgID]
+@="DirectPlay8.Peer.1"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{286f484d-375E-4458-A272-B138E2f80A6A}\VersionIndependentProgID]
+@="DirectPlay8.Peer"
+
+#     Address
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{934A9523-A3CA-4bc5-ADA0-D6D95D979421}]
+@="DirectPlay8Address Object"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{934A9523-A3CA-4bc5-ADA0-D6D95D979421}\InProcServer32]
+@="dpnet.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{934A9523-A3CA-4bc5-ADA0-D6D95D979421}\ProgID]
+@="DirectPlay8.Address.1"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{934A9523-A3CA-4bc5-ADA0-D6D95D979421}\VersionIndependentProgID]
+@="DirectPlay8.Address"
+
+#     LobbiedApplication
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{667955AD-6B3B-43ca-B949-BC69B5BAFF7F}]
+@="DirectPlay8LobbiedApplication Object"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{667955AD-6B3B-43ca-B949-BC69B5BAFF7F}\InProcServer32]
+@="dpnet.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{667955AD-6B3B-43ca-B949-BC69B5BAFF7F}\ProgID]
+@="DirectPlay8.LobbiedApplication.1"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{667955AD-6B3B-43ca-B949-BC69B5BAFF7F}\VersionIndependentProgID]
+@="DirectPlay8.LobbiedApplication
+
+#     LobbyClient
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3B2B6775-70B6-45af-8DEA-A209C69559F3}]
+@="DirectPlay8LobbyClient Object"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3B2B6775-70B6-45af-8DEA-A209C69559F3}\InProcServer32]
+@="dpnet.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3B2B6775-70B6-45af-8DEA-A209C69559F3}\ProgID]
+@="DirectPlay8.LobbyClient.1"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3B2B6775-70B6-45af-8DEA-A209C69559F3}\VersionIndependentProgID]
+@="DirectPlay8.LobbyClient
+
+# ThreadPool
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{FC47060E-6153-4b34-B975-8E4121EB7F3C}]
+@="DirectPlay8ThreadPool Object"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{FC47060E-6153-4b34-B975-8E4121EB7F3C}\InProcServer32]
+@="dpnet.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{FC47060E-6153-4b34-B975-8E4121EB7F3C}\ProgID]
+@="DirectPlay8.ThreadPool.1"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{FC47060E-6153-4b34-B975-8E4121EB7F3C}\VersionIndependentProgID]
+@="DirectPlay8.ThreadPool
+
+
+### Service Providers
+# WSock TCPIP
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{EBFE7BA0-628D-11D2-AE0F-006097B01411}]
+@="DirectPlay8 WSock TCPIP Provider Object"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{EBFE7BA0-628D-11D2-AE0F-006097B01411}\InProcServer32]
+@="dpnet.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{EBFE7BA0-628D-11D2-AE0F-006097B01411}\ProgID]
+@="DirectPlay8SPWSock.TCPIP.1"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{EBFE7BA0-628D-11D2-AE0F-006097B01411}\VersionIndependentProgID]
+@="DirectPlay8SPWSock.TCPIP"
+
+# Service Provider software entries (used for EnumServiceProviders)
+[HKEY_LOCAL_MACHINE\Software\Microsoft\DirectPlay8\Service Providers\DPNSPWinsockTCP]
+"All Applications"="Y"
+"Friendly Name"="DirectPlay8 TCP/IP Service Provider"
+"GUID"="{EBFE7BA0-628D-11D2-AE0F-006097B01411}"
+
+#
+# Entries for programs that read the registry to get Serial/Com Port info
+#
+[HKEY_LOCAL_MACHINE\HARDWARE\DEVICEMAP\SerialComm]
+"Serial0"="COM1"
+
+#
+# Entries for Multimedia
+#
+
+# Midi Mapper
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Multimedia\MIDIMap] 989041554
+"AutoScheme"=dword:00000000
+"CurrentInstrument"="#0"
+"UseScheme"=dword:00000000
+
+#
+# Entries for IWebBrowser
+# Used by Internet Explorer HTML-rendering control
+#
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{8856f961-340a-11d0-a96b-00c04fd705a2}]
+@="Microsoft Web Browser"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{8856f961-340a-11d0-a96b-00c04fd705a2}\InProcServer32]
+@="shdocvw.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{8856f961-340a-11d0-a96b-00c04fd705a2}\shellex\MayChangeDefaultMenu]
+@=""
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{fbf23b40-e3f0-101b-8488-00aa003e56f8}]
+@="Internet Shortcut"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{fbf23b40-e3f0-101b-8488-00aa003e56f8}\InProcServer32]
+@="shdocvw.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{fbf23b40-e3f0-101b-8488-00aa003e56f8}\shellex\MayChangeDefaultMenu]
+@=""
+
+#
+# Entries for mshtml.dll
+#
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{25336920-03F9-11CF-8FD0-00AA00686F13}]
+@="HTML Document"
+
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{25336920-03F9-11CF-8FD0-00AA00686F13}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+#
+# Entries for windowscodecs.dll
+#
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{27949969-876A-41D7-9447-568F6A35A4DC}] 1271791781
+@="WIC PNG Encoder"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\{27949969-876A-41D7-9447-568F6A35A4DC}\InProcServer32] 1271791781
+@="windowscodecs.dll"
+"ThreadingModel"="Apartment"
+
+#
+# Entries for quartz.dll
+#
+
+# CLSID_FilterGraph
+[HKEY_CLASSES_ROOT\CLSID\{E436EBB3-524F-11CE-9F53-0020AF0BA770}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+# CLSID_FilterGraphNoThread
+[HKEY_CLASSES_ROOT\CLSID\{E436EBB8-524F-11CE-9F53-0020AF0BA770}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+# CLSID_SystemClock
+[HKEY_CLASSES_ROOT\CLSID\{E436EBB1-524F-11CE-9F53-0020AF0BA770}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+# CLSID_MemoryAllocator
+[HKEY_CLASSES_ROOT\CLSID\{1E651CC0-B199-11D0-8212-00C04FC32C45}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+# CLSID_SystemDeviceEnum
+[HKEY_CLASSES_ROOT\CLSID\{62BE5D10-60EB-11D0-BD3B-00A0C911CE86}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+# CLSID_FilterMapper
+[HKEY_CLASSES_ROOT\CLSID\{E436EBB2-524f-11CE-9F53-0020AF0BA770}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+# CLSID_FilterMapper2
+[HKEY_CLASSES_ROOT\CLSID\{CDA42200-BD88-11D0-BD4E-00A0C911CE86}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+# CLSID_SeekingPassThru
+[HKEY_CLASSES_ROOT\CLSID\{060AF76C-68DD-11D0-8FC1-00C04FD9189D}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+# CLSID_CaptureGraphBuilder
+[HKEY_CLASSES_ROOT\CLSID\{BF87B6E0-8C27-11D0-B3F0-00AA003761C5}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+
+
+
+# DirectShow filter categories
+[HKEY_CLASSES_ROOT\CLSID\{DA4E3DA0-D07D-11D0-BD50-00A0C911CE86}]
+@="ActiveMovie Filter Categories"
+
+[HKEY_CLASSES_ROOT\CLSID\{DA4E3DA0-D07D-11D0-BD50-00A0C911CE86}\Instance\{083863F1-70DE-11D0-BD40-00A0C911CE86}]
+"CLSID"="{083863F1-70DE-11D0-BD40-00A0C911CE86}"
+"FriendlyName"="DirectShow Filters"
+"Merit"=dword:00600000
+
+[HKEY_CLASSES_ROOT\CLSID\{DA4E3DA0-D07D-11D0-BD50-00A0C911CE86}\Instance\{33D9A760-90C8-11D0-BD43-00A0C911CE86}]
+"CLSID"="{33D9A760-90C8-11D0-BD43-00A0C911CE86}"
+"FriendlyName"="Video Compressors"
+
+[HKEY_CLASSES_ROOT\CLSID\{DA4E3DA0-D07D-11D0-BD50-00A0C911CE86}\Instance\{33D9A761-90C8-11D0-BD43-00A0C911CE86}"]
+"CLSID"="{33D9A761-90C8-11D0-BD43-00A0C911CE86}"
+"FriendlyName"="Audio Compressors"
+
+[HKEY_CLASSES_ROOT\CLSID\{DA4E3DA0-D07D-11D0-BD50-00A0C911CE86}\Instance\{33D9A762-90C8-11D0-BD43-00A0C911CE86}]
+"CLSID"="{33D9A762-90C8-11D0-BD43-00A0C911CE86}"
+"FriendlyName"="Audio Capture Sources"
+
+[HKEY_CLASSES_ROOT\CLSID\{DA4E3DA0-D07D-11D0-BD50-00A0C911CE86}\Instance\{4EFE2452-168A-11D1-BC76-00C04FB9453B}]
+"CLSID"="{4EFE2452-168A-11D1-BC76-00C04FB9453B}"
+"FriendlyName"="Midi Renderers"
+"Merit"=dword:00600000
+
+[HKEY_CLASSES_ROOT\CLSID\{DA4E3DA0-D07D-11D0-BD50-00A0C911CE86}\Instance\{860BB310-5D01-11D0-BD3B-00A0C911CE86}]
+"CLSID"="{860BB310-5D01-11D0-BD3B-00A0C911CE86}"
+"FriendlyName"="Video Capture Sources"
+
+[HKEY_CLASSES_ROOT\CLSID\{DA4E3DA0-D07D-11D0-BD50-00A0C911CE86}\Instance\{CC7BFB41-F175-11D1-A392-00E0291F3959}]
+"CLSID"="{CC7BFB41-F175-11D1-A392-00E0291F3959}"
+"FriendlyName"="External Renderers"
+
+[HKEY_CLASSES_ROOT\CLSID\{DA4E3DA0-D07D-11D0-BD50-00A0C911CE86}\Instance\{CC7BFB46-F175-11D1-A392-00E0291F3959}]
+"CLSID"="{CC7BFB46-F175-11D1-A392-00E0291F3959}"
+"FriendlyName"="Device Control Filters"
+
+[HKEY_CLASSES_ROOT\CLSID\{DA4E3DA0-D07D-11D0-BD50-00A0C911CE86}\Instance\{E0F158E1-CB04-11D0-BD4E-00A0C911CE86}]
+"CLSID"="{E0F158E1-CB04-11D0-BD4E-00A0C911CE86}"
+"FriendlyName"="Audio Renderers"
+"Merit"=dword:00600000
+
+# CLSID_AudioRender
+
+[HKEY_CLASSES_ROOT\CLSID\{e30629d1-27e5-11ce-875d-00608cb78066}]
+@="Audio Renderer"
+[HKEY_CLASSES_ROOT\CLSID\{e30629d1-27e5-11ce-875d-00608cb78066}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{E0F158E1-CB04-11D0-BD4E-00A0C911CE86}\Instance\{e30629d1-27e5-11ce-875d-00608cb78066}]
+"CLSID"="{e30629d1-27e5-11ce-875d-00608cb78066}"
+# FriendlyName seems to be the driver name and to be generated dynamically.
+"FriendlyName"="Waveout audio renderer"
+# FilterData of generic renderer.
+"FilterData"=hex:02,00,00,00,00,00,60,00,01,00,00,00,00,00,00,00,\
+  30,70,69,33,02,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,38,00,00,00,38,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+# CLSID_DSoundRender
+
+[HKEY_CLASSES_ROOT\CLSID\{79376820-07d0-11cf-a24d-0020afd79767}]
+@="Audio Renderer"
+[HKEY_CLASSES_ROOT\CLSID\{79376820-07d0-11cf-a24d-0020afd79767}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{E0F158E1-CB04-11D0-BD4E-00A0C911CE86}\Instance\{79376820-07d0-11cf-a24d-0020afd79767}]
+"CLSID"="{79376820-07d0-11cf-a24d-0020afd79767}"
+# FriendlyName seems to be the driver name and to be generated dynamically.
+"FriendlyName"="DirectSound audio renderer"
+# FilterData of preferred generic renderer.
+"FilterData"=hex:02,00,00,00,00,00,80,00,01,00,00,00,00,00,00,00,\
+  30,70,69,33,02,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,38,00,00,00,38,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+# CLSID_VideoRenderer
+
+[HKEY_CLASSES_ROOT\CLSID\{70e102b0-5556-11ce-97c0-00aa0055595a}]
+@="Video Renderer"
+[HKEY_CLASSES_ROOT\CLSID\{70e102b0-5556-11ce-97c0-00aa0055595a}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance\{70e102b0-5556-11ce-97c0-00aa0055595a}]
+"CLSID"="{70e102b0-5556-11ce-97c0-00aa0055595a}"
+"FriendlyName"="Video Renderer"
+# FilterData of generic renderer.
+# HACK NOTE: Increased merit to "preferred" to work around a bug in builtin quartz
+"FilterData"=hex:02,00,00,00,00,00,80,00,01,00,00,00,00,00,00,00,\
+  30,70,69,33,02,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,38,00,00,00,38,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+# CLSID_FileWriter
+
+[HKEY_CLASSES_ROOT\CLSID\{8596e5f0-0da5-11d0-bd21-00a0c911ce86}]
+@="File Writer"
+[HKEY_CLASSES_ROOT\CLSID\{8596e5f0-0da5-11d0-bd21-00a0c911ce86}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance\{8596e5f0-0da5-11d0-bd21-00a0c911ce86}]
+"CLSID"="{8596e5f0-0da5-11d0-bd21-00a0c911ce86}"
+"FriendlyName"="File Writer"
+# FilterData of generic renderer.
+"FilterData"=hex:02,00,00,00,00,00,20,00,01,00,00,00,00,00,00,00,\
+  30,70,69,33,02,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,38,00,00,00,38,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+# Wave Parser
+
+[HKEY_CLASSES_ROOT\CLSID\{D51BD5A1-7548-11CF-A520-0080C77EF58A}]
+@="Wave Parser"
+[HKEY_CLASSES_ROOT\CLSID\{D51BD5A1-7548-11CF-A520-0080C77EF58A}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance\{D51BD5A1-7548-11CF-A520-0080C77EF58A}]
+"CLSID"="{D51BD5A1-7548-11CF-A520-0080C77EF58A}"
+"FriendlyName"="Wave Parser"
+# FilterData of generic transform filter.
+"FilterData"=hex:02,00,00,00,00,00,60,00,02,00,00,00,00,00,00,00,\
+  30,70,69,33,00,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  31,70,69,33,08,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+# CLSID_AVIDec(AVI Decompressor)
+
+[HKEY_CLASSES_ROOT\CLSID\{CF49D4E0-1115-11CE-B03A-0020AF0BA770}]
+@="AVI Decompressor"
+[HKEY_CLASSES_ROOT\CLSID\{CF49D4E0-1115-11CE-B03A-0020AF0BA770}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance\{CF49D4E0-1115-11CE-B03A-0020AF0BA770}]
+"CLSID"="{CF49D4E0-1115-11CE-B03A-0020AF0BA770}"
+"FriendlyName"="AVI Decompressor"
+# FilterData of generic transform filter.
+"FilterData"=hex:02,00,00,00,00,00,60,00,02,00,00,00,00,00,00,00,\
+  30,70,69,33,00,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  31,70,69,33,08,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+# CLSID_AsyncReader
+
+[HKEY_CLASSES_ROOT\CLSID\{E436EBB5-524F-11CE-9F53-0020AF0BA770}]
+@="File Source (Async.)"
+[HKEY_CLASSES_ROOT\CLSID\{E436EBB5-524F-11CE-9F53-0020AF0BA770}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance\{E436EBB5-524F-11CE-9F53-0020AF0BA770}]
+"CLSID"="{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
+"FriendlyName"="File Source (Async.)"
+# FilterData of generic source filter.
+"FilterData"=hex:02,00,00,00,00,00,60,00,01,00,00,00,00,00,00,00,\
+  30,70,69,33,08,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,38,00,00,00,38,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+# CLSID_URLReader (not implemented yet)
+
+[HKEY_CLASSES_ROOT\CLSID\{E436EBB6-524F-11CE-9F53-0020AF0BA770}]
+@="File Source (URL)"
+[HKEY_CLASSES_ROOT\CLSID\{E436EBB6-524F-11CE-9F53-0020AF0BA770}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance\{E436EBB6-524F-11CE-9F53-0020AF0BA770}]
+"CLSID"="{E436EBB6-524F-11CE-9F53-0020AF0BA770}"
+"FriendlyName"="File Source (URL)"
+# FilterData of generic source filter.
+"FilterData"=hex:02,00,00,00,00,00,60,00,01,00,00,00,00,00,00,00,\
+  30,70,69,33,08,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,38,00,00,00,38,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+# CLSID_AviSplitter
+
+[HKEY_CLASSES_ROOT\CLSID\{1B544C20-FD0B-11CE-8C63-00AA0044B51E}]
+@="AVI Splitter"
+[HKEY_CLASSES_ROOT\CLSID\{1B544C20-FD0B-11CE-8C63-00AA0044B51E}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance\{1B544C20-FD0B-11CE-8C63-00AA0044B51E}]
+"CLSID"="{1B544C20-FD0B-11CE-8C63-00AA0044B51E}"
+"FriendlyName"="AVI Splitter"
+# FilterData of generic transform filter.
+"FilterData"=hex:02,00,00,00,00,00,60,00,02,00,00,00,00,00,00,00,\
+  30,70,69,33,00,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  31,70,69,33,08,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+# QuickTime Parser
+
+[HKEY_CLASSES_ROOT\CLSID\{D51BD5A0-7548-11CF-A520-0080C77EF58A}]
+@="QuickTime Movie Parser"
+[HKEY_CLASSES_ROOT\CLSID\{D51BD5A0-7548-11CF-A520-0080C77EF58A}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance\{D51BD5A0-7548-11CF-A520-0080C77EF58A}]
+"CLSID"="{D51BD5A0-7548-11CF-A520-0080C77EF58A}"
+"FriendlyName"="QuickTime Movie Parser"
+# FilterData of generic transform filter.
+"FilterData"=hex:02,00,00,00,00,00,60,00,02,00,00,00,00,00,00,00,\
+  30,70,69,33,00,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  31,70,69,33,08,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+# MIDI Parser
+
+[HKEY_CLASSES_ROOT\CLSID\{D51BD5A2-7548-11CF-A520-0080C77EF58A}]
+@="MIDI Parser"
+[HKEY_CLASSES_ROOT\CLSID\{D51BD5A2-7548-11CF-A520-0080C77EF58A}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance\{D51BD5A2-7548-11CF-A520-0080C77EF58A}]
+"CLSID"="{D51BD5A2-7548-11CF-A520-0080C77EF58A}"
+"FriendlyName"="MIDI Parser"
+# FilterData of generic transform filter.
+"FilterData"=hex:02,00,00,00,00,00,60,00,02,00,00,00,00,00,00,00,\
+  30,70,69,33,00,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  31,70,69,33,08,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+
+
+
+# CLSID_Colour(Color space converter)
+
+[HKEY_CLASSES_ROOT\CLSID\{1643E180-90F5-11CE-97D5-00AA0055595A}]
+@="Color Space Converter"
+[HKEY_CLASSES_ROOT\CLSID\{1643E180-90F5-11CE-97D5-00AA0055595A}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance\{1643E180-90F5-11CE-97D5-00AA0055595A}]
+"CLSID"="{1643E180-90F5-11CE-97D5-00AA0055595A}"
+"FriendlyName"="Color Space Converter"
+# FilterData of generic transform filter.
+"FilterData"=hex:02,00,00,00,00,00,60,00,02,00,00,00,00,00,00,00,\
+  30,70,69,33,00,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  31,70,69,33,08,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+# CLSID_MPEG1Splitter
+[HKEY_CLASSES_ROOT\CLSID\{336475D0-942A-11CE-A870-00AA002FEAB5}]
+@="MPEG1 Splitter"
+[HKEY_CLASSES_ROOT\CLSID\{336475D0-942A-11CE-A870-00AA002FEAB5}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance\{336475D0-942A-11CE-A870-00AA002FEAB5}]
+"CLSID"="{336475D0-942A-11CE-A870-00AA002FEAB5}"
+"FriendlyName"="MPEG1 Splitter"
+# FilterData of generic transform filter.
+"FilterData"=hex:02,00,00,00,00,00,60,00,02,00,00,00,00,00,00,00,\
+  30,70,69,33,00,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  31,70,69,33,08,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+# CLSID_ACMWrapper
+[HKEY_CLASSES_ROOT\CLSID\{6A08CF80-0E18-11CF-A24D-0020AFD79767}]
+@="ACM Wrapper"
+[HKEY_CLASSES_ROOT\CLSID\{6A08CF80-0E18-11CF-A24D-0020AFD79767}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance\{6A08CF80-0E18-11CF-A24D-0020AFD79767}]
+"CLSID"="{6A08CF80-0E18-11CF-A24D-0020AFD79767}"
+"FriendlyName"="ACM Wrapper"
+# FilterData of generic transform filter.
+"FilterData"=hex:02,00,00,00,00,00,60,00,02,00,00,00,00,00,00,00,\
+  30,70,69,33,00,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  31,70,69,33,08,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+# CLSID_CMpegVideoCodec
+[HKEY_CLASSES_ROOT\CLSID\{feb50740-7bef-11ce-9bd9-0000e202599c}]
+@="MPEG Video Decoder"
+[HKEY_CLASSES_ROOT\CLSID\{feb50740-7bef-11ce-9bd9-0000e202599c}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance\{feb50740-7bef-11ce-9bd9-0000e202599c}]
+"CLSID"="{feb50740-7bef-11ce-9bd9-0000e202599c}"
+"FriendlyName"="MPEG Video Decoder"
+# FilterData of generic transform filter.
+"FilterData"=hex:02,00,00,00,00,00,60,00,02,00,00,00,00,00,00,00,\
+  30,70,69,33,00,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  31,70,69,33,08,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+# CLSID_CMpegAudioCodec
+[HKEY_CLASSES_ROOT\CLSID\{4a2286e0-7bef-11ce-9bd9-0000e202599c}]
+@="MPEG Audio Decoder"
+[HKEY_CLASSES_ROOT\CLSID\{4a2286e0-7bef-11ce-9bd9-0000e202599c}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance\{4a2286e0-7bef-11ce-9bd9-0000e202599c}]
+"CLSID"="{4a2286e0-7bef-11ce-9bd9-0000e202599c}"
+"FriendlyName"="MPEG Audio Decoder"
+# FilterData of generic transform filter.
+"FilterData"=hex:02,00,00,00,00,00,60,00,02,00,00,00,00,00,00,00,\
+  30,70,69,33,00,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  31,70,69,33,08,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+# MJPG Decompressor
+[HKEY_CLASSES_ROOT\CLSID\{301056D0-6DFF-11D2-9EEB-006008039E37}]
+@="MJPG Decompressor"
+[HKEY_CLASSES_ROOT\CLSID\{301056D0-6DFF-11D2-9EEB-006008039E37}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance\{301056D0-6DFF-11D2-9EEB-006008039E37}]
+"CLSID"="{301056D0-6DFF-11D2-9EEB-006008039E37}"
+"FriendlyName"="MJPG Decompressor"
+# FilterData of generic transform filter.
+"FilterData"=hex:02,00,00,00,00,00,60,00,02,00,00,00,00,00,00,00,\
+  30,70,69,33,00,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  31,70,69,33,08,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+# QuickTime Decompressor
+[HKEY_CLASSES_ROOT\CLSID\{FDFE9681-74A3-11D0-AFA7-00AA00B67A42}]
+@="QuickTime Decompressor"
+[HKEY_CLASSES_ROOT\CLSID\{FDFE9681-74A3-11D0-AFA7-00AA00B67A42}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance\{FDFE9681-74A3-11D0-AFA7-00AA00B67A42}]
+"CLSID"="{FDFE9681-74A3-11D0-AFA7-00AA00B67A42}"
+"FriendlyName"="QuickTime Decompressor"
+# FilterData of generic transform filter.
+"FilterData"=hex:02,00,00,00,00,00,60,00,02,00,00,00,00,00,00,00,\
+  30,70,69,33,00,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  31,70,69,33,08,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+# FFmpeg Audio Wrapper
+[HKEY_CLASSES_ROOT\CLSID\{ABBABDB2-AB05-11D6-8064-005004E96EAE}]
+@="FFMA Wrapper"
+[HKEY_CLASSES_ROOT\CLSID\{ABBABDB2-AB05-11D6-8064-005004E96EAE}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance\{ABBABDB2-AB05-11D6-8064-005004E96EAE}]
+"CLSID"="{ABBABDB2-AB05-11D6-8064-005004E96EAE}"
+"FriendlyName"="FFMA Wrapper"
+# FilterData of generic transform filter (semi-preferred).
+# Keep it more preferred than ACM Wrapper...
+"FilterData"=hex:02,00,00,00,00,00,70,00,02,00,00,00,00,00,00,00,\
+  30,70,69,33,00,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  31,70,69,33,08,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+# FFmpeg Video Wrapper
+[HKEY_CLASSES_ROOT\CLSID\{9602BE56-ABC4-11D6-9FD9-005004E96EAE}]
+@="FFMV Wrapper"
+[HKEY_CLASSES_ROOT\CLSID\{9602BE56-ABC4-11D6-9FD9-005004E96EAE}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance\{9602BE56-ABC4-11D6-9FD9-005004E96EAE}]
+"CLSID"="{9602BE56-ABC4-11D6-9FD9-005004E96EAE}"
+"FriendlyName"="FFMV Wrapper"
+# FilterData of generic transform filter.
+# Keep it more preferred than the Blizzard codec to avoid conflicts...
+"FilterData"=hex:02,00,00,00,00,00,90,00,02,00,00,00,00,00,00,00,\
+  30,70,69,33,00,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  31,70,69,33,08,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+# FFmpeg Splitter
+[HKEY_CLASSES_ROOT\CLSID\{4247C324-AD72-11D6-83C5-005004E96EAE}]
+@="FFM Splitter"
+[HKEY_CLASSES_ROOT\CLSID\{4247C324-AD72-11D6-83C5-005004E96EAE}\InprocServer32]
+@="quartz.dll"
+"ThreadingModel"="Both"
+
+[HKEY_CLASSES_ROOT\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance\{4247C324-AD72-11D6-83C5-005004E96EAE}]
+"CLSID"="{4247C324-AD72-11D6-83C5-005004E96EAE}"
+"FriendlyName"="FFM Splitter"
+# FilterData of generic transform filter.
+"FilterData"=hex:02,00,00,00,00,00,60,00,02,00,00,00,00,00,00,00,\
+  30,70,69,33,00,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  31,70,69,33,08,00,00,00,00,00,00,00,\
+  01,00,00,00,00,00,00,00,00,00,00,00,\
+  30,74,79,33,00,00,00,00,60,00,00,00,60,00,00,00,\
+  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+
+
+
+#
+# quartz Media Types.
+#
+
+# audio/wav
+# RIFF****WAVE
+[HKEY_CLASSES_ROOT\Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{E436EB8B-524F-11CE-9F53-0020AF0BA770}]
+"0"="0,4,,52494646, 8,4,,57415645"
+"Source Filter"="{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
+
+# audio/basic
+# .snd
+[HKEY_CLASSES_ROOT\Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{E436EB8C-524F-11CE-9F53-0020AF0BA770}]
+"0"="0,4,,2E736E64"
+"Source Filter"="{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
+
+# audio/aiff
+# FORM****AIFF
+[HKEY_CLASSES_ROOT\Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{E436EB8D-524F-11CE-9F53-0020AF0BA770}]
+"0"="0,4,,464F524D, 8,4,,41494646"
+"Source Filter"="{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
+
+# video/x-msvideo
+# RIFF****AVI 
+[HKEY_CLASSES_ROOT\Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{E436EB88-524F-11CE-9F53-0020AF0BA770}]
+"0"="0,4,,52494646, 8,4,,41564920"
+"Source Filter"="{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
+
+# video/quicktime
+# ****mdat / ****moov
+[HKEY_CLASSES_ROOT\Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{E436EB89-524F-11CE-9F53-0020AF0BA770}]
+"0"="4,4,,6D646174"
+"1"="4,4,,6D6F6F76"
+"Source Filter"="{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
+
+# video/mpeg (MPEG-1/System)
+# 0x00 0x00 0x01 0xba
+[HKEY_CLASSES_ROOT\Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{E436EB84-524F-11CE-9F53-0020AF0BA770}]
+"0"="0,4,,000001BA"
+"Source Filter"="{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
+
+# video/mpeg (MPEG-1/Video)
+# 0x00 0x00 0x01 0xb3
+[HKEY_CLASSES_ROOT\Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{E436EB86-524F-11CE-9F53-0020AF0BA770}]
+"0"="0,4,,000001B3"
+"Source Filter"="{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
+
+# audio/mpeg
+# 12bit 0xFFF + 1bit 0 + 2bit Layer(non-zero) + 1bit flag
+[HKEY_CLASSES_ROOT\Media Type\{E436EB83-524F-11CE-9F53-0020AF0BA770}\{E436EB87-524F-11CE-9F53-0020AF0BA770}]
+"0"="0,2,FFF8,FFF8"
+"1"="0,10,FFFFFFFF000000000000,49443303000080808080"
+"Source Filter"="{E436EBB5-524F-11CE-9F53-0020AF0BA770}"
+
+
+
+# Some things that should be dynamic in the future, but are not for now
+[HKEY_LOCAL_MACHINE\Enum\Root\Adapter\0000]
+"Class"="Adapter"
+"DeviceDesc"="CD-ROM Adapter"
+"Driver"="Adapter\0000"
+"Mfg"="Transgaming"
+
+[HKEY_LOCAL_MACHINE\Enum\SCSI\CDROM_1\ROOT&ADAPTER&000000]
+"Class"="CDROM"
+"CurrentDriveLetterAssignment"="F"
+"DeviceDesc"="TransGaming CDROM"
+"DeviceType"=dword:00000005
+"Driver"="CDROM\0000"
+"HardwareID"="CDROM_1,GenCD,SCSI\CDROM_1"
+"Manufacturer"="TransGaming"
+"Mfg"="(Standard CD-ROM Device)"
+"ProductId"="CDROM            "
+"Removable"=dword:00000001
+"RevisionLevel"="1.0"
+"SCSILUN"="0"
+"SCSITargetID"="0"
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer]
+"Build"="62800.1106"
+"ChannelLocale"="0649"
+"CustomizedVersion"="IS"
+"IntegratedBrowser"=dword:00000001
+"IVer"="103"
+"MkEnabled"="Yes"
+"Version"="6.0.2800.1106"
+
+#
+# for winebrowserlink.
+# unless the winebrowserlink binary is in the wine search path
+# (config, [wine], Path) you will have to change this to point to
+# the real location
+#
+[HKEY_LOCAL_MACHINE\Software\Classes\http\shell\open\command]
+@="winebrowserlink "%1""
+
+[HKEY_LOCAL_MACHINE\Software\Classes\https\shell\open\command]
+@="winebrowserlink "%1""
+
+[HKEY_CLASSES_ROOT\.url]
+@="InternetShortcut"
+
+[HKEY_CLASSES_ROOT\InternetShortcut]
+@="Internet Shortcut"
+"EditFlags"=dword:00000002
+"IsShortcut"=""
+"NeverShowExt"=""
+
+# Windows uses "rundll32.exe shdocvw.dll,OpenURL %l".. we'll use
+# winebrowserlink for now
+[HKEY_CLASSES_ROOT\InternetShortcut\shell\open\command]
+@="winebrowserlink /urlfile "%1""
+
+# Locale entry set to US English
+[HKEY_CURRENT_USER\Control Panel\International]
+"Locale"="00000409"

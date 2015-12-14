@@ -1,0 +1,44 @@
+DEFS      = -D__WINE__
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = miscemu
+
+SPEC_SRCS = wine.spec
+
+C_SRCS = \
+	dictionary.c \
+	iniparser.c \
+	strlib.c \
+	main.c
+
+@DARWIN_SDLDRV_TRUE@OBJC_SRCS = \
+@DARWIN_SDLDRV_TRUE@	macosx_main_SDL.m
+@DARWIN_SDLDRV_TRUE@DEFS += -DUSE_ALTERNATE_MAIN_FOR_SDLDRV
+
+PRELOADER_OBJS = \
+	preloader.o
+
+LOADER_BINARIES = @PRELOADER_BINARY@
+
+all: $(MODULE).o $(LOADER_BINARIES)
+
+@MAKE_RULES@
+
+$(MODULE).o: $(OBJS) Makefile.in $(TOPSRCDIR)/Make.rules.in
+	$(LDCOMBINE) $(OBJS) -o $@
+
+wine-preloader: $(PRELOADER_OBJS) Makefile.in $(TOPSRCDIR)/Make.rules.in
+	$(CC) @BUILD_32BIT_OPTION@ -o wine-preloader -static -nostartfiles -nodefaultlibs -Wl,-Ttext=0x78000000 $(PRELOADER_OBJS) $(LDFLAGS)
+
+install:: $(LOADER_BINARIES)
+	[ -d $(bindir) ] || $(MKDIR) $(bindir)
+ifneq ($(LOADER_BINARIES),)
+	$(INSTALL_PROGRAM) wine-preloader $(bindir)/wine-preloader
+endif
+
+uninstall::
+	$(RM) $(bindir)/wine-preloader
+
+### Dependencies:

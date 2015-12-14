@@ -1,0 +1,23 @@
+@c This file is processed by GNU's TeXinfo
+@c If you modify it or move it to another location, make sure that
+@c TeXinfo works (type `make' in directory documentation).
+
+@c This is a list of the ReWind authors and copyright holders.
+@c See also the AUTHORS.Wine file for all Wine authors and
+@c copyright holders.
+
+ReWind is available thanks to the work of:
+Vincent Béron,
+Michael Cardenas,
+Christian Costa,
+Steven Edwards,
+David Hammerton,
+Jukka Heinonen,
+Ove Kåven,
+Stefan Leichter,
+Bill Medland,
+Andreas Mohr,
+Dustin Navea,
+Eric Pouech,
+Lionel Ulmer,
+and Martin Wilck.

@@ -1,0 +1,33 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = windowscodecs
+EXTRAINCL = -I$(TOPSRCDIR)/include-lgpl -I$(TOPOBJDIR)/include-lgpl
+EXTRALIBS = $(LIBUUID) 
+NEEDCROSSLIB = yes
+
+SYMBOLFILE = $(MODULE).tmp.o
+
+C_SRCS = \
+	bmpdecode.c \
+	bmpencode.c \
+	clsfactory.c \
+	converter.c \
+	gifformat.c \
+	icoformat.c \
+	imgfactory.c \
+	info.c \
+	jpegformat.c \
+	main.c \
+	palette.c \
+	pngformat.c \
+	propertybag.c \
+	regsvr.c \
+	stream.c \
+	tiffformat.c \
+	ungif.c
+
+RC_SRCS = version.rc
+
+@MAKE_DLL_RULES@

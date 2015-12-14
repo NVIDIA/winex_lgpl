@@ -1,0 +1,9 @@
+#define WINE_FILEVERSION 5,1,2600,1106
+#define WINE_PRODUCTVERSION 5,1,2600,1106
+#define WINE_FILEDESCRIPTION_STR "GDI Client DLL"
+#define WINE_FILENAME_STR "gdi32"
+#define WINE_PRODUCTVERSION_STR "5.1.2600.1106"
+#define WINE_PRODUCTNAME_STR "TransGaming Technologies WineX"
+#define WINE_FILEVERSION_STR "5.1.2600.1106 built by: WineX"
+
+#include "wine/wine_common_ver.rc"

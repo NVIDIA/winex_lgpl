@@ -1,0 +1,21 @@
+EXTRADEFS = -D__WINESRC__ -DSTRICT
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = hid
+NEEDCROSSLIB = yes
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).tmp.o
+
+C_SRCS = \
+	main.c
+
+RC_SRCS = version.rc
+
+EXTRATARGETS = @CROSSLIB@
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

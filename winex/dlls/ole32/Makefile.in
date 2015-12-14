@@ -1,0 +1,50 @@
+EXTRADEFS = -D_OLE32_
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = ole32
+ALTNAMES  = ole2 ole2nls ole2conv ole2prox ole2thk storage compobj
+EXTRALIBS = $(LIBUUID)
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).tmp.o
+
+C_SRCS = \
+	antimoniker.c \
+	bindctx.c \
+	clipboard.c \
+	compobj.c \
+	compositemoniker.c \
+	datacache.c \
+	ddobject.c \
+	defaulthandler.c \
+	errorinfo.c \
+	filemoniker.c \
+	ftmarshal.c \
+	hglobalstream.c \
+	ifs.c \
+	itemmoniker.c \
+	memlockbytes.c \
+	moniker.c \
+	ole16.c \
+	ole2.c \
+	ole2stubs.c \
+	ole2impl.c \
+	ole2nls.c \
+	ole32_main.c \
+	oleobj.c \
+	proxy.c \
+	stg_bigblockfile.c \
+	stg_stream.c \
+	storage.c \
+	storage32.c
+
+IDL_H_SRCS = dcom.h
+
+RC_SRCS = \
+	ole32res.rc
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

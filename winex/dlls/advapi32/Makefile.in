@@ -1,0 +1,24 @@
+EXTRADEFS = -D_ADVAPI32_
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = advapi32
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).tmp.o
+
+C_SRCS = \
+	advapi.c \
+	crypt.c \
+	crypt_md5.c \
+	crypt_sha.c \
+	eventlog.c \
+	registry.c \
+	security.c \
+	service.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:
+

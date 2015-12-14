@@ -1,0 +1,17 @@
+#!/bin/sh 
+# Copyright (c) 2004, TransGaming Technologies Inc.
+# Unmount / Eject script 
+# Version 1.0 Jun 17, 2004
+
+# Note: This should be replaced by a binary that runs setuid root
+# that can always eject the disk
+
+if [ -z "$1" ]; then
+    echo usage: $0 /dev/your_cdrom_device
+    echo you did: $0 $1
+    exit
+fi
+
+umount $1
+eject $1
+

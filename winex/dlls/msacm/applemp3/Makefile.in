@@ -1,0 +1,21 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = applemp3.acm
+EXTRALIBS = @LIBMACCA@
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).tmp.o
+
+C_SRCS = \
+        applemp3.c \
+        mp3_audioconverter.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:
+
+
+
+

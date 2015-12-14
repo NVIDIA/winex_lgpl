@@ -1,0 +1,21 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = dxdiagn
+EXTRALIBS = $(LIBUUID) $(LIBUNICODE)
+SYMBOLFILE = $(MODULE).tmp.o
+
+C_SRCS = \
+	container.c \
+	dxdiag_main.c \
+	provider.c \
+	regsvr.c
+
+RC_SRCS = version.rc
+
+#IDL_H_SRCS = fil_data.idl
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

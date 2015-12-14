@@ -1,0 +1,510 @@
+#!/usr/bin/perl -w
+
+# Copyright 2001 Patrik Stridvall
+
+use strict;
+
+BEGIN {
+    $0 =~ m%^(.*?/?tools)/winapi/winapi_extract$%;
+    require "$1/winapi/setup.pm";
+}
+
+use config qw(
+    &file_type &files_skip &files_filter &get_spec_files
+    $current_dir $wine_dir $winapi_dir $winapi_check_dir
+);
+use output qw($output);
+use winapi_extract_options qw($options);
+
+if($options->progress) {
+    $output->enable_progress;
+} else {
+    $output->disable_progress;
+}
+
+use function;
+use type;
+use winapi_function;
+use winapi_parser;
+use winapi qw(@winapis);
+
+my %module2entries;
+my %module2spec_file;
+my %module2type;
+my %module2filename;
+if($options->spec_files || $options->winetest) {
+    local $_;
+
+    foreach my $spec_file (get_spec_files("winelib")) {
+	my $entries = [];
+
+	my $module;
+	my $type;
+
+	open(IN, "< $wine_dir/$spec_file");
+
+	my $header = 1;
+	my $lookahead = 0;
+	while($lookahead || defined($_ = <IN>)) {
+	    $lookahead = 0;
+
+	    s/^\s*?(.*?)\s*$/$1/; # remove whitespace at begining and end of line
+	    s/^(.*?)\s*#.*$/$1/;  # remove comments
+	    /^$/ && next;         # skip empty lines
+
+	    if($header)  {
+		if(/^name\s+(.*?)$/) {
+		    $module = $1;
+		    $module2spec_file{$module} = $spec_file;
+		} elsif(/^file\s+(.*?)$/) {
+		    my $filename = $1;
+		    $module2filename{$module} = $filename;
+		} elsif(/^type\s+(.*?)$/) {
+		    $type = $1;
+		    $module2type{$module} = $type;
+		} elsif(/^\d+|@/) {
+		    $header = 0;
+		    $lookahead = 1; 
+		}
+		next;
+	    }
+
+	    if(/^(@|\d+)\s+stdcall\s+(\w+)\s*\(\s*([^\)]*)\s*\)/) {
+		my $ordinal = $1;
+		my $name = $2;
+		my @args = split(/\s+/, $3);
+
+		push @$entries, [$name, "undef", \@args];
+	    }
+	}
+	close(IN);
+
+	$module2entries{$module} = $entries;
+    }
+}
+
+my %specifications;
+
+sub documentation_specifications {
+    my $function = shift;
+
+    my @debug_channels = @{$function->debug_channels};
+    my $documentation = $function->documentation;
+    my $documentation_line = $function->documentation_line;
+    my $return_type = $function->return_type;
+    my $linkage = $function->linkage;
+    my $internal_name = $function->internal_name;
+
+    if($linkage eq "static") {
+	return;
+    }
+
+    local $_;
+    foreach (split(/\n/, $documentation)) {
+	if(/^\s*\*\s*(\S+)\s*[\(\[]\s*(\w+)\s*\.\s*(\S+)\s*[\)\]]/) {
+	    my $external_name = $1;
+	    my $module = lc($2);
+	    my $ordinal = $3;
+
+	    if($ordinal eq "@") {
+		if(1 || !exists($specifications{$module}{unfixed}{$external_name})) {
+		    $specifications{$module}{unfixed}{$external_name}{ordinal} = $ordinal;
+		    $specifications{$module}{unfixed}{$external_name}{external_name} = $external_name;
+		    $specifications{$module}{unfixed}{$external_name}{function} = $function;
+		} else {
+		    $output->write("$external_name ($module.$ordinal) already exists\n");
+		}
+	    } elsif($ordinal =~ /^\d+$/) {
+		if(1 || !exists($specifications{$module}{fixed}{$ordinal})) {
+		    $specifications{$module}{fixed}{$ordinal}{ordinal} = $ordinal;
+		    $specifications{$module}{fixed}{$ordinal}{external_name} = $external_name;
+		    $specifications{$module}{fixed}{$ordinal}{function} = $function;
+		    } else {
+			$output->write("$external_name ($module.$ordinal) already exists\n");
+		    }
+	    } elsif($ordinal eq "init") {
+		if(!exists($specifications{$module}{init})) {
+		    $specifications{$module}{init}{function} = $function;
+		} else {
+		    $output->write("$external_name ($module.$ordinal) already exists\n");
+		}
+	    } else {
+		if(!exists($specifications{$module}{unknown}{$external_name})) {
+		    $specifications{$module}{unknown}{$external_name}{ordinal} = $ordinal;
+		    $specifications{$module}{unknown}{$external_name}{external_name} = $external_name;
+		    $specifications{$module}{unknown}{$external_name}{function} = $function;
+		} else {
+		    $output->write("$external_name ($module.$ordinal) already exists\n");
+		}
+	    }
+	    
+	    if($options->debug) {
+		$output->write("$external_name ($module.$ordinal)\n");
+	    }
+	}
+    }
+}
+
+my %module_pseudo_stub_count16;
+my %module_pseudo_stub_count32;
+
+sub statements_stub {
+    my $function = shift;
+
+    my $statements = $function->statements;
+    if(defined($statements) && $statements =~ /FIXME[^;]*stub/s) {
+	if($options->win16) {
+	    foreach my $module16 ($function->modules16) {
+		$module_pseudo_stub_count16{$module16}++;
+	    }
+	}
+	if($options->win32) {
+	    foreach my $module32 ($function->modules32) {
+		$module_pseudo_stub_count32{$module32}++;
+	    }
+	}
+    }
+}
+
+my @c_files = $options->c_files;
+@c_files = files_skip(@c_files);
+@c_files = files_filter("winelib", @c_files);
+
+my $progress_output;
+my $progress_current = 0;
+my $progress_max = scalar(@c_files);
+
+foreach my $file (@c_files) {
+    my %functions;
+
+    $progress_current++;
+    $output->progress("$file (file $progress_current of $progress_max)");
+
+    my $create_function = sub {
+	if($options->stub_statistics) {
+	    return 'winapi_function'->new;
+	} else {
+	    return 'function'->new;
+	}
+    };
+
+    my $found_function = sub {
+	my $function = shift;
+
+	my $internal_name = $function->internal_name;
+	$functions{$internal_name} = $function;
+	
+	$output->progress("$file (file $progress_current of $progress_max): $internal_name");
+	$output->prefix_callback(sub { return $function->prefix; });
+
+	my $documentation_line = $function->documentation_line;
+	my $documentation = $function->documentation;
+	my $function_line = $function->function_line;
+	my $linkage = $function->linkage;
+	my $return_type = $function->return_type;
+	my $calling_convention = $function->calling_convention;
+	my $statements = $function->statements;
+
+	if($options->spec_files || $options->winetest) {
+	    documentation_specifications($function);
+	}
+
+	if($options->stub_statistics) {
+	    statements_stub($function);
+	}
+
+	$output->prefix("");
+    };
+
+    my $create_type = sub {
+	return 'type'->new;
+    };
+
+    my $found_type = sub {
+	my $type = shift;
+    };
+
+    my $found_preprocessor = sub {
+	my $directive = shift;
+	my $argument = shift;
+    };
+
+    &winapi_parser::parse_c_file($file, $create_function, $found_function, $create_type, $found_type, $found_preprocessor);
+
+    my @internal_names = keys(%functions);
+    if($#internal_names < 0) {
+	$output->write("$file: doesn't contain any functions\n");
+    }
+}
+
+sub output_function {
+    local *OUT = shift;
+    my $type = shift;
+    my $ordinal = shift;
+    my $external_name = shift;
+    my $function = shift;
+
+    my $internal_name = $function->internal_name;
+
+    my $return_kind;
+    my $calling_convention;
+    my $refargument_kinds;
+    if($type eq "win16") {
+	$return_kind = $function->return_kind16 || "undef";
+	$calling_convention = $function->calling_convention16 || "undef";
+	$refargument_kinds = $function->argument_kinds16;
+    } elsif($type eq "win32") {
+	$return_kind = $function->return_kind32 || "undef";
+	$calling_convention = $function->calling_convention32 || "undef";
+	$refargument_kinds = $function->argument_kinds32;
+    }
+
+    if(defined($refargument_kinds)) {
+	my @argument_kinds = map { $_ || "undef"; } @$refargument_kinds;
+	print OUT "$ordinal $calling_convention $external_name(@argument_kinds) $internal_name\n";
+    } else {
+	print OUT "$ordinal $calling_convention $external_name() $internal_name # FIXME: arguments undefined\n";
+    }
+}
+
+if($options->spec_files) {
+    foreach my $module (keys(%specifications)) {
+	my $spec_file = $module2spec_file{$module};
+	my $type = $module2type{$module};
+	
+	if(!defined($spec_file) || !defined($type)) {
+	    $output->write("$module: doesn't exist\n");
+	    next;
+	}
+	
+	$spec_file .= "2";
+	
+	$output->progress("$spec_file");
+	open(OUT, "> $wine_dir/$spec_file");
+
+	print OUT "name $module\n";
+	print OUT "type $type\n";
+	if(exists($specifications{$module}{init})) {
+	    my $function = $specifications{$module}{init}{function};
+	    print OUT "init " . $function->internal_name . "\n";
+	}
+	print OUT "\n";
+	
+	my %debug_channels;
+	if(exists($specifications{$module}{init})) {
+	    my $function = $specifications{$module}{init}{function};
+	    foreach my $debug_channel (@{$function->debug_channels}) {
+		$debug_channels{$debug_channel}++;
+	    }
+	}
+	foreach my $ordinal (sort {$a <=> $b} keys(%{$specifications{$module}{fixed}})) {
+	    my $function = $specifications{$module}{fixed}{$ordinal}{function};
+	    foreach my $debug_channel (@{$function->debug_channels}) {
+		$debug_channels{$debug_channel}++;
+	    }
+	}
+	foreach my $name (sort(keys(%{$specifications{$module}{unfixed}}))) {
+	    my $function = $specifications{$module}{unfixed}{$name}{function}; 
+	    foreach my $debug_channel (@{$function->debug_channels}) {
+		$debug_channels{$debug_channel}++;
+	    }
+	}
+	foreach my $name (sort(keys(%{$specifications{$module}{unknown}}))) {
+	    my $function = $specifications{$module}{unknown}{$name}{function};
+	    foreach my $debug_channel (@{$function->debug_channels}) {
+		$debug_channels{$debug_channel}++;
+	    }
+	}
+
+	my @debug_channels = sort(keys(%debug_channels));
+	if($#debug_channels >= 0) { 
+	    print OUT "debug_channels (" .  join(" ", @debug_channels) . ")\n";
+	    print OUT "\n";
+	}
+	
+	my $empty = 1;
+
+	if(!$empty) {
+	    print OUT "\n";
+	    $empty = 1;
+	}
+	foreach my $external_name (sort(keys(%{$specifications{$module}{unknown}}))) {
+	    my $entry = $specifications{$module}{unknown}{$external_name};
+	    my $ordinal = $entry->{ordinal}; 
+	    my $function = $entry->{function}; 
+	    print OUT "# ";
+	    output_function(\*OUT, $type, $ordinal, $external_name, $function);
+	    $empty = 0;
+	}
+
+	if(!$empty) {
+	    print OUT "\n";
+	    $empty = 1;
+	}
+	foreach my $ordinal (sort {$a <=> $b} keys(%{$specifications{$module}{fixed}})) {
+	    my $entry = $specifications{$module}{fixed}{$ordinal};
+	    my $external_name = $entry->{external_name}; 
+	    my $function = $entry->{function}; 
+	    output_function(\*OUT, $type, $ordinal, $external_name, $function);
+	    $empty = 0;
+	}
+
+	if(!$empty) {
+	    print OUT "\n";
+	    $empty = 1;
+	}
+	foreach my $external_name (sort(keys(%{$specifications{$module}{unfixed}}))) {
+	    my $entry = $specifications{$module}{unfixed}{$external_name};
+	    my $ordinal = $entry->{ordinal};
+	    my $function = $entry->{function};
+	    output_function(\*OUT, $type, $ordinal, $external_name, $function);
+	    $empty = 0;
+	}
+
+	close(OUT);
+    }
+}
+
+if($options->stub_statistics) {
+    foreach my $winapi (@winapis) {
+	if($winapi->name eq "win16" && !$options->win16) { next; }
+	if($winapi->name eq "win32" && !$options->win32) { next; }
+
+	my %module_stub_count;
+	my %module_total_count;
+	
+	foreach my $internal_name ($winapi->all_internal_functions,$winapi->all_functions_stub) {
+	    foreach my $module (split(/ \& /, $winapi->function_internal_module($internal_name))) {
+		if($winapi->is_function_stub_in_module($module, $internal_name)) {
+		    $module_stub_count{$module}++;
+		}
+		$module_total_count{$module}++;
+	    }
+	}
+
+	foreach my $module ($winapi->all_modules) {
+	    my $pseudo_stubs;
+	    if($winapi->name eq "win16") {
+		$pseudo_stubs = $module_pseudo_stub_count16{$module};
+	    } elsif($winapi->name eq "win32") {
+		$pseudo_stubs = $module_pseudo_stub_count32{$module};
+	    }
+
+	    my $real_stubs = $module_stub_count{$module};
+	    my $total = $module_total_count{$module};
+
+	    if(!defined($real_stubs)) { $real_stubs = 0; }
+	    if(!defined($pseudo_stubs)) { $pseudo_stubs = 0; }
+	    if(!defined($total)) { $total = 0;}
+
+	    my $stubs = $real_stubs + $pseudo_stubs;
+    
+	    $output->write("*.c: $module: ");
+	    $output->write("$stubs of $total functions are stubs ($real_stubs real, $pseudo_stubs pseudo)\n");
+	}
+    } 
+}
+
+if($options->winetest) {
+    foreach my $module (sort(keys(%specifications))) {
+	my $type = $module2type{$module};
+        my $filename = $module2filename{$module} || $module;
+        my $modulename = $filename;
+        $modulename =~ s/\./_/g;
+
+	next unless $type eq "win32";
+
+	my @entries;
+
+	foreach my $external_name (sort(keys(%{$specifications{$module}{unknown}}))) {
+	    my $entry = $specifications{$module}{unknown}{$external_name};
+	    push @entries, $entry;
+	}
+
+	foreach my $ordinal (sort {$a <=> $b} keys(%{$specifications{$module}{fixed}})) {
+	    my $entry = $specifications{$module}{fixed}{$ordinal};
+	    push @entries, $entry;
+	}
+
+	foreach my $external_name (sort(keys(%{$specifications{$module}{unfixed}}))) {
+	    my $entry = $specifications{$module}{unfixed}{$external_name};
+	    push @entries, $entry;
+	}
+
+	my $n = 0;
+	foreach my $entry (@entries) {
+	    my $external_name = $entry->{external_name}; 
+	    my $ordinal = $entry->{ordinal}; 
+	    my $function = $entry->{function}; 
+
+	    my $return_kind;
+	    my $calling_convention;
+	    my $refargument_kinds;
+	    if($type eq "win16") {
+		$return_kind = $function->return_kind16 || "undef";
+		$calling_convention = $function->calling_convention16 || "undef";
+		$refargument_kinds = $function->argument_kinds16;
+	    } elsif($type eq "win32") {
+		$return_kind = $function->return_kind32 || "undef";
+		$calling_convention = $function->calling_convention32 || "undef";
+		$refargument_kinds = $function->argument_kinds32;
+	    }
+
+	    my @argument_kinds;
+	    if(defined($refargument_kinds)) {
+		@argument_kinds = map { $_ || "undef"; } @$refargument_kinds;
+	    }
+
+	    next if $calling_convention ne "stdcall";
+	    next if $external_name eq "\@";
+
+	    if($n == 0) {
+                open(OUT, "> $wine_dir/programs/winetest/include/${modulename}.pm");
+
+                print OUT "package ${modulename};\n";
+                print OUT "\n";
+
+                print OUT "use strict;\n";
+                print OUT "\n";
+
+                print OUT "require Exporter;\n";
+                print OUT "\n";
+
+                print OUT "use wine;\n";
+                print OUT "use vars qw(\@ISA \@EXPORT \@EXPORT_OK);\n";
+                print OUT "\n";
+
+                print OUT "\@ISA = qw(Exporter);\n";
+                print OUT "\@EXPORT = qw();\n";
+                print OUT "\@EXPORT_OK = qw();\n";
+                print OUT "\n";
+
+                print OUT "my \$module_declarations = {\n";
+	    } elsif($n > 0) {
+		print OUT ",\n";
+	    }
+
+	    print OUT "    \"\Q$external_name\E\" => [\"$return_kind\",  [";
+	    my $m = 0;
+	    foreach my $argument_kind (@argument_kinds) {
+		if($m > 0) {
+		    print OUT ", ";
+		}
+		print OUT "\"$argument_kind\"";
+		$m++;
+	    }
+	    print OUT "]]";
+	    $n++;
+	}
+
+	if($n > 0) {
+	    print OUT "\n";
+	    print OUT "};\n";
+	    print OUT "\n";
+            print OUT "&wine::declare(\"$filename\",\%\$module_declarations);\n";
+            print OUT "push \@EXPORT, map { \"&\" . \$_; } sort(keys(\%\$module_declarations));\n";
+	    print OUT "1;\n";
+            close(OUT);
+	}
+    }
+}

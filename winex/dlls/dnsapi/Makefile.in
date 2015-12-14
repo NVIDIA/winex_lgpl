@@ -1,0 +1,23 @@
+EXTRADEFS = -D__WINESRC__ -DSTRICT
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = dnsapi
+EXTRALIBS = @LIBRESOLV@
+EXTRAINCL = -I$(TOPSRCDIR)/include-lgpl -I$(TOPOBJDIR)/include-lgpl
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).tmp.o
+
+C_SRCS = \
+	main.c \
+	name.c \
+	ns_name.c \
+	ns_parse.c \
+	query.c \
+	record.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

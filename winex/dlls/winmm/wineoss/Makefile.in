@@ -1,0 +1,20 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = wineoss.drv
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).tmp.o
+
+C_SRCS = \
+	audio.c \
+	midi.c \
+	midipatch.c \
+	mixer.c \
+	mmaux.c \
+	oss.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

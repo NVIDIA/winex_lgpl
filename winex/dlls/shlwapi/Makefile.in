@@ -1,0 +1,25 @@
+EXTRADEFS = -D_SHLWAPI_
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = shlwapi
+EXTRALIBS = $(LIBUUID) $(LIBUNICODE)
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).tmp.o
+
+C_SRCS = \
+	filestream.c \
+	ordinal.c \
+	path.c \
+	reg.c \
+	regstream.c \
+	shlwapi_main.c \
+	string.c \
+	url.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:
+

@@ -1,0 +1,36 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = oleaut32
+ALTNAMES  = ole2disp typelib
+EXTRALIBS = $(LIBUUID) @JPEGLIB@
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).tmp.o
+
+C_SRCS = \
+	connpt.c \
+	dispatch.c \
+	hash.c \
+	oaidl_p.c \
+	ole2disp.c \
+	oleaut.c \
+	oleaut32_main.c \
+	olefont.c \
+	olepicture.c \
+	parsedt.c \
+	proxy.c \
+	safearray.c \
+	stubs.c \
+	typelib.c \
+	usrmarshal.c \
+	variant.c
+
+RC_SRCS = \
+	version.rc
+
+@MAKE_DLL_RULES@
+
+### Dependencies:
+

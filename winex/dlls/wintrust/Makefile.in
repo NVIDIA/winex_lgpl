@@ -1,0 +1,28 @@
+EXTRADEFS = -D__WINESRC__ -DSTRICT
+EXTRAINCL = -I$(TOPSRCDIR)/include-lgpl -I$(TOPOBJDIR)/include-lgpl 
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = wintrust
+NEEDCROSSLIB = yes
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).tmp.o
+
+C_SRCS = \
+	asn.c \
+	crypt.c \
+	register.c \
+	softpub.c \
+	wintrust_main.c
+
+RC_SRCS = \
+        version.rc
+
+# Build the cross-compiling library for testing (if we can)
+EXTRATARGETS = @CROSSLIB@
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

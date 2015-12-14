@@ -1,0 +1,28 @@
+DLLFLAGS  = @DLLFLAGS@
+DEFS      = -D__WINE__
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MOD       = win16drv
+
+C_SRCS = \
+	brush.c \
+	font.c \
+	graphics.c \
+	init.c \
+	objects.c \
+	pen.c \
+	prtdrv.c \
+	text.c
+
+GLUE = prtdrv.c
+
+all: $(MOD).o
+
+@MAKE_RULES@
+
+$(MOD).o: $(OBJS) Makefile.in $(TOPSRCDIR)/Make.rules.in
+	$(LDCOMBINE) $(OBJS) -o $@
+
+### Dependencies:

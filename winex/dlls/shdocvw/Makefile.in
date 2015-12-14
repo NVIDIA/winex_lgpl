@@ -1,0 +1,39 @@
+EXTRAINCL = -I$(TOPSRCDIR)/include-lgpl -I$(TOPOBJDIR)/include-lgpl 
+EXTRALIBS = $(LIBUUID)
+EXTRADEFS = -D__WINESRC__ -DSTRICT -D_SHDOCVW_
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = shdocvw
+NEEDCROSSLIB = yes
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).tmp.o
+
+C_SRCS = \
+	classinfo.c \
+	client.c \
+	dochost.c \
+	events.c \
+	factory.c \
+	frame.c \
+	ie.c \
+	iexplore.c \
+	intshcut.c \
+	navigate.c \
+	oleobject.c \
+	persist.c \
+	shdocvw_main.c \
+	shlinstobj.c \
+        taskbarlist.c \
+	urlhist.c \
+	view.c \
+	webbrowser.c
+
+RC_SRCS = shdocvw.rc
+IDL_TLB_SRCS = shdocvw_v1.idl
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

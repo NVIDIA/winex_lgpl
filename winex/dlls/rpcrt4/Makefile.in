@@ -1,0 +1,29 @@
+EXTRADEFS = -D_RPCRT4_
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = rpcrt4
+EXTRALIBS = $(LIBUUID)
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).tmp.o
+
+C_SRCS = \
+	cproxy.c \
+	cpsf.c \
+	cstub.c \
+	ndr_marshall.c \
+	ndr_midl.c \
+	ndr_ole.c \
+	ndr_stubless.c \
+	rpc_binding.c \
+	rpc_epmap.c \
+	rpc_message.c \
+	rpc_server.c \
+	rpcrt4_main.c \
+	rpcss_np_client.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

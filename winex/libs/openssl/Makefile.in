@@ -1,0 +1,33 @@
+DLLFLAGS  = @DLLFLAGS@
+DEFS      = -D__WINE__
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+LIBEXT    = @LIBEXT@
+MODULE    = openssl
+EXTRAINCL = -I$(TOPSRCDIR)/include-lgpl -I$(TOPOBJDIR)/include-lgpl
+SONAME    = libwine_openssl.$(LIBEXT)
+EXTRALIBS = @DLLIBS@
+
+C_SRCS = \
+    sslimport.c
+
+all: $(SONAME)
+
+@MAKE_RULES@
+
+$(SONAME): $(OBJS)
+	$(LDSHARED) $(OBJS) $(EXTRALIBS) $(LIBS) -o $@
+
+install: $(SONAME)
+	[ -d $(libdir) ] || $(MKDIR) $(libdir)
+	$(INSTALL_PROGRAM) $(SONAME) $(libdir)/$(SONAME)
+
+uninstall::
+	cd $(libdir) && $(RM) $(SONAME)
+
+clean::
+	$(RM) $(SONAME)
+
+### Dependencies:

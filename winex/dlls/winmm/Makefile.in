@@ -1,0 +1,33 @@
+EXTRADEFS = -D_WINMM_
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = winmm
+ALTNAMES  = mmsystem sound
+EXTRALIBS = $(LIBPORT)
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).tmp.o
+
+C_SRCS = \
+	driver.c \
+	joystick.c \
+	lolvldrv.c \
+	mci.c \
+	mmio.c \
+	mmsystem.c \
+	sound16.c \
+	time.c
+
+GLUE = \
+	lolvldrv.c \
+	mmsystem.c \
+	time.c
+
+RC_SRCS = \
+	winmm_res.rc
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

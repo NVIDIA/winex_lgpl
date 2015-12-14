@@ -1,0 +1,19 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = winealsa.drv
+EXTRALIBS  = @ALSALIBS@ $(LIBUUID) $(LIBPORT)
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).tmp.o
+
+
+C_SRCS = \
+	audio.c \
+	alsa.c \
+	midi.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

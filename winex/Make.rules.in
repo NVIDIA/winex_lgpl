@@ -1,0 +1,385 @@
+# Global rules shared by all makefiles     -*-Makefile-*-
+#
+# Each individual makefile must define the following variables:
+# TOPSRCDIR    : top-level source directory
+# TOPOBJDIR    : top-level object directory
+# SRCDIR       : source directory for this module
+# MODULE       : name of the module being built
+#
+# Each individual makefile may define the following additional variables:
+# C_SRCS       : C sources for the module
+# CXX_SRCS     : C++ sources for the module
+# OBJC_SRCS    : objective-c sources
+# OBJCXX_SRCS  : objective-c++ sources
+# ASM_SRCS     : assembly sources
+# GEN_C_SRCS   : generated C files
+# GEN_ASM_SRCS : generated assembly sources
+# RC_SRCS      : resource source files
+# SPEC_SRCS    : interface definition files
+# GLUE         : C sources for which glue code needs to be generated
+# EXTRA_SRCS   : extra source files for make depend
+# EXTRA_OBJS   : extra object files
+# SUBDIRS      : subdirectories that contain a Makefile
+# EXTRASUBDIRS : subdirectories that do not contain a Makefile
+# PLTESTS      : Perl test scripts
+# CTESTS       : C test sources
+
+# First some useful definitions
+
+OBJDIR    = .
+SHELL     = /bin/sh
+AS        = @AS@
+STRIP     = @STRIP@
+CC        = @CC@
+CPP       = @CPP@
+CXX       = @CXX@
+OBJC      = @OBJC@
+OBJCXX    = @OBJCXX@
+CFLAGS    = @CFLAGS@
+EXTRA_CFLAGS = @EXTRA_CFLAGS@
+OPTIONS   = @OPTIONS@ -D_REENTRANT
+X_CFLAGS  = @X_CFLAGS@
+X_LIBS    = @X_LIBS@
+XLIB      = @X_PRE_LIBS@ @XLIB@ @X_EXTRA_LIBS@
+LIBS      = @LIBS@
+YACC      = @YACC@
+BISON	  = @YACC@
+LEX       = @LEX@
+FLEX	  = @LEX@
+LEXLIB    = @LEXLIB@
+LIBEXT    = @LIBEXT@
+LIBSDL    = @LIBSDL@
+LDSHARED  = @LDSHARED@
+DLLWRAP   = @DLLWRAP@
+DLLWRAPFLAGS = --add-stdcall-alias
+RANLIB    = @RANLIB@
+LN_S      = @LN_S@
+DIVINCL   = $(EXTRAPREINCL) -I$(SRCDIR) -I. -I$(TOPSRCDIR)/include -I$(TOPOBJDIR)/include $(EXTRAINCL)
+ALLCFLAGS = $(DIVINCL) $(CFLAGS) $(EXTRA_CFLAGS) $(DLLFLAGS) $(DEFS) $(OPTIONS) $(X_CFLAGS)
+IDLFLAGS  = $(DIVINCL) $(DEFS) $(EXTRAIDLFLAGS)
+LDCOMBINE = @LDCOMBINE@
+LDFLAGS   = @LDFLAGS@
+STRIP_OPTION = @STRIP_OPTION@
+AR        = ar rc
+RM        = rm -f
+MV        = mv
+MKDIR     = mkdir -p
+C2MAN     = @C2MAN@
+MANSPECS  = -w $(TOPSRCDIR)/dlls/gdi/gdi32.spec \
+	    -w $(TOPSRCDIR)/dlls/user/user32.spec \
+	    -w $(TOPSRCDIR)/dlls/comctl32/comctl32.spec \
+	    -w $(TOPSRCDIR)/dlls/commdlg/comdlg32.spec \
+	    -w $(TOPSRCDIR)/dlls/kernel/kernel32.spec 
+LINT      = @LINT@
+LINTFLAGS = @LINTFLAGS@
+ALLLINTFLAGS = $(LINTFLAGS) $(DEFS) $(OPTIONS) $(DIVINCL)
+WINAPI_CHECK = $(TOPSRCDIR)/tools/winapi_check/winapi_check
+WINEBUILD = $(TOPOBJDIR)/tools/winebuild/winebuild
+MAKECTESTS = $(TOPOBJDIR)/tools/make_ctests
+MAKEDEP   = $(TOPOBJDIR)/tools/makedep
+WRC       = $(TOPOBJDIR)/tools/wrc/wrc
+WMC       = $(TOPOBJDIR)/tools/wmc/wmc
+WIDL      = $(TOPOBJDIR)/tools/widl/widl
+LDPATH    = @LDPATH@
+DLLDIR    = $(TOPOBJDIR)/dlls
+LIBWINE   = -L$(TOPOBJDIR)/libs/wine -lwine
+LIBTSX11  = @LIBTSX11@
+LIBOPENSSL= -L$(TOPOBJDIR)/libs/openssl -lwine_openssl
+LIBUNICODE= -L$(TOPOBJDIR)/libs/unicode -lwine_unicode
+LIBNTDLL = -L$(TOPOBJDIR)/dlls -lntdll
+LIBGDI = -L$(TOPOBJDIR)/dlls -lgdi32
+LIBUSER = -L$(TOPOBJDIR)/dlls -luser32
+LIBUUID   = -L$(TOPOBJDIR)/libs/uuid -lwine_uuid
+IMPORTS_KERNEL32 = @IMPORTS_KERNEL32@
+IMPORTS_GDI32 =  @IMPORTS_GDI32@
+IMPORTS_NTDLL = @IMPORTS_NTDLL@
+IMPORTS_USER32 = @IMPORTS_USER32@
+LIBMACGL = @LIBMACGL@
+LIBPORT   = -L$(TOPOBJDIR)/libs/port -lwine_port
+LIBWPP	  = $(TOPOBJDIR)/libs/wpp/libwpp.a
+LIBPNG    = @LIBPNG@
+LIBRESOLV = @LIBRESOLV@
+LIBWINESERVER = -L$(TOPOBJDIR)/server -lwineserver
+
+WINETEST     = $(TOPOBJDIR)/programs/winetest/winetest
+RUNTEST      = $(TOPSRCDIR)/programs/winetest/runtest
+RUNTESTFLAGS = -q -P wine -M $(MODULE) -T $(TOPOBJDIR)
+TESTRESULTS  = $(PLTESTS:.pl=.ok) $(CTESTS:.c=.ok)
+TESTPROGRAM  = tests/$(MODULE)_test
+TESTLIST     = tests/testlist.c
+TESTOBJS     = $(TESTMAIN) $(TESTLIST:.c=.o) $(CTESTS:.c=.o)
+TESTMAIN     = $(TOPOBJDIR)/programs/winetest/wtmain.o
+
+@SET_MAKE@
+
+# Installation infos
+
+INSTALL         = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_SCRIPT  = @INSTALL_SCRIPT@
+INSTALL_DATA    = @INSTALL_DATA@
+prefix          = @prefix@
+exec_prefix     = @exec_prefix@
+bindir          = @bindir@
+libdir          = @libdir@
+infodir         = @infodir@
+mandir          = @mandir@
+prog_manext     = 1
+conf_manext     = 5
+includedir      = @includedir@/wine
+CLEAN_FILES     = *.o *.d *.a *.so *.dylib *.bundle *.ln \\\#*\\\# *~ *% .\\\#* *.bak *.orig *.rej \
+                  *.flc *.spec.c *.spec.def *.glue.c y.tab.c y.tab.h @LEX_OUTPUT_ROOT@.c core $(EXTRA_CLEAN_FILES) \
+		  *.tab.[ch] *.yy.c
+
+_OBJC_SRCS             = @_OBJC_SRCS@
+_OBJCXX_SRCS             = @_OBJCXX_SRCS@
+IDL_HDRS = $(IDL_H_SRCS:.idl=.h)
+IDL_THKS = $(IDL_I_SRCS:.idl=_i.c)
+IDL_TLBS = $(IDL_TLB_SRCS:.idl=.tlb)
+OBJS = $(SPEC_SRCS:.spec=.spec.o) $(C_SRCS:.c=.o) $(GEN_C_SRCS:.c=.o) $(GEN_ASM_SRCS:.s=.o) \
+       $(ASM_SRCS:.S=.o) $(GLUE:.c=.glue.o) $(CXX_SRCS:.cpp=.o) $(_OBJC_SRCS:.m=.o)\
+       $(_OBJCXX_SRCS:.mm=.o) $(BISON_SRCS:.y=.tab.o) $(LEX_SRCS:.l=.yy.o) $(IDL_THKS:.c=.o) $(EXTRA_OBJS)
+
+.PRECIOUS: $(ALL_OBJS) $(OBJS) $(SPEC_SRCS:.spec=.spec.c) $(BISON_SRCS:.y=.tab.c) $(LEX_SRCS:.l=.yy.c)
+
+LINTS = $(C_SRCS:.c=.ln)
+
+# Implicit rules
+
+.SUFFIXES: .cpp .mc .rc .mc.rc .res .spec .spec.c .spec.def .glue.c .pl .ok .i .m .mm .y .l .tab.c .tab.h .yy.c .idl .tlb _i.c
+
+.cpp.o:
+	$(CXX) -c $(ALLCFLAGS) -o $@ $<
+
+
+MAKEDEPENDS_AND_COMPILE = @MAKEDEPENDS_AND_COMPILE@
+
+.c.o:
+	$(MAKEDEPENDS_AND_COMPILE)
+	@sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+                -e '/^$$/ d' -e 's/$$/ :/' < $*.d >> $*.d;
+
+.m.o:
+	$(OBJC) -c $(ALLCFLAGS) -o $@ $<
+
+.mm.o:
+	$(OBJCXX) -c $(ALLCFLAGS) -o $@ $<
+
+.c.i:
+	$(CPP) $(ALLCFLAGS) -o $@ $<
+
+.s.o:
+	$(AS) -o $@ $<
+
+.S.o:
+	$(CC) -c -o $@ $<
+
+.mc.mc.rc:
+	$(LDPATH) $(WMC) -i -H /dev/null -o $@ $<
+
+.rc.res:
+	$(LDPATH) $(WRC) $(WRCFLAGS) $(DIVINCL) -o $@ -r $<
+
+.spec.spec.c:
+	$(LDPATH) $(WINEBUILD) $(DLLFLAGS) -L$(DLLDIR) -o $@ -spec $<
+
+.spec.spec.def:
+	$(LDPATH) $(WINEBUILD) $(DLLFLAGS) -L$(DLLDIR) -o $@ -def $<
+
+.c.glue.c:
+	$(LDPATH) $(WINEBUILD) $(DLLFLAGS) -o $@ -glue $<
+
+.c.ln:
+	$(LINT) -c $(ALLLINTFLAGS) $< || ( $(RM) $@ && exit 1 )
+
+.c.ok:
+	$(RUNTEST) $(RUNTESTFLAGS) -p $(TESTPROGRAM) $< && touch $@
+
+.pl.ok:
+	$(RUNTEST) $(RUNTESTFLAGS) $< && touch $@
+
+.y.tab.c:
+	$(BISON) $(BISONFLAGS) -p $*_ -o $@ $<
+
+.y.tab.h:
+	$(BISON) $(BISONFLAGS) -p $*_ -o $*.tab.c -d $<
+
+.l.yy.c:
+	$(LEX) $(LEXFLAGS) -t $< >$@ || ($(RM) $@ && exit 1)
+
+.idl.h:
+	$(LDPATH) $(WIDL) $(IDLFLAGS) -h -H $@ $<
+
+.idl.tlb:
+	$(LDPATH) $(WIDL) $(IDLFLAGS) -t -T $@ $<
+
+.idl_i.c:
+	$(LDPATH) $(WIDL) $(IDLFLAGS) -u -U $@ $<
+
+# BIG KLUDGE: after some loon changed our build system to no longer use makedep,
+# it became impossible to generate proper dependencies on IDL-generated headers.
+# So this rule is here to force headers to always be generated first,
+# but it'll only work for module-private headers, not global headers.
+$(OBJS): $(IDL_HDRS)
+
+
+.PHONY: all install uninstall clean distclean depend dummy check test testclean
+
+# 'all' target first in case the enclosing Makefile didn't define any target
+
+all: Makefile
+
+filter:
+	@$(TOPSRCDIR)/tools/winapi/make_filter --make $(MAKE) all
+
+# Rule for main module intermediate object
+
+$(MODULE).tmp.o: $(OBJS) Makefile.in
+	$(LDCOMBINE) $(OBJS) -o $@
+	-$(STRIP) $(STRIP_OPTION) $@
+
+# Rule for main module spec file
+
+$(MODULE).spec.c: $(MODULE).spec $(RC_SRCS:.rc=.res) $(SYMBOLFILE) $(WINEBUILD)
+	$(LDPATH) $(WINEBUILD) $(DLLFLAGS) -L$(DLLDIR) $(SYMBOLFILE:%=-sym %) -o $@ -spec $(SRCDIR)/$(MODULE).spec
+
+# Rule to rebuild the resource compiler
+
+$(WRC):
+	cd $(TOPOBJDIR)/tools/wrc && $(MAKE) wrc
+
+# Rule to rebuild the message compiler
+
+$(WMC):
+	cd $(TOPOBJDIR)/tools/wmc && $(MAKE) wmc
+
+# Rule to rebuild the IDL compiler
+
+$(WIDL):
+	cd $(TOPOBJDIR)/tools/widl && $(MAKE) widl
+
+# Rule to rebuild the 'makedep' program
+
+$(MAKEDEP):
+	cd $(TOPOBJDIR)/tools && $(MAKE) makedep
+
+# Rule to rebuild the 'winebuild' program
+
+$(WINEBUILD):
+	cd $(TOPOBJDIR)/tools/winebuild && $(MAKE) winebuild
+
+# Rules for makefile
+
+$(TOPSRCDIR)/configure: $(TOPSRCDIR)/configure.ac
+	@echo configure.ac is newer than configure. Please rerun setup.sh then configure
+	@exit 1
+
+Makefile: Makefile.in $(TOPSRCDIR)/configure
+	@echo Makefile is older than $?, please rerun $(TOPSRCDIR)/configure
+	@exit 1
+
+# Rules for auto documentation
+
+$(SUBDIRS:%=%/__man__): dummy
+	cd `dirname $@` && $(MAKE) man
+
+man: $(C_SRCS) $(SUBDIRS:%=%/__man__)
+	if [ -n "$(C_SRCS)" ]; then $(MKDIR) $(TOPOBJDIR)/documentation/man3w; for i in $(C_SRCS); do $(C2MAN) -L -o $(TOPOBJDIR)/documentation/man3w -S3w $(DIVINCL) -D__WINE__ $(MANSPECS) $$i; done; fi
+
+$(SUBDIRS:%=%/__doc_html__): dummy
+	cd `dirname $@` && $(MAKE) doc-html
+
+doc-html: $(C_SRCS) $(SUBDIRS:%=%/__doc_html__)
+	if [ -n "$(C_SRCS)" ]; then $(MKDIR) $(TOPOBJDIR)/documentation/html; for i in $(C_SRCS); do $(C2MAN) -L -o $(TOPOBJDIR)/documentation/html -Th -iwindows.h  $(DIVINCL) -D__WINE__ $(MANSPECS) $$i; done; fi
+
+# Rule for linting
+
+$(MODULE).ln : $(LINTS)
+	if test "$(LINTS)" ; \
+	then \
+		$(LINT) $(ALLLINTFLAGS) -o$(MODULE) $(LINTS) ; \
+	        $(MV) llib-l$(MODULE).ln $(MODULE).ln ; \
+	else \
+		$(LINT) $(ALLLINTFLAGS) -C$(MODULE) /dev/null ; \
+	fi
+
+lint:: $(MODULE).ln
+
+# Rules for Windows API checking
+
+winapi_check::
+	$(WINAPI_CHECK) $(WINAPI_CHECK_FLAGS) $(WINAPI_CHECK_EXTRA_FLAGS) .
+
+# Rules for dependencies
+
+$(SUBDIRS:%=%/__depend__): $(MAKEDEP) dummy
+	cd `dirname $@` && $(MAKE) depend
+
+depend: $(MAKEDEP) $(GEN_C_SRCS) $(SUBDIRS:%=%/__depend__)
+	$(MAKEDEP) $(DIVINCL) -C$(SRCDIR) $(C_SRCS) $(RC_SRCS) $(RC_SRCS16) $(MC_SRCS) $(EXTRA_SRCS) $(CTESTS) -C. $(GEN_C_SRCS)
+
+# Rules for cleaning
+
+$(SUBDIRS:%=%/__clean__): dummy
+	cd `dirname $@` && $(MAKE) clean
+
+$(SUBDIRS:%=%/__testclean__): dummy
+	cd `dirname $@` && $(MAKE) testclean
+
+$(EXTRASUBDIRS:%=%/__clean__): dummy
+	-cd `dirname $@` && $(RM) $(CLEAN_FILES)
+
+clean:: $(SUBDIRS:%=%/__clean__) $(EXTRASUBDIRS:%=%/__clean__)
+	$(RM) $(CLEAN_FILES) $(IDL_HDRS) $(IDL_THKS) $(IDL_TLBS) $(GEN_C_SRCS) $(GEN_ASM_SRCS) $(RC_SRCS:.rc=.res) $(RC_SRCS16:.rc=.res) $(MC_SRCS:.mc=.mc.rc) $(TESTRESULTS) $(TESTLIST) $(PROGRAMS)
+
+# Rules for installing
+
+$(SUBDIRS:%=%/__install__): dummy
+	cd `dirname $@` && $(MAKE) install
+
+$(SUBDIRS:%=%/__uninstall__): dummy
+	cd `dirname $@` && $(MAKE) uninstall
+
+# Rules for testing
+
+$(TESTSUBDIRS:%=%/__test__): dummy
+	cd `dirname $@` && $(MAKE) test
+
+$(TESTSUBDIRS:%=%/__crosstest__): dummy
+	@cd `dirname $@` && $(MAKE) crosstest
+
+$(TESTSUBDIRS:%=%/__testclean__): dummy
+	@cd `dirname $@` && $(MAKE) testclean
+
+check test:: $(TESTSUBDIRS:%=%/__test__)
+
+crosstest:: $(TESTSUBDIRS:%=%/__crosstest__)
+
+testclean:: $(TESTSUBDIRS:%=%/__testclean__)
+
+.PHONY: check test testclean crosstest $(TESTSUBDIRS:%=%/__test__) $(TESTSUBDIRS:%=%/__crosstest__) $(TESTSUBDIRS:%=%/__testclean__) 
+
+# Misc. rules
+
+$(SPEC_SRCS:.spec=.spec.c): $(WINEBUILD)
+
+$(SPEC_SRCS:.spec=.spec.def): $(WINEBUILD)
+
+$(GLUE:.c=.glue.c): $(WINEBUILD)
+
+$(RC_SRCS:.rc=.res): $(WRC) $(IDL_TLBS)
+
+$(RC_SRCS16:.rc=.res): $(WRC)
+
+$(MC_SRCS:.mc=.mc.rc): $(WMC)
+
+$(IDL_HDRS) $(IDL_THKS) $(IDL_TLBS): $(WIDL)
+
+$(SUBDIRS): dummy
+	@cd $@ && $(MAKE)
+
+dummy:
+
+-include $(ALL_OBJS:.o=.d) $(OBJS:.o=.d)
+
+# End of global rules

@@ -1,0 +1,168 @@
+#!/bin/sh
+# Copyright (c) 2001-2002, TransGaming Technologies Inc.
+# Startup script for WineX.
+# Version 1.6 Oct 6, 2002
+
+usage()
+{
+    echo "usage: winex [-winver <version>] [-debugmsg <debug>] [-workdir <dir>] [-version] <application> [application parameters]"
+    exit 1
+}
+
+
+# Set up the installdir first (to make it easily movable to /opt/)
+export INSTALLDIR=/usr/lib/transgaming
+
+# Set up the WINEPREFIX and LD_LIBRARY_PATH
+export WINEPREFIX="$HOME/.transgaming"
+export LD_LIBRARY_PATH="$INSTALLDIR/winex/lib:$INSTALLDIR/winex/bin"
+
+# Set up the path so that ancilary apps (like the debugger) can start
+export PATH="$INSTALLDIR/winex/bin:$PATH"
+
+# Set the WINESERVER variable so we start the right one
+export WINESERVER="$INSTALLDIR/winex/bin/wineserver"
+
+# Set the WINE_LOADER variable so that children know what startup script to use
+export WINE_LOADER=winex
+
+RUNWINE="$INSTALLDIR/winex/bin/wine" 
+REGAPI="$INSTALLDIR/winex/bin/regapi" 
+
+# If we're being run for the first time:
+if !([ -e "$WINEPREFIX" ]); then
+
+# Copy the .transgaming directory into the user's home dir
+
+    cp -r "$INSTALLDIR/.transgaming" "$HOME"
+
+# Ensure that user has appropriate permissions for all subdirs
+
+    chmod -R u+w "$WINEPREFIX"
+
+# Link the c_drive to the user's home
+    if [ ! -d "$HOME/TransGaming_Drive" ]; then
+        ln -s "$WINEPREFIX/c_drive" "${HOME}/TransGaming_Drive"
+    fi
+
+# Link the regsvr32 applet into the windows system directory
+    if [ ! -e "$WINEPREFIX/c_drive/windows/system32/regsvr32" ]; then
+        ln -s "$INSTALLDIR/winex/bin/regsvr32" "$WINEPREFIX/c_drive/windows/system32/regsvr32"
+        ln -s "$INSTALLDIR/winex/bin/regsvr32.so" "$WINEPREFIX/c_drive/windows/system32/regsvr32.so"
+    fi
+
+# Now update the registry keys
+    "$REGAPI" -- setValue -force < "$INSTALLDIR/update.reg" &> /dev/null
+ 
+fi
+
+# Establish the current config version
+CUR_CONFIG_VERSION=5
+
+# Get the version of the config files / registry
+if [ -e "$WINEPREFIX/tg_config_version" ]; then
+    TG_CONFIG_VERSION=`cat "$WINEPREFIX/tg_config_version"`
+else
+    TG_CONFIG_VERSION=1
+fi
+
+# Check if we need to update the config
+if [ $TG_CONFIG_VERSION -lt $CUR_CONFIG_VERSION ]; then
+
+# We need to update.  Inform the user of the update
+    echo "Updating TransGaming config and registry info"
+                                                               
+# First copy in the new config file.  Save the old one first
+    mv "$WINEPREFIX/config" "$WINEPREFIX/config.old"  
+    cp "$INSTALLDIR/.transgaming/config" "$WINEPREFIX/config"
+
+# Now the dynamic registry data
+    cp "$INSTALLDIR/.transgaming/dyndata.reg" "$WINEPREFIX/dyndata.reg"
+
+# Now update the registry keys
+    "$REGAPI" -- setValue -force < "$INSTALLDIR/update.reg" &> /dev/null
+
+# Create a 'My Documents' directory, if it doesn't already exist
+    if [ ! -d "$WINEPREFIX/c_drive/My Documents" ];  then
+      mkdir "$WINEPREFIX/c_drive/My Documents"
+    fi
+
+# And new things for the windows directory
+    cp "$INSTALLDIR/.transgaming/c_drive/windows/system.ini" "$WINEPREFIX/c_drive/windows/system.ini"
+    cp "$INSTALLDIR/.transgaming/c_drive/windows/system32/ddraw.dll" "$WINEPREFIX/c_drive/windows/system32"
+    cp "$INSTALLDIR/.transgaming/c_drive/windows/system32/dinput.dll" "$WINEPREFIX/c_drive/windows/system32"
+    cp "$INSTALLDIR/.transgaming/c_drive/windows/system32/dinput8.dll" "$WINEPREFIX/c_drive/windows/system32"
+    cp "$INSTALLDIR/.transgaming/c_drive/windows/system32/d3d8.dll" "$WINEPREFIX/c_drive/windows/system32"
+    cp "$INSTALLDIR/.transgaming/c_drive/windows/system32/dmusic.dll" "$WINEPREFIX/c_drive/windows/system32"
+    cp "$INSTALLDIR/.transgaming/c_drive/windows/system32/d3drm.dll" "$WINEPREFIX/c_drive/windows/system32"
+
+# Link the regsvr32 applet into the windows system directory
+    if [ ! -e "$WINEPREFIX/c_drive/windows/system32/regsvr32" ]; then
+        ln -s "$INSTALLDIR/winex/bin/regsvr32" "$WINEPREFIX/c_drive/windows/system32/regsvr32"
+        ln -s "$INSTALLDIR/winex/bin/regsvr32.so" "$WINEPREFIX/c_drive/windows/system32/regsvr32.so"
+    fi
+
+# Write out the new version number
+    cp "$INSTALLDIR/.transgaming/tg_config_version" "$WINEPREFIX/tg_config_version" 
+
+fi
+
+# Every time
+
+# Force the use of the more memory-efficient MSVC 5 allocator with
+# any programs that use MSVCRT.  This reduces memory consumption
+# significantly.
+export __MSVCRT_HEAP_SELECT=__GLOBAL_HEAP_SELECTED,2
+
+# The following section deals with the command-line.
+
+# If "--" appears as an argument, then we will not do any processing on the
+# command line, but just pass it directly to RUNWINE.
+
+if [ $# -eq 0 ]; then usage; fi;
+
+DOUBLEDASH=""
+for arg in "$@"
+do
+    case "$arg" in
+    "--") DOUBLEDASH=yes;;
+    esac
+done
+
+if [ -n "$DOUBLEDASH" ]; then
+    exec $RUNWINE "$@"
+else
+
+    # Check for '-version'
+    VERSION=""
+    for arg in "$@"
+    do
+        case "$arg" in
+        "-version") VERSION=yes;;
+        esac
+    done
+
+    if [ -n "$VERSION" ]; then
+        exec $RUNWINE -version
+    else
+        # Now look for -winver and -debugmsg 
+        DEBUGMSG="-all";
+        WINVER="win98"
+        WORKDIR=".";
+
+        while [ $# -gt 0 ]; do
+	    case "$1" in
+	    "-winver") WINVER="$2"; if ! shift 2; then usage; fi;;
+	    "-debugmsg") DEBUGMSG="$2"; if ! shift 2; then usage; fi;;
+	    "-workdir") WORKDIR="$2"; if ! shift 2; then usage; fi;;
+	    *) break;;
+	    esac
+        done;
+
+        if [ $# -eq 0 ]; then usage; fi;
+
+        cd "$WORKDIR";
+
+        exec $RUNWINE -winver "$WINVER" -debugmsg "$DEBUGMSG" -- "$@"
+    fi;
+fi;
