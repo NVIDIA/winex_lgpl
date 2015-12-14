@@ -1,0 +1,21 @@
+#ifndef __WINE_DSETUP_H
+#define __WINE_DSETUP_H
+
+#define DSETUPERR_SUCCESS_RESTART        1
+#define DSETUPERR_SUCCESS                0
+#define DSETUPERR_BADWINDOWSVERSION     -1
+#define DSETUPERR_SOURCEFILENOTFOUND    -2
+#define DSETUPERR_BADSOURCESIZE         -3
+#define DSETUPERR_BADSOURCETIME         -4
+#define DSETUPERR_NOCOPY                -5
+#define DSETUPERR_OUTOFDISKSPACE        -6
+#define DSETUPERR_CANTFINDINF           -7
+#define DSETUPERR_CANTFINDDIR           -8
+#define DSETUPERR_INTERNAL              -9
+#define DSETUPERR_NTWITHNO3D            -10
+#define DSETUPERR_UNKNOWNOS             -11
+#define DSETUPERR_USERHITCANCEL         -12
+#define DSETUPERR_NOTPREINSTALLEDONNT   -13
+#define DSETUPERR_NEWERVERSION          -14
+
+#endif /* __WINE_DSETUP_H */

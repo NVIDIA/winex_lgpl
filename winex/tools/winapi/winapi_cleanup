@@ -1,0 +1,167 @@
+#! /usr/bin/perl -w
+
+# Copyright 2002 Patrik Stridvall
+#
+
+use strict;
+
+BEGIN {
+    $0 =~ m%^(.*?/?tools)/winapi/winapi_cleanup$%;
+    require "$1/winapi/setup.pm";
+}
+
+use config qw($current_dir $wine_dir);
+use output qw($output);
+use winapi_cleanup_options qw($options);
+
+if($options->progress) {
+    $output->enable_progress;
+} else {
+    $output->disable_progress;
+}
+
+########################################################################
+# edit_file
+
+sub edit_file {
+    my $filename = shift;
+    my $function = shift;
+
+    open(IN, "< $filename") || die "Can't open file '$filename'";
+    open(OUT, "> $filename.tmp") || die "Can't open file '$filename.tmp'";
+
+    my $result = &$function(\*IN, \*OUT, @_);
+
+    close(IN);
+    close(OUT);
+
+    if($result) {
+        unlink($filename);
+        rename("$filename.tmp", $filename);
+    } else {
+        unlink("$filename.tmp");
+    }
+
+    return $result;
+}
+
+########################################################################
+# cleanup_file
+
+sub cleanup_file {
+    local *IN = shift;
+    local *OUT = shift;
+
+    my $indent;
+    my @comments = ();
+    my $format_comments = sub {
+	local $_ = "";
+	if ($#comments == 0) {
+	    my $comment = $comments[0];
+	    
+	    $_ = "$indent/*$comment */";	   
+	} elsif ($#comments > 0) {
+	    $_ = "$indent/*\n";
+	    foreach my $comment (@comments) {
+		$_ .= "$indent *$comment\n";
+	    }
+	    $_ .= "$indent */";
+	}
+	$indent = "";
+	@comments = ();
+
+	return $_;
+    };
+
+    my $in_comment = 0;
+    my $modified = 0;
+    while (<IN>) {
+	chomp;
+
+	if ($options->trailing_whitespace) {
+	    s/(.*?)\s+$/$1/ && do { $modified = 1; };
+	} else {
+	    s/(.*?)\r$/$1/ && do { $modified = 1; };
+	}
+
+	if ($options->cpp_comments) {
+	    if ($in_comment) {
+		if(/^.*?\*\//) {
+		    $in_comment = 0;
+		}
+	    } elsif (/^([^\"\/]*?(?:\"[^\"]*?\"[^\"]*?)*?)\/\*(.*?)$/) {
+		my $indent2 = $1;
+		my $comment = $2;
+		if($comment !~ /^.*?\*\//) {
+		    $in_comment = 1;
+		}
+	    } elsif (/^([^\"\/]*?(?:\"[^\"]*?\"[^\"]*?)*?)\/\/(.*?)\s*$/) {
+		my $indent2 = $1;
+		my $comment = $2;
+		
+		if ($indent2 =~ /^\s*$/) {
+		    if (!$indent || $indent eq $indent2) {
+			$indent = $indent2;
+			push @comments, $comment;
+			next;
+		    } else {
+			$_ .= "$indent2/*$comment */";
+		    }
+		} else {
+		    my $comments = &$format_comments();
+		    if ($comments) {
+			$_  = "$comments\n$indent2/*$comment */";
+		    } else {
+			$_  = "$indent2/*$comment */";
+		    }
+
+		    $modified = 1;
+		}
+	    } else {
+		my $comments = &$format_comments();
+		if ($comments) {
+		    $_  = "$comments\n$_";
+		    $modified = 1;
+		}
+	    }
+	}
+
+	print OUT "$_\n";
+    }
+
+    my $comments = &$format_comments();
+    if ($comments) {
+	print OUT "$comments\n";
+	$modified = 1;
+    }
+
+    return $modified;
+}
+
+########################################################################
+# main
+
+my @h_files = $options->h_files;
+my @c_files = $options->c_files;
+
+my $progress_output;
+my $progress_current = 0;
+my $progress_max = scalar(@h_files) + scalar(@c_files);
+
+foreach my $file (@h_files) {
+    $progress_current++;
+    $output->progress("$file (file $progress_current of $progress_max)");
+
+    if (edit_file($file, \&cleanup_file, @_)) {
+	$output->write("$file: modified\n");
+    }
+}
+
+foreach my $file (@c_files) {
+    $progress_current++;
+    $output->progress("$file (file $progress_current of $progress_max)");
+
+    if (edit_file($file, \&cleanup_file, @_)) {
+	$output->write("$file: modified\n");
+    }
+}

@@ -1,0 +1,538 @@
+#!/bin/sh
+#------------------------------------------------------------------------------
+#   Winelauncher
+#       This shell script attempts to intelligently manage the process
+#   of launching a program with Wine.  It adds some level of
+#   visual feedback to an end user.
+#  
+#   Usage:
+#       winelauncher [options]  "<windows program> [program arguments]"
+#
+#       This script is meant to be installed to /usr/bin/wine, and
+#   to be used to invoke a Windows executable.
+#       The options are passed through directly to Wine, and are
+#   documented in the Wine man page.
+#
+#   Copyright (c) 2000 by Jeremy White for CodeWeavers
+#       
+#------------------------------------------------------------------------------
+
+#------------------------------------------------------------------------------
+#  Primary configuration area - change this if you installed Wine to
+#    a different location
+#------------------------------------------------------------------------------
+WINEBIN=@bindir@
+WINELIB=@libdir@
+WINESERVER=
+WINELIBDLLS=@libdir@
+
+#------------------------------------------------------------------------------
+#  Establish Color Scheme
+#------------------------------------------------------------------------------
+COLOR=' -xrm *.Command.background:darkgrey
+-xrm *.Command.foreground:black
+-xrm *.Text.background:black
+-xrm *.Text.foreground:green 
+-xrm *.Form.background:grey
+-xrm *.Form.foreground:green
+-xrm *.foreground:green
+-xrm *.background:black'
+
+
+#------------------------------------------------------------------------------
+#  Locate either xmessage or gmessage, if we can.
+#------------------------------------------------------------------------------
+type xmessage >/dev/null 2>/dev/null
+if [ $? -ne 0 ] ; then
+    echo "
+Warning:
+   The Wine launcher is unable to find xmessage.
+
+   This launcher script relies heavily on finding this tool,
+   and without it, it will behave poorly.
+
+   Most Linux distributions have one or the other of these
+   tools.
+
+   We strongly recommend that you use your distribution's
+   software methods to locate xmessage."
+
+else
+    XMESSAGE="xmessage $COLOR"
+fi
+
+
+#------------------------------------------------------------------------------
+#  We're going to do a lot of fancy footwork below.
+#    Before we get started, it would be nice to know the argv0
+#    of the actual script we're running (and lets remove at least
+#    one level of symlinking).
+#------------------------------------------------------------------------------
+argv0_path=`which $0`
+if [ -z $argv0_path ] ; then
+    argv0_path=$0
+fi
+
+real_name=`find $argv0_path -type l -printf "%l\n"`
+if [ ! $real_name ]; then
+    real_name=$argv0_path
+elif [ ! -x $real_name ]; then
+    real_name=`find $argv0_path -printf "%h\n"`/$real_name
+fi
+
+argv0_dir=`find $real_name -printf "%h\n"`
+
+if [ -z $argv0_dir ] ; then
+    argv0_dir=.
+fi
+
+#------------------------------------------------------------------------------
+#  Okay, now all that junk above was established at configure time.
+#   However, if this is an RPM install, they may have chosen
+#   to relocate this installation.  If so, that stuff above
+#   is all broken and we should rejigger it.
+#------------------------------------------------------------------------------
+WINE_BIN_NAME=wine.bin
+if [ ! -x $WINEBIN/$WINE_BIN_NAME ] ; then
+    WINEBIN=`find $argv0_dir -maxdepth 1 -perm +0111 -type f -name "$WINE_BIN_NAME" -printf "%h\n" | head -1`
+fi
+
+if [ ! -x $WINEBIN/$WINE_BIN_NAME ] ; then
+    WINEBIN=`find $argv0_dir/../ -maxdepth 1 -perm +0111 -type f -name "$WINE_BIN_NAME" -printf "%h\n" | head -1`
+fi
+
+if [ ! -x $WINEBIN/$WINE_BIN_NAME ] ; then
+    WINE_BIN_NAME=wine
+    if [ ! -x $WINEBIN/$WINE_BIN_NAME ] ; then
+        WINEBIN=`find $argv0_dir -maxdepth 1 -perm +0111 -type f -name "$WINE_BIN_NAME" -printf "%h\n" | head -1`
+    fi
+
+    if [ ! -x $WINEBIN/$WINE_BIN_NAME ] ; then
+        WINEBIN=`find $argv0_dir/../ -maxdepth 1 -perm +0111 -type f -name "$WINE_BIN_NAME" -printf "%h\n" | head -1`
+    fi
+fi
+
+if [ ! -r $WINELIB/libwine.so ] ; then
+    WINELIB=`find $argv0_dir -maxdepth 2 -name 'libwine.so' -printf "%h\n" | head -1`
+fi
+
+if [ ! -r $WINELIB/libwine.so ] ; then
+    WINELIB=`find $argv0_dir/../ -maxdepth 2 -name 'libwine.so' -printf "%h\n" | head -1`
+fi
+
+if [ -x $WINEBIN/wineserver ] ; then
+    WINESERVER=$WINEBIN/wineserver
+fi
+
+#------------------------------------------------------------------------------
+#  Hey, if we built Wine from source, let's add a little extra fun to
+#   mix it up a bit
+#------------------------------------------------------------------------------
+if [ -x $WINEBIN/server/wineserver ] ; then
+    WINESERVER=$WINEBIN/server/wineserver
+fi
+
+if [ -r $WINELIB/dlls/libntdll.so ] ; then
+    WINELIBDLLS=$WINELIB/dlls
+fi
+
+
+#------------------------------------------------------------------------------
+#  Okay, set the paths and move on.
+#------------------------------------------------------------------------------
+export LD_LIBRARY_PATH=$WINELIB:$WINELIBDLLS:$LD_LIBRARY_PATH
+export PATH=$WINEBIN:$PATH
+export WINEDLLPATH=$WINELIBDLLS
+export WINELOADER=$WINEBIN/$WINE_BIN_NAME
+
+info_flag=~/.wine/.no_prelaunch_window_flag
+debug_flag=~/.wine/.no_debug_window_flag
+debug_options="-debugmsg warn+all"
+
+if [ -f $info_flag ] ; then 
+    use_info_message=0
+else
+    use_info_message=1
+fi
+
+if [ -f $debug_flag ] ; then 
+    use_debug_message=0
+else
+    use_debug_message=1
+fi
+
+
+#------------------------------------------------------------------------------
+#  Handle winelib apps going through here
+#------------------------------------------------------------------------------
+winelib=0
+if [ -f $argv0_path.so ] ; then
+    winelib=1
+    export WINEPRELOAD=$argv0_path.so
+fi
+
+
+#------------------------------------------------------------------------------
+#  No arguments?  Help 'em out
+#------------------------------------------------------------------------------
+always_see_output=0
+no_args=0
+if [ $# -eq 0 ] ; then
+    no_args=1
+fi
+
+if [ $# -eq 1 -a "$1" = "" ] ; then
+    no_args=1
+fi
+
+if [ $winelib -eq 1 ] ; then
+    no_args=0
+fi
+
+if [ $no_args -eq 1 ] ; then
+    echo "Wine called with no arguments."
+    echo "Invoking $WINEBIN/$WINE_BIN_NAME $@ ..."
+    $XMESSAGE -buttons "    Okay    ":0," See the Wine Usage Statement ":1,"  Configure Wine  ":2 \
+        -title "Welcome to Wine" \
+        "
+
+        You have started Wine without specifying any arguments.
+
+        Wine requires a least one argument - the name of the Windows
+        application you would like to run.
+
+        If you have launched this through the KDE menu system,
+        you can use the KDE file browser to select a Windows
+        exectuable and then click on it to launch Wine with
+        that application.
+
+        You can similarly use the GNOME file manager to
+        select a Windows executable and double click on it.
+
+        If you would like to see the command line arguments
+        for Wine, select the second option, below.
+
+        " 
+    welcome_rc=$?
+    if [ $welcome_rc -eq 0 ] ; then
+        exit
+    fi
+
+    if [ $welcome_rc -eq 2 ] ; then
+        which winesetup
+        if [ $? -eq 0 ] ; then
+            winesetup
+        else
+            if [ -x /opt/wine/bin/winesetup ] ; then
+                /opt/wine/bin/winesetup
+            else
+                $XMESSAGE -title "Error" "Error:  Unable to find winesetup in your PATH or in /opt/wine/bin"
+            fi
+        fi
+        exit
+    fi
+
+    use_info_message=0
+    always_see_output=1
+fi
+
+#------------------------------------------------------------------------------
+#  No config file?  Offer to help 'em out...
+#------------------------------------------------------------------------------
+conf=0
+
+while [ $conf -eq 0 ] ; do
+
+    if [ -f ~/.winerc ] ; then
+        conf=1
+    fi
+    if [ -f ~/.wine/config ] ; then
+        conf=2
+    fi
+    if [ -f /etc/wine.conf ] ; then
+        conf=3
+    fi
+
+    if [ $conf -ne 0 ] ; then
+        break;
+    fi
+
+    echo "No configuration file detected."
+    $XMESSAGE -buttons "    Cancel    ":0,"  Proceed   ":1,"  Configure Wine  ":2 \
+        -title "Welcome to Wine" \
+        "
+
+        You have started Wine but we cannot find a Wine
+        configuration file.
+
+        This is normal if you have never run Wine before.
+        If this is the case, select the 'Configure Wine'
+        option, below, to create a configuration file.
+
+        " 
+    init_rc=$?
+    if [ $init_rc -eq 0 ] ; then
+        exit
+    fi
+
+    if [ $init_rc -eq 1 ] ; then
+        break
+    fi
+
+    if [ $init_rc -eq 2 ] ; then
+        which winesetup
+        if [ $? -eq 0 ] ; then
+            winesetup
+        else
+            if [ -x /opt/wine/bin/winesetup ] ; then
+                /opt/wine/bin/winesetup
+            else
+                $XMESSAGE -title "Error" "Error:  Unable to find winesetup in your PATH or in /opt/wine/bin"
+            fi
+        fi
+    fi
+
+done
+
+#------------------------------------------------------------------------------
+#  Optionally Warn the user we're going to be launching Wine...
+#------------------------------------------------------------------------------
+if [ $use_info_message -ne 0 ] ; then
+    echo "Invoking $WINEBIN/$WINE_BIN_NAME $@ ..."
+    $XMESSAGE -timeout 30 -buttons "    Dismiss    ":0," Never display this message again ":3 \
+        -title "Wine Launch Window" \
+        "Invoking $WINEBIN/$WINE_BIN_NAME $@ ...
+
+        This dialog box is a temporary status dialog to let you know
+        that Wine is attempting to launch your application.
+
+        Since Wine is still very much in a development stage, many
+        applications will fail silently.  This dialog box is your indication 
+        that we're *trying* to run your application.
+
+        This dialog box will automatically disappear after 30 seconds,
+        or after your application finishes.
+
+        You can permanently disable this dialog by selecting the option below.
+        " &
+    info_message_pid=$!
+fi
+
+#------------------------------------------------------------------------------
+#  Here's a little function to clean up after that dialog...
+#------------------------------------------------------------------------------
+clean_up_info_message ()
+{
+    if [ $use_info_message -ne 0 ] ; then
+
+        #------------------------------------------------------------------------------
+        #  Okay, make sure that the notice window is dead (and kill it if it ain't)
+        #------------------------------------------------------------------------------
+        ps $info_message_pid >/dev/null 2>&1
+        if [ $? -ne 0 ] ; then
+            wait $info_message_pid
+            info_return=$?
+        else
+            info_return=0
+            kill $info_message_pid
+        fi
+
+        #------------------------------------------------------------------------------
+        #  If they didn't like the warning window, turn it off
+        #------------------------------------------------------------------------------
+        if [ $info_return -eq 3 ] ; then
+            $XMESSAGE -title "Wine Prelaunch Control" \
+            "Wine will now disable the prelaunch Window you just saw.
+            You will no longer be notified when Wine is attempting
+            to start a Windows application.
+
+            You can reenable this Window by removing the $info_flag file." -buttons "  Okay  ":0," Cancel ":1
+            if [ $? -eq 0 ] ; then
+                touch $info_flag
+            fi
+        fi
+    fi
+
+    use_info_message=0
+}
+#------------------------------------------------------------------------------
+#  Generate a temporary log file name
+#------------------------------------------------------------------------------
+if [ -n "$TMP" ] ; then
+  log_dir="$TMP"
+else
+  log_dir="/tmp"
+fi
+use_log_name=0
+log_name=`mktemp "$log_dir/wine.log.XXXXXX"`
+if [ $? -eq 0 ] ; then
+    use_log_name=1
+fi
+use_status_name=0
+status_name=`mktemp "$log_dir/wine.status.XXXXXX"`
+if [ $? -eq 0 ] ; then
+    use_status_name=1
+fi
+
+#------------------------------------------------------------------------------
+#  Okay, really launch Wine...
+#------------------------------------------------------------------------------
+if [ $use_log_name -ne 0 -a $use_status_name -ne 0 ] ; then
+    ( $WINEBIN/$WINE_BIN_NAME "$@"; echo $? >$status_name ) 2>&1 | tee "$log_name"
+    wine_return=`cat $status_name`
+else
+    $WINEBIN/$WINE_BIN_NAME "$@"
+    wine_return=$?
+fi
+if [ $use_status_name -ne 0 ] ; then
+    rm -f $status_name
+fi
+
+#------------------------------------------------------------------------------
+#  Test the return code, and see if it fails
+#------------------------------------------------------------------------------
+if [ $always_see_output -eq 0 -a $wine_return -eq 0 ] ; then
+    echo "Wine exited with a successful status"
+    if [ $use_log_name -ne 0 ] ; then
+        rm -f "$log_name"
+    fi
+else
+    if [ $always_see_output -eq 0 ] ; then
+        echo "Wine failed with return code $wine_return"
+    fi
+
+    #------------------------------------------------------------------------------
+    #  Gracefully display a debug message if they like...
+    #------------------------------------------------------------------------------
+    while [ $use_debug_message -gt 0 ] ; do
+
+        #------------------------------------------------------------------------------
+        #  Build up the menu of choices they can make...
+        #------------------------------------------------------------------------------
+        BUTTONS='    Okay    :0'
+        if [ $use_log_name -ne 0 ] ; then
+            BUTTONS="$BUTTONS"', View Log :1'
+        fi
+
+        BUTTONS="$BUTTONS"',  Debug  :2'
+        BUTTONS="$BUTTONS"',  Configure :4'
+        BUTTONS="$BUTTONS"',  Disable :3'
+
+        #------------------------------------------------------------------------------
+        #  Build an error message
+        #------------------------------------------------------------------------------
+        MESSAGE="
+Wine has exited with a failure status of $wine_return.
+
+Wine is still development software, so there can be many
+explanations for this problem.  
+
+You can choose to run Wine again with a higher level
+of debug messages (the debug option, below).
+
+You can attempt to reconfigure Wine to make it work better.
+Note that one change you can make that will dramatically
+effect Wine's behaviour is to change whether or not
+Wine uses a true Windows partition, mounted under Linux,
+or whether it uses an empty Windows directory.
+The Wine Configuration program can assist you in making
+those changes (select Configure, below, for more).
+
+You can disable this message entirely by selecting the
+Disable option below."
+
+        if [ $always_see_output -ne 0 -a $wine_return -eq 0 ] ; then
+            MESSAGE="
+Wine has exited with a failure status of $wine_return.
+
+You can disable this message entirely by selecting the
+Disable option below."
+
+        fi
+
+        if [ $use_log_name -ne 0 ] ; then
+            MESSAGE="$MESSAGE
+
+Wine has captured a log of the Wine output in the file $log_name.
+You may view this file by selecting View Log, below."
+        fi
+
+        #------------------------------------------------------------------------------
+        #  Display the message
+        #------------------------------------------------------------------------------
+        $XMESSAGE -title "Wine Finished With Error" -buttons "$BUTTONS" "$MESSAGE"
+        debug_return=$?
+
+        #------------------------------------------------------------------------------
+        #  Dismiss the other window...
+        #------------------------------------------------------------------------------
+        clean_up_info_message
+
+        #------------------------------------------------------------------------------
+        #  Process a configure instruction
+        #------------------------------------------------------------------------------
+        if [ $debug_return -eq 4 ] ; then
+            which winesetup
+            if [ $? -eq 0 ] ; then
+                winesetup
+            else
+                if [ -x /opt/wine/bin/winesetup ] ; then
+                    /opt/wine/bin/winesetup
+                else
+                    $XMESSAGE -title "Error" "Error:  Unable to find winesetup in your PATH or in /opt/wine/bin"
+                fi
+            fi
+            continue;
+        fi
+
+        #------------------------------------------------------------------------------
+        #  Process a view instruction
+        #------------------------------------------------------------------------------
+        if [ $debug_return -eq 1 ] ; then
+            $XMESSAGE -title "View Wine Log" -file "$log_name" -buttons "  Okay  ":0,"Delete $log_name":1  
+            if [ $? -eq 1 ] ; then
+                echo "Deleting $log_name"
+                rm -f "$log_name"
+                use_log_name=0
+            fi
+        else
+            use_debug_message=0
+        fi
+
+        #------------------------------------------------------------------------------
+        #  If they didn't like the warning window, turn it off
+        #------------------------------------------------------------------------------
+        if [ $debug_return -eq 3 ] ; then
+            $XMESSAGE -title "Wine Debug Log Control" \
+            "Wine will now disable the Wine debug output control window you just saw.
+            You will no longer be notified when Wine fails to start a
+            Windows application.
+
+            You can reenable this Window by removing the $debug_flag file." -buttons "  Okay  ":0," Cancel ":1
+
+            if [ $? -eq 0 ] ; then
+                touch $debug_flag
+            fi
+
+        fi
+
+        #------------------------------------------------------------------------------
+        #  If they want to retry with debug, let 'em.
+        #------------------------------------------------------------------------------
+        if [ $debug_return -eq 2 ] ; then
+            echo "Rerunning $0 $debug_options $@"
+            exec $0 $debug_options "$@"
+        fi
+    done 
+fi
+
+
+clean_up_info_message
+
+# killed by signal?
+if [ $wine_return -ge 128 ]; then
+	# try to kill myself with the same signal
+	kill -$[wine_return - 128] $$
+	# if we get here the kill didn't work
+	exit 1
+fi

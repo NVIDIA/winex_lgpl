@@ -1,0 +1,69 @@
+DEFS      = -D__WINE__ -DLEX_OUTPUT_ROOT="\"@LEX_OUTPUT_ROOT@\"" 
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+
+PROGRAMS = makedep fnt2bdf bin2res winelauncher make_ctests
+MODULE   = none
+
+C_SRCS = makedep.c fnt2bdf.c bin2res.c make_ctests.c
+
+SUBDIRS = \
+	winebuild \
+	winedump \
+	wmc \
+	wrc \
+	widl
+
+INSTALLSUBDIRS = \
+	winebuild \
+	winedump \
+	wmc \
+	wrc \
+	widl
+
+EXTRASUBDIRS = \
+	winapi_check \
+	winapi_check/win16 \
+	winapi_check/win32 \
+	wineconf.libs
+
+all: $(PROGRAMS) $(SUBDIRS)
+
+@MAKE_RULES@
+@BUILD_NATIVE@
+
+makedep: $(OBJDIR)/makedep.o
+	$(CC) $(CFLAGS) -o $@ $<
+
+fnt2bdf: $(OBJDIR)/fnt2bdf.o
+	$(CC) $(CFLAGS) -o $@ $<
+
+bin2res: $(OBJDIR)/bin2res.o
+	$(CC) $(CFLAGS) -o $@ $<
+
+make_ctests: $(OBJDIR)/make_ctests.o
+	$(CC) $(CFLAGS) -o $@ $<
+
+winelauncher: winelauncher.in
+	sed -e 's,@bindir\@,$(bindir),g' -e 's,@libdir\@,$(libdir),g' $(SRCDIR)/winelauncher.in >$@ || $(RM) $@
+
+install:: $(PROGRAMS) $(INSTALLSUBDIRS:%=%/__install__)
+	[ -d $(bindir) ] || $(MKDIR) $(bindir)
+	$(INSTALL_PROGRAM) fnt2bdf $(bindir)/fnt2bdf
+	$(INSTALL_SCRIPT) winelauncher $(bindir)/winelauncher
+	$(INSTALL_SCRIPT) $(SRCDIR)/winemaker $(bindir)/winemaker
+	$(INSTALL_SCRIPT) $(SRCDIR)/wineshelllink $(bindir)/wineshelllink
+	$(INSTALL_SCRIPT) $(SRCDIR)/wine_forceeject $(bindir)/wine_forceeject
+	$(INSTALL_SCRIPT) $(SRCDIR)/winelibwrap $(bindir)/winelibwrap
+
+uninstall:: $(INSTALLSUBDIRS:%=%/__uninstall__)
+	$(RM) $(bindir)/fnt2bdf
+	$(RM) $(bindir)/winelauncher
+	$(RM) $(bindir)/winemaker
+	$(RM) $(bindir)/wineshelllink
+	$(RM) $(bindir)/wine_forceeject
+	$(RM) $(bindir)/winelibwrap
+
+### Dependencies:

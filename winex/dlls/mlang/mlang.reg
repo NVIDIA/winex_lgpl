@@ -1,0 +1,20 @@
+[Software\\Classes\\CLSID\\{275C23E2-3747-11D0-9FEA-00AA003F8646}]
+@="Multi Language Support"
+
+[Software\\Classes\\CLSID\\{275C23E2-3747-11D0-9FEA-00AA003F8646}\\InProcServer32]
+@="mlang.dll"
+"ThreadingModel"="Both"
+
+[Software\\Classes\\CLSID\\{C04D65CF-B70D-11D0-B188-00AA0038C969}]
+@="Multi Language String"
+
+[Software\\Classes\\CLSID\\{C04D65CF-B70D-11D0-B188-00AA0038C969}\\InProcServer32]
+@="mlang.dll"
+"ThreadingModel"="Both"
+
+[Software\\Classes\\CLSID\\{D66D6F99-CDAA-11D0-B822-00C04FC9B31F}]
+@="Multi Language ConvertCharset"
+
+[Software\\Classes\\CLSID\\{D66D6F99-CDAA-11D0-B822-00C04FC9B31F}\\InProcServer32]
+@="mlang.dll"
+"ThreadingModel"="Both"
