@@ -1,0 +1,143 @@
+sysconfdir = @sysconfdir@
+EXTRAINCL = @SSLINCL@
+EXTRADEFS = -D_NTSYSTEM_ -DETCDIR="\"$(sysconfdir)\"" -DBINDIR="\"$(bindir)\"" @PTHREAD_DEFS@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = ntdll
+EXTRALIBS = $(LIBUNICODE) @PTHREAD_LINK@
+@DARWIN_TRUE@EXTRALIBS += -framework Cocoa
+
+C_SRCS = \
+	atom.c \
+	builtin.c \
+	builtin32.c \
+	cdrom.c \
+	client.c \
+	codepage.c \
+	console.c \
+	cpu.c \
+	critsection_kernel.c \
+	critsection.c \
+	debugtools.c \
+	device.c \
+	directory.c \
+	dos_fs.c \
+	drive.c \
+	editline.c \
+	elf.c \
+	environ.c \
+	except.c \
+	exception.c \
+	error.c \
+	file.c \
+	file_kernel.c \
+	file_kernel2.c \
+	global.c \
+	handle.c \
+	heap.c \
+	heap_kernel.c \
+	heapinit.c \
+	init.c \
+	instr.c \
+	iocomp.c \
+	large_int.c \
+	loader.c \
+	loadorder.c \
+	local.c \
+	main.c \
+	mem_file.c \
+	misc.c \
+	module.c \
+	ne_convert.c \
+	ne_module.c \
+	ne_resource.c \
+	ne_segment.c \
+	nt.c \
+	nt_reg.c \
+	oldheap.c \
+	oldmain.c \
+	ole2nls.c \
+	om.c \
+	options.c \
+	pe_image.c \
+	pe_resource.c \
+	process.c \
+	profile.c \
+	profiletools.c \
+	pthread.c \
+	reg.c \
+	registry.c \
+	registry16.c \
+	relay.c \
+	relay386.c \
+	resource.c \
+	rtl.c \
+	rtlstr.c \
+	rtlbitmap.c \
+	SCSIPassThroughCDROM.c \
+	sec.c \
+	selector.c \
+	services.c \
+	signal_i386.c \
+	slist.c \
+	snoop.c \
+	snoop32.c \
+	string.c \
+	string_kernel.c \
+	sxs.c \
+	sync.c \
+	synchro.c \
+	sysdeps.c \
+	syslevel.c \
+	system.c \
+	task.c \
+	thread.c \
+	time.c \
+	time_kernel.c \
+	timer.c \
+	unhandledException.c \
+	version.c \
+	virtual.c \
+	wcstring.c
+
+
+@DARWIN_TRUE@C_SRCS += exc_server.defs.c
+
+GLUE = \
+	local.c \
+	ne_module.c \
+	ne_segment.c \
+	task.c
+
+GEN_ASM_SRCS = \
+	relay16.s \
+	relay32.s
+
+EXTRA_OBJS = \
+	msdos/msdos.o \
+	$(TOPOBJDIR)/libs/ptmalloc3/dmalloc.o
+
+SUBDIRS = \
+	msdos \
+	$(TOPOBJDIR)/libs/ptmalloc3
+
+@MAKE_DLL_RULES@
+
+$(EXTRA_OBJS): dummy
+	@cd `dirname $@` && $(MAKE) `basename $@`
+
+relay32.s: $(WINEBUILD)
+	$(LDPATH) $(WINEBUILD) $(DLLFLAGS) -o $@ -relay32
+
+relay16.s: $(WINEBUILD)
+	$(LDPATH) $(WINEBUILD) $(DLLFLAGS) -o $@ -relay16
+
+@DARWIN_TRUE@signal_i386.c : exc_server.defs.h
+
+exc_server.defs.c exc_server.defs.h: /usr/include/mach/exc.defs
+	mig -server exc_server.defs.c -sheader exc_server.defs.h \
+		-user /dev/null -header /dev/null $<
+
+### Dependencies:

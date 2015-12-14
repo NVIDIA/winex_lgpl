@@ -1,0 +1,19 @@
+EXTRAINCL = -I$(TOPSRCDIR)/include-lgpl -I$(TOPOBJDIR)/include-lgpl 
+EXTRALIBS = $(LIBUUID)
+MODULE    = mlang
+EXTRADEFS = -D__WINESRC__ -DSTRICT -DCOM_NO_WINDOWS_H
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+NEEDCROSSLIB = YES
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).tmp.o
+
+C_SRCS = \
+	mlang.c
+
+IDL_R_SRCS = mlang_classes.idl
+
+@MAKE_DLL_RULES@

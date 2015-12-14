@@ -1,0 +1,23 @@
+DLLFLAGS  = @DLLFLAGS@
+DEFS      = -D__WINE__
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MOD       = enhmetafiledrv
+
+C_SRCS = \
+	dc.c \
+	graphics.c \
+	init.c \
+	mapping.c \
+	objects.c 
+
+all: $(MOD).o
+
+@MAKE_RULES@
+
+$(MOD).o: $(OBJS) Makefile.in $(TOPSRCDIR)/Make.rules.in
+	$(LDCOMBINE) $(OBJS) -o $@
+
+### Dependencies:

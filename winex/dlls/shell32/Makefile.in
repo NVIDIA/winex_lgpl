@@ -1,0 +1,50 @@
+EXTRADEFS = -D_SHELL32_
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = shell32
+ALTNAMES  = shell
+EXTRALIBS = $(LIBUUID) $(LIBUNICODE) $(LIBPNG)
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).@OUTPUTEXT@
+
+C_SRCS = \
+	brsfolder.c \
+	changenotify.c \
+	classes.c \
+	clipboard.c \
+	control.c \
+	dataobject.c \
+	debughlp.c \
+	dialogs.c \
+	enumidlist.c \
+	folders.c \
+	iconcache.c \
+	memorystream.c \
+	pidl.c \
+	shell32_main.c \
+	shell.c \
+	shelllink.c \
+	shlmenu.c \
+	shellole.c \
+	shellord.c \
+	shellpath.c \
+	shellstring.c \
+	shellreg.c \
+	shlexec.c \
+	shlfileop.c \
+	shlfolder.c \
+	shlview.c \
+	shpolicy.c \
+	shv_bg_cmenu.c \
+	shv_item_cmenu.c \
+	systray.c
+
+RC_SRCS= \
+	shres.rc
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

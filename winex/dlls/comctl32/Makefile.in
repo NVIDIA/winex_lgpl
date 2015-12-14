@@ -1,0 +1,46 @@
+EXTRADEFS = -D_COMCTL32_
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = comctl32
+EXTRALIBS = $(LIBUNICODE)
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).@OUTPUTEXT@
+
+C_SRCS = \
+	animate.c \
+	comboex.c \
+	comctl32undoc.c \
+	commctrl.c \
+	datetime.c \
+	draglist.c \
+	flatsb.c \
+	header.c \
+	hotkey.c \
+	imagelist.c \
+	ipaddress.c \
+	link.c \
+	listview.c \
+	monthcal.c \
+	nativefont.c \
+	pager.c \
+	progress.c \
+	propsheet.c \
+	rebar.c \
+	smoothscroll.c \
+	status.c \
+	tab.c \
+	toolbar.c \
+	tooltips.c \
+	trackbar.c \
+	treeview.c \
+	updown.c
+
+RC_SRCS= \
+	rsrc.rc
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

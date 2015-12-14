@@ -1,0 +1,21 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = msvfw32
+ALTNAMES  = msvideo
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).@OUTPUTEXT@
+
+C_SRCS = \
+	mciwnd.c \
+	msvideo_main.c \
+	drawdib.c
+
+GLUE = msvideo_main.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:
+

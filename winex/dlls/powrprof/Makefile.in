@@ -1,0 +1,15 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = powrprof
+EXTRALIBS = $(LIBUNICODE)
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).tmp.o
+
+C_SRCS = powrprof.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

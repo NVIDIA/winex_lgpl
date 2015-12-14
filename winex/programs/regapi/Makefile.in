@@ -1,0 +1,15 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = regapi
+
+C_SRCS = \
+	regapi.c
+
+PLTESTS = \
+	tests/regapi.pl
+
+@MAKE_PROG_RULES@
+
+### Dependencies:

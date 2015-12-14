@@ -1,0 +1,17 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+DEFS = -DUSE_TSD_DATA_HACK -D_REENTRANT -Isysdeps/generic -DTHREAD_STATS=1 -DONLY_MSPACES -DMSPACES=1 -DUSE_LOCKS=0
+MODULE = dmalloc
+
+C_SRCS = malloc.c
+
+all: $(MODULE).o
+
+@MAKE_RULES@
+
+$(MODULE).o: $(OBJS) Makefile.in $(TOPSRCDIR)/Make.rules.in
+	$(LDCOMBINE) $(OBJS) -o $@
+
+### Dependencies:

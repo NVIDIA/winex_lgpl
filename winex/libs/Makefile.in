@@ -1,0 +1,34 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = none
+
+SUBDIRS = \
+    bstring \
+    openssl \
+    port \
+    tsx11 \
+    unicode \
+    uuid \
+    wine \
+    wpp
+
+INSTALLSUBDIRS = \
+    openssl \
+    port \
+    tsx11 \
+    unicode \
+    uuid \
+    wine \
+    wpp
+
+@MAKE_RULES@
+
+all: $(SUBDIRS)
+
+install:: $(INSTALLSUBDIRS:%=%/__install__)
+
+# Directory dependencies
+
+wine wine/__install__ wine/__install-lib__: port

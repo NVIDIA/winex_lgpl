@@ -1,0 +1,14 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = sfc
+EXTRAINCL = -I$(TOPSRCDIR)/include-lgpl -I$(TOPOBJDIR)/include-lgpl
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).tmp.o
+
+C_SRCS = sfc_main.c
+
+@MAKE_DLL_RULES@
+

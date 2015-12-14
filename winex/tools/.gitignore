@@ -1,0 +1,10 @@
+bin2res
+fnt2bdf
+makedep
+make_ctests
+widl/widl
+winebuild/winebuild
+winedump/winedump
+winelauncher
+wmc/wmc
+wrc/wrc

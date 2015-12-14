@@ -1,0 +1,34 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = riched20
+EXTRAINCL = -I$(TOPSRCDIR)/include-lgpl -I$(TOPOBJDIR)/include-lgpl
+EXTRALIBS = $(LIBUUID)
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).tmp.o
+
+C_SRCS = \
+	caret.c \
+	clipboard.c \
+	context.c \
+	editor.c \
+	list.c \
+	paint.c \
+	para.c \
+	reader.c \
+	richole.c \
+	row.c \
+	run.c \
+	string.c \
+	style.c \
+	txtsrv.c \
+	undo.c \
+	wrap.c \
+	writer.c
+
+RC_SRCS = version.rc
+
+@MAKE_DLL_RULES@
+

@@ -1,0 +1,18 @@
+EXTRAINCL = -I$(TOPSRCDIR)/include-lgpl -I$(TOPOBJDIR)/include-lgpl 
+EXTRADEFS = -D__WINESRC__ -DSTRICT
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = cryptnet
+NEEDCROSSLIB = yes
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).tmp.o
+
+C_SRCS = \
+	cryptnet_main.c
+
+EXTRATARGETS = @CROSSLIB@
+
+@MAKE_DLL_RULES@

@@ -1,0 +1,260 @@
+#!/usr/bin/python
+import sys, string, time, re, os, popen2, urllib
+
+use_cvs = 1
+auto_commit = 0
+ignore_whitespace = 1
+
+if use_cvs:
+ try:
+  root = open("CVS/Root","r").read()
+  if root[0:9] == ":pserver:":
+   # generally, pserver access is read-only,
+   # so no reason to try preparing a commit
+   use_cvs = 0
+ except:
+  # this isn't a checked-out cvs tree
+  use_cvs = 0
+
+def invoke(command, data):
+ proc = popen2.Popen3(command)
+ proc.tochild.write(data)
+ proc.tochild.close()
+ out = proc.fromchild.read()
+ ret = proc.wait()
+ return (ret, out)
+
+def make_diff(fname, fdata):
+ flines = map(lambda line: "+" + line, string.split(fdata, "\n"))
+ if flines[-1] == "+":
+  flines[-1] = ""
+ else:
+  flines.append("\ No newline at end of file\n")
+ # diff = "--- " + fname + "\t" + time.ctime() + "\n"
+ # diff += "+++ " + fname + "\t" + time.ctime() + "\n"
+ diff = "--- " + fname + "\n"
+ diff += "+++ " + fname + "\n"
+ diff += "@@ -0,0 +1," + str(len(flines)-1) + " @@\n"
+ diff += string.join(flines, "\n")
+ return diff
+
+def extract_html(data):
+ data = re.compile(r"<.*?>",re.DOTALL).sub("",data)
+ data = string.replace(data, "&lt;", "<")
+ data = string.replace(data, "&gt;", ">")
+ data = string.replace(data, "&quot;", "\"")
+ data = string.replace(data, "&amp;", "&")
+ return data
+
+def extract_tar(data):
+ def extract_tarfile(fname, tardata = data):
+  if fname == "":
+   return ""
+  return make_diff(fname, invoke("tar xOf - " + fname, tardata)[1])
+ filelist = string.split(invoke("tar tf -", data)[1], "\n")
+ files = map(extract_tarfile, filelist)
+ return string.join(files, "")
+
+def find_path_strip(data):
+ flines = string.split(data, "\n")
+ subdir = None
+ cstrip = None
+ repo = None
+ for line in flines:
+  if line[0:8] == "RCS file":
+   repo = line[10:-2]
+  if line[0:4] == "+++ ":
+   fname = string.split(line)[1]
+   comps = string.split(fname, "/")
+   nsubdir = None
+   if repo != None and repo[-(len(fname)+1):] == "/" + fname:
+    pcomps = string.split(repo[1:-(len(fname)+1)], "/")
+    # usually, at least 2 repository path components can be ignored
+    del pcomps[0]
+    del pcomps[0]
+    # keep deleting until we find something that exists
+    while len(pcomps) and not (os.path.exists(pcomps[0]) and os.path.isdir(pcomps[0])):
+     del pcomps[0]
+    if len(pcomps):
+     # remove path components we already have
+     for cc in range(len(comps)-1):
+      del pcomps[-1]
+     if len(pcomps):
+      nsubdir = string.join(pcomps, "/")
+     # use the subdir we've found
+     comps[0:0] = pcomps
+   repo = None
+   nstrip = None
+   for cc in range(len(comps)):
+    if os.path.exists(comps[cc]):
+     if os.path.isdir(comps[cc]) != (cc == (len(comps)-1)):
+      # path component is ok
+      if nstrip == None:
+       nstrip = cc
+   if nsubdir != None:
+    if subdir == None:
+     subdir = nsubdir
+    elif subdir != nsubdir:
+     return None
+   if nstrip != None:
+    if cstrip == None:
+     cstrip = nstrip
+    elif cstrip != nstrip:
+     return None
+ return (subdir, cstrip)
+
+def apply_path_strip(fname, subdir, strip):
+ fname = string.join(string.split(fname, "/")[strip:], "/")
+ if subdir != None:
+  fname = subdir + "/" + fname
+ return fname
+
+def list_patched_files(data, subdir, strip):
+ flines = string.split(data, "\n")
+ files = []
+ for line in flines:
+  if line[0:4] == "+++ ":
+   fname = apply_path_strip(string.split(line)[1], subdir, strip)
+   files.append([fname,os.path.exists(fname)])
+ return files
+
+def check_patched_files(files):
+ fadd = []
+ fsub = []
+ fchg = []
+ ftot = []
+ for file in files:
+  ftot.append(file[0])
+  if os.path.exists(file[0]):
+   if file[1]:
+    fchg.append(file[0])
+   else:
+    fadd.append(file[0])
+  else:
+   if file[1]:
+    fsub.append(file[0])
+   else:
+    pass
+ return (ftot, fadd, fsub, fchg)
+
+def fix_changelog(data):
+ def strip_tab(line):
+  while len(line) and line[0] == "\t":
+   line = line[1:]
+  return line
+ lines = string.split(data, "\n")
+ while len(lines) and lines[-1] == "":
+  del lines[-1]
+ while len(lines) and lines[0] == "":
+  del lines[0]
+ if len(lines) and lines[0][0] == "\t":
+  # strip tabs
+  lines = map(strip_tab, lines)
+ return string.join(lines, "\n") + "\n"
+
+def find_changelog(data):
+ # try wine-cvs format
+ check = re.search(r"Log message:\n(.*?)^Patch:", data, re.MULTILINE|re.DOTALL)
+ if check != None:
+  return fix_changelog(check.group(1))
+ return None
+
+# options handling:
+pgm_argv = sys.argv[1:]
+if pgm_argv[0] == "--commit":
+ pgm_argv[0:] = pgm_argv[1:]
+ auto_commit = 1
+
+# main program
+if len(pgm_argv) < 1:
+ ctype = "text/plain"
+ data = sys.stdin.read()
+else:
+ data = ""
+ for fname in pgm_argv:
+  if fname == "-h" or fname == "--help":
+   print "usages:"
+   print " tools/apply_patch < patchfile (plaintext diff only)"
+   print " tools/apply_patch patchfile"
+   print " tools/apply_patch http://url/patchfile"
+   print "In addition to plaintext, this utility handles HTML and tar files"
+   sys.exit(1)
+  doc = urllib.urlopen(fname)
+  ctype = doc.info().getheader("Content-Type")
+  ddata = doc.read()
+  doc.close()
+  print "file type:", ctype
+  if ctype == "text/html":
+   data += extract_html(ddata)
+  elif ctype == "application/x-tar":
+   data += extract_tar(ddata)
+  else:
+   data += ddata
+
+(subdir, strip) = find_path_strip(data)
+
+log = find_changelog(data)
+
+if strip != None:
+ pfiles = list_patched_files(data, subdir, strip)
+else:
+ pfiles = []
+
+bad_patch = 0
+
+if strip != None:
+ opts = " -f -E -p" + str(strip)
+ if subdir != None:
+  opts += " -d " + subdir
+ print "patching with" + opts
+ dry = invoke("patch --dry-run" + opts, data)
+ if dry[0] > 0 and ignore_whitespace:
+  opts += " --ignore-whitespace"
+  print "failed, patching with" + opts
+  dry = invoke("patch --dry-run" + opts, data)
+ if dry[0] > 0:
+  print dry[1]
+  print "dry run failed, you'll have to apply the patch manually"
+  bad_patch = 1
+else:
+ print "analysis failed, you'll have to apply the patch manually"
+ bad_patch = 1
+
+if bad_patch:
+ open("patch.diff","w").write(data)
+ out = "the patch is in patch.diff"
+else:
+ out = invoke("patch" + opts, data)[1]
+
+print out
+
+(ftot, fadd, fsub, fchg) = check_patched_files(pfiles)
+print "Changed:", string.join(fchg)
+print "Added  :", string.join(fadd)
+print "Removed:", string.join(fsub)
+if log != None:
+ print "Log (saved in patch.log):"
+ open("patch.log","w").write(log)
+ print log
+ commitcmd = "cvs commit -F patch.log " + string.join(ftot)
+else:
+ commitcmd = "cvs commit " + string.join(ftot)
+
+if bad_patch or len(fadd) != 0 or len(fsub) != 0:
+ # the commiter may want to check license headers, run scripts (autoconf), etc
+ auto_commit = 0
+
+# 1 means error
+status_code = 1
+if use_cvs:
+ if len(fadd):
+  os.system("cvs add " + string.join(fadd))
+ if len(fsub):
+  os.system("cvs remove " + string.join(fsub))
+ if log != None and auto_commit:
+  print "Committing..."
+  status_code = os.system(commitcmd)
+ else:
+  print "To commit, use:"
+  print commitcmd
+sys.exit(status_code)

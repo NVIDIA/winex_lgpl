@@ -1,0 +1,13 @@
+%long # --forbidden
+
+int
+
+%ptr
+
+CONTEXT86 *
+struct Win87EmInfoStruct *
+void *
+
+%void
+
+void
