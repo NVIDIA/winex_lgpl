@@ -1,0 +1,37 @@
+/*
+ * Copyright (c) 2004-2015 NVIDIA CORPORATION. All rights reserved.
+*/
+
+import "objidl.idl";
+
+/*****************************************************************************
+ * Interface: IServiceProvider
+ */
+
+[
+        object,
+        uuid(6d5140c1-7436-11ce-8034-00aa006009fa),
+        pointer_default(unique)
+]
+interface IServiceProvider : IUnknown
+{
+    typedef [unique] IServiceProvider *LPSERVICEPROVIDER;
+
+    [local]
+    HRESULT QueryService
+    (
+        [in]  REFGUID guidService,
+        [in]  REFIID riid,
+        [out] void **ppvObject
+    );
+
+    [call_as(QueryService)]
+    HRESULT RemoteQueryService
+    (
+        [in] REFGUID guidService,
+        [in] REFIID riid,
+        [out, iid_is(riid)] IUnknown ** ppvObject
+    );
+}
+
+

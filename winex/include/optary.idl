@@ -1,0 +1,45 @@
+
+
+import "objidl.idl";
+import "oleidl.idl";
+
+
+[
+    local,
+    object,
+    uuid(22b6d492-0f88-11d1-ba19-00c04fd912d0),
+    pointer_default(unique)
+]
+interface IOptionArray : IUnknown
+{
+    typedef [unique] IOptionArray *LPOPTIONARRAY;
+
+    HRESULT QueryOption(
+        [in] DWORD  dwOption,
+        [out, size_is(*pcbBuf)] LPVOID pBuffer,
+        [in, out] ULONG *pcbBuf);
+
+    HRESULT SetOption(
+        [in] DWORD dwOption,
+        [in, size_is(cbBuf)] LPVOID pBuffer,
+        [in] ULONG cbBuf);
+}
+
+
+[
+    local,
+    object,
+    uuid(a71a0808-0f88-11d1-ba19-00c04fd912d0),
+    pointer_default(unique)
+]
+interface IHtmlLoadOptions : IOptionArray
+{
+    typedef enum {
+        HTMLLOADOPTION_CODEPAGE,
+        HTMLLOADOPTION_INETSHORTCUTPATH,
+        HTMLLOADOPTION_HYPERLINK,
+        HTMLLOADOPTION_FRAMELOAD
+    } HTMLLOADOPTION;
+}
+
+cpp_quote("DEFINE_GUID(CLSID_HTMLLoadOptions, 0x18845040, 0x0FA5, 0x11D1, 0xBA,0x19, 0x00,0xC0,0x4F,0xD9,0x12,0xD0);")

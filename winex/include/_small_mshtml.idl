@@ -1,0 +1,261 @@
+/* DONT USE THIS
+ * hacked out version of mshtml.idl
+ * to just give me several interfaces that I need..
+ * MOSTLY works with WIDL. (unlike the full thing).
+ */
+
+#include <mshtmdid.h>
+#include <mshtmcid.h>
+
+[
+    control,
+    lcid(0x0000),
+    helpstring("Microsoft HTML Object Library"),
+    helpfile("mshtml.hlp"),
+    version(4.00),
+    uuid(3050f1c5-98b5-11cf-bb82-00aa00bdce0b)
+]
+library MSHTML
+{
+
+cpp_quote("#include <htmlguid.h>");
+
+//#include <olectl.h>
+
+import "oaidl.idl";
+
+/* FIXME: hack from olectl.h */
+
+#define DISPID_AUTOSIZE                 (-500)
+#define DISPID_BACKCOLOR                (-501)
+#define DISPID_BACKSTYLE                (-502)
+#define DISPID_BORDERCOLOR              (-503)
+#define DISPID_BORDERSTYLE              (-504)
+#define DISPID_BORDERWIDTH              (-505)
+#define DISPID_DRAWMODE                 (-507)
+#define DISPID_DRAWSTYLE                (-508)
+#define DISPID_DRAWWIDTH                (-509)
+#define DISPID_FILLCOLOR                (-510)
+#define DISPID_FILLSTYLE                (-511)
+#define DISPID_FONT                     (-512)
+#define DISPID_FORECOLOR                (-513)
+#define DISPID_ENABLED                  (-514)
+#define DISPID_HWND                     (-515)
+#define DISPID_TABSTOP                  (-516)
+#define DISPID_TEXT                     (-517)
+#define DISPID_CAPTION                  (-518)
+#define DISPID_BORDERVISIBLE            (-519)
+#define DISPID_APPEARANCE               (-520)
+#define DISPID_MOUSEPOINTER             (-521)
+#define DISPID_MOUSEICON                (-522)
+#define DISPID_PICTURE                  (-523)
+#define DISPID_VALID                    (-524)
+#define DISPID_READYSTATE               (-525)
+
+#define DISPID_REFRESH                  (-550)
+#define DISPID_DOCLICK                  (-551)
+#define DISPID_ABOUTBOX                 (-552)
+
+#define DISPID_CLICK                    (-600)
+#define DISPID_DBLCLICK                 (-601)
+#define DISPID_KEYDOWN                  (-602)
+#define DISPID_KEYPRESS                 (-603)
+#define DISPID_KEYUP                    (-604)
+#define DISPID_MOUSEDOWN                (-605)
+#define DISPID_MOUSEMOVE                (-606)
+#define DISPID_MOUSEUP                  (-607)
+#define DISPID_ERROREVENT               (-608)
+#define DISPID_READYSTATECHANGE         (-609)
+
+#define DISPID_AMBIENT_BACKCOLOR        (-701)
+#define DISPID_AMBIENT_DISPLAYNAME      (-702)
+#define DISPID_AMBIENT_FONT             (-703)
+#define DISPID_AMBIENT_FORECOLOR        (-704)
+#define DISPID_AMBIENT_LOCALEID         (-705)
+#define DISPID_AMBIENT_MESSAGEREFLECT   (-706)
+#define DISPID_AMBIENT_SCALEUNITS       (-707)
+#define DISPID_AMBIENT_TEXTALIGN        (-708)
+#define DISPID_AMBIENT_USERMODE         (-709)
+#define DISPID_AMBIENT_UIDEAD           (-710)
+#define DISPID_AMBIENT_SHOWGRABHANDLES  (-711)
+#define DISPID_AMBIENT_SHOWHATCHING     (-712)
+#define DISPID_AMBIENT_DISPLAYASDEFAULT (-713)
+#define DISPID_AMBIENT_SUPPORTSMNEMONICS (-714)
+#define DISPID_AMBIENT_AUTOCLIP         (-715)
+#define DISPID_AMBIENT_APPEARANCE       (-716)
+#define DISPID_AMBIENT_PALETTE          (-726)
+#define DISPID_AMBIENT_TRANSFERPRIORITY (-728)
+
+#define DISPID_Name                     (-800)
+#define DISPID_Delete                   (-801)
+#define DISPID_Object                   (-802)
+#define DISPID_Parent                   (-803)
+
+#define DISPID_FONT_NAME 0
+#define DISPID_FONT_SIZE 2
+#define DISPID_FONT_BOLD 3
+#define DISPID_FONT_ITALIC 4
+#define DISPID_FONT_UNDER 5
+#define DISPID_FONT_STRIKE 6
+#define DISPID_FONT_WEIGHT 7
+#define DISPID_FONT_CHARSET 8
+
+
+/* FIXME end hack */
+
+interface IHTMLDocument;
+interface IHTMLDocument2;
+
+interface IHTMLFramesCollection2;
+interface IHTMLOptionElementFactory;
+interface IHTMLImageElementFactory;
+interface IHTMLWindow2;
+
+interface IHTMLElement;
+interface IHTMLElementCollection;
+interface IHTMLSelectionObject;
+interface IHTMLLocation;
+interface IHTMLStyleSheet;
+interface IHTMLStyleSheetsCollection;
+
+[
+	odl,
+	oleautomation,
+	dual,
+	uuid(626FC520-A41E-11cf-A731-00A0C9082637)
+]
+interface IHTMLDocument : IDispatch
+{
+	[propget, id(DISPID_IHTMLDOCUMENT_SCRIPT), hidden, nonbrowsable] HRESULT Script([retval, out] IDispatch* * p);
+};
+
+[
+	odl,
+	oleautomation,
+	dual,
+	uuid(332c4425-26cb-11d0-b483-00c04fd90119)
+]
+interface IHTMLDocument2 : IHTMLDocument
+{
+	[propget, id(DISPID_IHTMLDOCUMENT2_ALL)] HRESULT all([retval, out] IHTMLElementCollection* * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_BODY)] HRESULT body([retval, out] IHTMLElement* * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ACTIVEELEMENT)] HRESULT activeElement([retval, out] IHTMLElement* * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_IMAGES)] HRESULT images([retval, out] IHTMLElementCollection* * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_APPLETS)] HRESULT applets([retval, out] IHTMLElementCollection* * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_LINKS)] HRESULT links([retval, out] IHTMLElementCollection* * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_FORMS)] HRESULT forms([retval, out] IHTMLElementCollection* * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ANCHORS)] HRESULT anchors([retval, out] IHTMLElementCollection* * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_TITLE)] HRESULT title([in] BSTR v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_TITLE)] HRESULT title([retval, out] BSTR * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_SCRIPTS)] HRESULT scripts([retval, out] IHTMLElementCollection* * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_DESIGNMODE), hidden] HRESULT designMode([in] BSTR v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_DESIGNMODE), hidden] HRESULT designMode([retval, out] BSTR * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_SELECTION)] HRESULT selection([retval, out] IHTMLSelectionObject* * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_READYSTATE), bindable] HRESULT readyState([retval, out] BSTR * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_FRAMES)] HRESULT frames([retval, out] IHTMLFramesCollection2* * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_EMBEDS)] HRESULT embeds([retval, out] IHTMLElementCollection* * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_PLUGINS)] HRESULT plugins([retval, out] IHTMLElementCollection* * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_ALINKCOLOR)] HRESULT alinkColor([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ALINKCOLOR)] HRESULT alinkColor([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_BGCOLOR)] HRESULT bgColor([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_BGCOLOR)] HRESULT bgColor([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_FGCOLOR)] HRESULT fgColor([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_FGCOLOR)] HRESULT fgColor([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_LINKCOLOR)] HRESULT linkColor([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_LINKCOLOR)] HRESULT linkColor([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_VLINKCOLOR)] HRESULT vlinkColor([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_VLINKCOLOR)] HRESULT vlinkColor([retval, out] VARIANT * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_REFERRER)] HRESULT referrer([retval, out] BSTR * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_LOCATION)] HRESULT location([retval, out] IHTMLLocation* * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_LASTMODIFIED)] HRESULT lastModified([retval, out] BSTR * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_URL)] HRESULT URL([in] BSTR v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_URL)] HRESULT URL([retval, out] BSTR * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_DOMAIN)] HRESULT domain([in] BSTR v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_DOMAIN)] HRESULT domain([retval, out] BSTR * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_COOKIE)] HRESULT cookie([in] BSTR v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_COOKIE)] HRESULT cookie([retval, out] BSTR * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_EXPANDO), bindable, hidden] HRESULT expando([in] VARIANT_BOOL v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_EXPANDO), bindable, hidden] HRESULT expando([retval, out] VARIANT_BOOL * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_CHARSET), hidden] HRESULT charset([in] BSTR v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_CHARSET), hidden] HRESULT charset([retval, out] BSTR * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_DEFAULTCHARSET)] HRESULT defaultCharset([in] BSTR v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_DEFAULTCHARSET)] HRESULT defaultCharset([retval, out] BSTR * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_MIMETYPE)] HRESULT mimeType([retval, out] BSTR * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_FILESIZE)] HRESULT fileSize([retval, out] BSTR * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_FILECREATEDDATE)] HRESULT fileCreatedDate([retval, out] BSTR * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_FILEMODIFIEDDATE)] HRESULT fileModifiedDate([retval, out] BSTR * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_FILEUPDATEDDATE)] HRESULT fileUpdatedDate([retval, out] BSTR * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_SECURITY)] HRESULT security([retval, out] BSTR * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_PROTOCOL)] HRESULT protocol([retval, out] BSTR * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_NAMEPROP)] HRESULT nameProp([retval, out] BSTR * p);
+/*	[vararg,id(DISPID_IHTMLDOCUMENT2_WRITE)] HRESULT write([in] SAFEARRAY(VARIANT) psarray);
+	[vararg,id(DISPID_IHTMLDOCUMENT2_WRITELN)] HRESULT writeln([in] SAFEARRAY(VARIANT) psarray);*/
+    [vararg,id(DISPID_IHTMLDOCUMENT2_WRITE)] HRESULT write([in] SAFEARRAY *psarray);
+	[vararg,id(DISPID_IHTMLDOCUMENT2_WRITELN)] HRESULT writeln([in] SAFEARRAY *psarray);
+	[id(DISPID_IHTMLDOCUMENT2_OPEN)] HRESULT open([defaultvalue("text/html"), in] BSTR url,[optional, in] VARIANT name,[optional, in] VARIANT features,[optional, in] VARIANT replace,[retval, out] IDispatch** pomWindowResult);
+	[id(DISPID_IHTMLDOCUMENT2_CLOSE)] HRESULT close();
+	[id(DISPID_IHTMLDOCUMENT2_CLEAR)] HRESULT clear();
+	[id(DISPID_IHTMLDOCUMENT2_QUERYCOMMANDSUPPORTED)] HRESULT queryCommandSupported([in] BSTR cmdID,[retval, out] VARIANT_BOOL* pfRet);
+	[id(DISPID_IHTMLDOCUMENT2_QUERYCOMMANDENABLED)] HRESULT queryCommandEnabled([in] BSTR cmdID,[retval, out] VARIANT_BOOL* pfRet);
+	[id(DISPID_IHTMLDOCUMENT2_QUERYCOMMANDSTATE)] HRESULT queryCommandState([in] BSTR cmdID,[retval, out] VARIANT_BOOL* pfRet);
+	[id(DISPID_IHTMLDOCUMENT2_QUERYCOMMANDINDETERM)] HRESULT queryCommandIndeterm([in] BSTR cmdID,[retval, out] VARIANT_BOOL* pfRet);
+	[id(DISPID_IHTMLDOCUMENT2_QUERYCOMMANDTEXT)] HRESULT queryCommandText([in] BSTR cmdID,[retval, out] BSTR* pcmdText);
+	[id(DISPID_IHTMLDOCUMENT2_QUERYCOMMANDVALUE)] HRESULT queryCommandValue([in] BSTR cmdID,[retval, out] VARIANT* pcmdValue);
+	[id(DISPID_IHTMLDOCUMENT2_EXECCOMMAND)] HRESULT execCommand([in] BSTR cmdID,[defaultvalue(0), in] VARIANT_BOOL showUI,[optional, in] VARIANT value,[retval, out] VARIANT_BOOL* pfRet);
+	[id(DISPID_IHTMLDOCUMENT2_EXECCOMMANDSHOWHELP)] HRESULT execCommandShowHelp([in] BSTR cmdID,[retval, out] VARIANT_BOOL* pfRet);
+	[id(DISPID_IHTMLDOCUMENT2_CREATEELEMENT)] HRESULT createElement([in] BSTR eTag,[retval, out] IHTMLElement** newElem);
+	[propput, id(DISPID_IHTMLDOCUMENT2_ONHELP), displaybind, bindable] HRESULT onhelp([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ONHELP), displaybind, bindable] HRESULT onhelp([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_ONCLICK), displaybind, bindable] HRESULT onclick([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ONCLICK), displaybind, bindable] HRESULT onclick([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_ONDBLCLICK), displaybind, bindable] HRESULT ondblclick([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ONDBLCLICK), displaybind, bindable] HRESULT ondblclick([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_ONKEYUP), displaybind, bindable] HRESULT onkeyup([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ONKEYUP), displaybind, bindable] HRESULT onkeyup([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_ONKEYDOWN), displaybind, bindable] HRESULT onkeydown([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ONKEYDOWN), displaybind, bindable] HRESULT onkeydown([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_ONKEYPRESS), displaybind, bindable] HRESULT onkeypress([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ONKEYPRESS), displaybind, bindable] HRESULT onkeypress([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_ONMOUSEUP), displaybind, bindable] HRESULT onmouseup([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ONMOUSEUP), displaybind, bindable] HRESULT onmouseup([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_ONMOUSEDOWN), displaybind, bindable] HRESULT onmousedown([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ONMOUSEDOWN), displaybind, bindable] HRESULT onmousedown([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_ONMOUSEMOVE), displaybind, bindable] HRESULT onmousemove([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ONMOUSEMOVE), displaybind, bindable] HRESULT onmousemove([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_ONMOUSEOUT), displaybind, bindable] HRESULT onmouseout([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ONMOUSEOUT), displaybind, bindable] HRESULT onmouseout([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_ONMOUSEOVER), displaybind, bindable] HRESULT onmouseover([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ONMOUSEOVER), displaybind, bindable] HRESULT onmouseover([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_ONREADYSTATECHANGE), displaybind, bindable] HRESULT onreadystatechange([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ONREADYSTATECHANGE), displaybind, bindable] HRESULT onreadystatechange([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_ONAFTERUPDATE), displaybind, bindable] HRESULT onafterupdate([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ONAFTERUPDATE), displaybind, bindable] HRESULT onafterupdate([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_ONROWEXIT), displaybind, bindable] HRESULT onrowexit([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ONROWEXIT), displaybind, bindable] HRESULT onrowexit([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_ONROWENTER), displaybind, bindable] HRESULT onrowenter([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ONROWENTER), displaybind, bindable] HRESULT onrowenter([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_ONDRAGSTART), displaybind, bindable] HRESULT ondragstart([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ONDRAGSTART), displaybind, bindable] HRESULT ondragstart([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_ONSELECTSTART), displaybind, bindable] HRESULT onselectstart([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ONSELECTSTART), displaybind, bindable] HRESULT onselectstart([retval, out] VARIANT * p);
+	[id(DISPID_IHTMLDOCUMENT2_ELEMENTFROMPOINT)] HRESULT elementFromPoint([in] long x,[in] long y,[retval, out] IHTMLElement** elementHit);
+	[propget, id(DISPID_IHTMLDOCUMENT2_PARENTWINDOW)] HRESULT parentWindow([retval, out] IHTMLWindow2* * p);
+	[propget, id(DISPID_IHTMLDOCUMENT2_STYLESHEETS)] HRESULT styleSheets([retval, out] IHTMLStyleSheetsCollection* * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_ONBEFOREUPDATE), displaybind, bindable] HRESULT onbeforeupdate([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ONBEFOREUPDATE), displaybind, bindable] HRESULT onbeforeupdate([retval, out] VARIANT * p);
+	[propput, id(DISPID_IHTMLDOCUMENT2_ONERRORUPDATE), displaybind, bindable] HRESULT onerrorupdate([in] VARIANT v);
+	[propget, id(DISPID_IHTMLDOCUMENT2_ONERRORUPDATE), displaybind, bindable] HRESULT onerrorupdate([retval, out] VARIANT * p);
+	[id(DISPID_IHTMLDOCUMENT2_TOSTRING)] HRESULT toString([retval, out] BSTR* String);
+	[id(DISPID_IHTMLDOCUMENT2_CREATESTYLESHEET)] HRESULT createStyleSheet([defaultvalue(""), in] BSTR bstrHref,[defaultvalue(-1), in] long lIndex,[retval, out] IHTMLStyleSheet** ppnewStyleSheet);
+};
+
+[uuid(25336920-03F9-11cf-8FD0-00AA00686F13)]
+coclass HTMLDocument
+{
+	[default]			interface IHTMLDocument2;
+	[source, default]	dispinterface HTMLDocumentEvents;
+};
+
+
+}
+

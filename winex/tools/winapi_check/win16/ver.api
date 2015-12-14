@@ -1,0 +1,23 @@
+%long
+
+DWORD
+
+%ptr
+
+LPDWORD
+LPVOID
+SEGPTR *
+UINT16 *
+
+%segptr
+
+SEGPTR
+
+%str
+
+LPCSTR
+LPSTR
+
+%word
+
+UINT16

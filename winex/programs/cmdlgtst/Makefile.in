@@ -1,0 +1,15 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = cmdlgtst
+
+C_SRCS = \
+	cmdlgtst.c
+
+RC_SRCS = \
+	cmdlgr.rc
+
+@MAKE_PROG_RULES@
+
+### Dependencies:

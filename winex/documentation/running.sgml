@@ -1,0 +1,318 @@
+  <chapter id="running">
+    <title>Running Wine</title>
+
+    <para>
+      Written by &name-john-sheets; <email>&email-john-sheets;</email>
+    </para>
+
+    <sect1 id="running-wine">
+      <title>How to run Wine</title>
+      <para>
+        Wine is a very complicated piece of software with many ways to
+        adjust how it runs.  With very few exceptions, you can
+        activate the same set of features through the <link
+        linkend="configuring">configuration file </link> as you can
+        with command-line parameters.  In this chapter, we'll briefly
+        discuss these parameters, and match them up with their
+        corresponding configuration variables.
+      </para>
+
+      <para>
+        You can invoke the <command>wine --help</command> command to
+        get a listing of all Wine's command-line parameters:
+      </para>
+      <para>
+        <screen>
+Usage: ./wine [options] program_name [arguments]
+
+Options:
+   --debugmsg name  Turn debugging-messages on or off
+   --dll name       Enable or disable built-in DLLs
+   --dosver x.xx    DOS version to imitate (e.g. 6.22)
+                    Only valid with --winver win31
+   --help,-h        Show this help message
+   --managed        Allow the window manager to manage created windows
+   --version,-v     Display the Wine version
+   --winver         Version to imitate
+                    (win95,nt40,win31,nt2k,win98,nt351,win30,win20)
+        </screen>
+      </para>
+
+      <para>
+        You can specify as many options as you want, if any.
+        Typically, you will want to have your configuration file set
+        up with a sensible set of defaults; in this case, you can run
+        <command>wine</command> without explicitly listing any
+        options.  In rare cases, you might want to override certain
+        parameters on the command line.  
+      </para>
+      <para>
+        After the options, you should put the name of the file you
+        want <command>wine</command> to execute.  If the executable is
+        in the <parameter>Path</parameter> parameter in the
+        configuration file, you can simply give the executable file
+        name.  However, if the executable is not in
+        <parameter>Path</parameter>, you must give the full path to
+        the executable (in Windows format, not UNIX format!).  For
+        example, given a <parameter>Path</parameter> of the following:
+      </para>
+      <screen>
+[wine]
+"Path"="c:\windows;c:\windows\system;e:\;e:\test;f:\"
+      </screen>
+      <para>
+        You could run the file
+        <filename>c:\windows\system\foo.exe</filename> with:
+      </para>
+      <screen>
+<prompt>$</prompt> <userinput>wine foo.exe</userinput>
+      </screen>
+      <para>
+        However, you would have to run the file
+        <filename>c:\myapps\foo.exe</filename> with this command:
+      </para>
+      <screen>
+<prompt>$</prompt> <userinput>wine c:\myapps\foo.exe</userinput>
+      </screen>
+      <para>
+        Finally, if you want to pass any parameters to your windows
+        application, you can list them at the end, just after the
+        executable name.  Thus, to run the imaginary
+        <command>foo.exe</command> Windows application with its
+        <parameter>/advanced</parameter> mode parameter, while
+        invoking Wine in <link
+        linkend="managed-parameter"><parameter>--managed</parameter>
+        mode</link>, you would do something like this:
+      </para>
+      <screen>
+<prompt>$</prompt> <userinput>wine --managed foo.exe /advanced</userinput>
+      </screen>
+      <para>
+        In other words, options that affect Wine should come
+        <emphasis>before</emphasis> the Windows program name, while
+        options that affect the Windows program should come
+        <emphasis>after</emphasis> it.
+      </para>
+
+      <para>
+        If you want to run a console program (aka a CUI executable), use
+	<command>wineconsole</command> instead of <command>wine</command>
+	to start it. It will display the program in a separate Window
+	(this requires X11 to be run). If you don't, you'll still be able
+	to run able your program, in the Unix console were you're started
+	your program, but with very limited capacities (so, your program
+	might work, but your mileage may vary). This shall be improved
+	in the future.
+      </para>
+    </sect1>
+
+    <sect1 id="command-line-options">
+      <title>Command-Line Options</title>
+
+      <sect2 id="config-parameter">
+        <title>--debugmsg [channels]</title>
+        <para>
+          Wine isn't perfect, and many Windows applications still
+          don't run without bugs under Wine (but then, many of them
+          don't run without bugs under native Windows either!).  To
+          make it easier for people to track down the causes behind
+          each bug, Wine provides a number of <firstterm>debug
+          channels</firstterm> that you can tap into.
+        </para>
+        <para>
+          Each debug channel, when activated, will trigger logging
+          messages to be displayed to the console where you invoked
+          <command>wine</command>.  From there you can redirect the
+          messages to a file and examine it at your leisure.  But be
+          forewarned!  Some debug channels can generate incredible
+          volumes of log messages.  Among the most prolific offenders
+          are <parameter>relay</parameter> which spits out a log
+          message every time a win32 function is called,
+          <parameter>win</parameter> which tracks windows message
+          passing, and of course <parameter>all</parameter> which is
+          an alias for every single debug channel that exists.  For a
+          complex application, your debug logs can easily top 1 MB and
+          higher.  A <parameter>relay</parameter> trace can often
+          generate more than 10 MB of log messages, depending on how
+          long you run the application.  Logging does slow down Wine
+          quite a bit, so don't use <parameter>--debugmsg</parameter>
+          unless you really do want log files.
+        </para>
+        <para>
+          Within each debug channel, you can further specify a
+          <firstterm>message class</firstterm>, to filter out the
+          different severities of errors.  The four message classes
+          are:
+          <simplelist type="inline">
+            <member><parameter>trace</parameter></member>
+            <member><parameter>fixme</parameter></member>
+            <member><parameter>warn</parameter></member>
+            <member><parameter>err</parameter></member>
+          </simplelist>.
+        </para>
+        <para>
+          To turn on a debug channel, use the form
+          <parameter>class+channel</parameter>.  To turn it off, use
+          <parameter>class-channel</parameter>.  To list more than one
+          channel in the same <parameter>--debugmsg</parameter>
+          option, separate them with commas.  For example, to request
+          <parameter>warn</parameter> class messages in the
+          <parameter>heap</parameter> debug channel, you could invoke
+          <command>wine</command> like this:
+        </para>
+        <screen>
+<prompt>$</prompt> <userinput>wine --debugmsg warn+heap <replaceable>program_name</replaceable></userinput>
+        </screen>
+        <para>
+          If you leave off the message class, <command>wine</command>
+          will display messages from all four classes for that channel:
+        </para>
+        <screen>
+<prompt>$</prompt> <userinput>wine --debugmsg +heap <replaceable>program_name</replaceable></userinput>
+        </screen>
+        <para>
+          If you wanted to see log messages for everything except the
+          relay channel, you might do something like this:
+        </para>
+        <screen>
+<prompt>$</prompt> <userinput>wine --debugmsg +all,-relay <replaceable>program_name</replaceable></userinput>
+        </screen>
+        <para>
+          Here is a master list of all the debug channels and classes
+          in Wine.  More channels might be added to (or subtracted
+          from) later versions.
+        </para>
+
+		<table frame="none"><title>Debug Channels</title>
+		<tgroup cols=5 align="left">
+		<tbody>
+<row><entry>
+all</><entry>accel</><entry>advapi</><entry>animate</><entry>aspi</>
+</row><row><entry>
+atom</><entry>avifile</><entry> bitblt</><entry> bitmap</><entry> caret</>
+</row><row><entry> 
+cdrom</><entry>class</><entry> clipboard</><entry> clipping</><entry>combo</>
+</row><row><entry> 
+comboex</><entry> comm</><entry>commctrl</><entry>commdlg</><entry> console</>
+</row><row><entry> 
+crtdll</><entry>cursor</><entry>datetime</><entry>dc</><entry> ddeml</>
+</row><row><entry> 
+ddraw</><entry> debug</><entry> debugstr</><entry>delayhlp</><entry>dialog</>
+</row><row><entry> 
+dinput</><entry>dll</><entry> dosfs</><entry>dosmem</><entry>dplay</>
+</row><row><entry> 
+driver</><entry>dsound</><entry>edit</><entry>elfdll</><entry>enhmetafile</>
+</row><row><entry> 
+event</><entry>exec</><entry>file</><entry>fixup</><entry>font</>
+</row><row><entry> 
+gdi</><entry> global</><entry>graphics</><entry> header</><entry>heap</>
+</row><row><entry> 
+hook</><entry>hotkey</><entry>icmp</><entry>icon</><entry>imagehlp</>
+</row><row><entry> 
+imagelist</><entry> imm</><entry>int</><entry>int10</><entry>int16</>
+</row><row><entry> 
+int17</><entry>int19</><entry>int21</><entry>int31</><entry> io</>
+</row><row><entry> 
+ipaddress</><entry>joystick</><entry>key</><entry>keyboard</><entry>ldt</>
+</row><row><entry> 
+listbox</><entry> listview</><entry> local</><entry>mci</><entry>mcianim</>
+</row><row><entry> 
+mciavi</><entry>mcicda</><entry> mcimidi</><entry> mciwave</><entry> mdi</>
+</row><row><entry> 
+menu</><entry> message</><entry> metafile</><entry>midi</><entry> mmaux</>
+</row><row><entry> 
+mmio</><entry> mmsys</><entry> mmtime</><entry> module</><entry>monthcal</>
+</row><row><entry> 
+mpr</><entry> msacm</><entry> msg</><entry> msvideo</><entry> nativefont</>
+</row><row><entry> 
+nonclient</><entry> ntdll</><entry> odbc</><entry> ole</><entry> opengl</>
+</row><row><entry> 
+pager</><entry> palette</><entry> pidl</><entry> print</><entry> process</>
+</row><row><entry> 
+profile</><entry> progress</><entry>prop</><entry> propsheet</><entry>psapi</>
+</row><row><entry> 
+psdrv</><entry> ras</><entry> rebar</><entry> reg</><entry> region</>
+</row><row><entry> 
+relay</><entry> resource</><entry>richedit</><entry>scroll</><entry>segment</>
+</row><row><entry> 
+seh</><entry>selector</><entry>sendmsg</><entry> server</><entry>setupapi</>
+</row><row><entry> 
+setupx</><entry>shell</><entry> snoop</><entry> sound</><entry>static</>
+</row><row><entry> 
+statusbar</><entry>storage</><entry> stress</><entry> string</><entry>syscolor</>
+</row><row><entry> 
+system</><entry> tab</><entry>tape</><entry>tapi</><entry>task</>
+</row><row><entry> 
+text</><entry>thread</><entry>thunk</><entry>timer</><entry> toolbar</>
+</row><row><entry> 
+toolhelp</><entry>tooltips</><entry>trackbar</><entry>treeview</><entry>ttydrv</>
+</row><row><entry> 
+tweak</><entry>typelib</><entry> updown</><entry>ver</><entry>virtual</>
+</row><row><entry> 
+vxd</><entry>wave</><entry>win</><entry>win16drv</><entry>win32</>
+</row><row><entry> 
+wing</><entry>wininet</><entry> winsock</><entry> winspool</><entry>wnet</>
+</row><row><entry> 
+x11</><entry> x11drv</>
+</row>
+		</tbody>
+		</tgroup>
+		</table>
+
+        <para>
+          For more details about debug channels, check out the
+          <ulink url="http://wine.codeweavers.com/docs/wine-devel/">
+            The Wine Developer's Guide</ulink>.
+        </para>
+      </sect2>
+
+      <sect2>
+        <title>--dll</title>
+        <para>
+          
+        </para>
+      </sect2>
+
+      <sect2>
+        <title>--dosver</title>
+        <para>
+          
+        </para>
+      </sect2>
+
+      <sect2>
+        <title>--help</title>
+        <para>
+          
+        </para>
+      </sect2>
+
+      <sect2 id="managed-parameter">
+        <title>--managed</title>
+        <para>
+          
+        </para>
+      </sect2>
+
+      <sect2>
+        <title>--version</title>
+        <para>
+          
+        </para>
+      </sect2>
+
+      <sect2>
+        <title>--winver</title>
+        <para>
+          
+        </para>
+      </sect2>
+    </sect1>
+  </chapter>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-parent-document:("wine-doc.sgml" "set" "book" "chapter" "")
+End:
+-->

@@ -1,0 +1,11 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = control
+
+C_SRCS = control.c
+
+@MAKE_PROG_RULES@
+
+### Dependencies:
