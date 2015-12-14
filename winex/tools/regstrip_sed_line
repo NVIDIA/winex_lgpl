@@ -1,0 +1,3 @@
+# to strip a registry of annoying timestamp info use this sed line.
+# this is useful when comparing registries
+sed -e 's/\(\[*\]\) [0-9]\{10\}/\1/' file > output

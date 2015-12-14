@@ -1,0 +1,15 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = msiexec
+EXTRAINCL = -I$(TOPSRCDIR)/include-lgpl -I$(TOPOBJDIR)/include-lgpl
+
+C_SRCS = \
+	msiexec.c
+
+RC_SRCS = rsrc.rc
+
+@MAKE_PROG_RULES@
+
+### Dependencies:

@@ -1,0 +1,11 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = osversioncheck
+
+C_SRCS = osversioncheck.c
+
+@MAKE_PROG_RULES@
+
+### Dependencies:

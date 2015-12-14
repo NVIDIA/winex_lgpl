@@ -1,0 +1,18 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = wcmd
+
+C_SRCS = \
+	batch.c \
+	builtins.c \
+	directory.c \
+	wcmdmain.c
+
+RC_SRCS = \
+	wcmdrc.rc
+
+@MAKE_PROG_RULES@
+
+### Dependencies:

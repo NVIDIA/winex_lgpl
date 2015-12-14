@@ -1,0 +1,112 @@
+#!/bin/bash
+
+## turn .spec file into a file that can be pre-processed by gcc/clang
+##
+## Usage: winebuildpp [--preparse] [--postparse] --input <file.spec> --output <file.spec.pre>
+##
+## --preparse  (convert flags like -i386 info PPPRREFIX_i386 so pre-processor doesn't damage them)
+## --postparse (convert flags like PPPRREFIX_i386 back into -i386)
+
+
+function IsMacro
+{
+	local	Valid=( "ifdef" "ifndef" "else" "elif" "endif" )
+	local	Name
+
+	for (( i = 0 ; i < ${#Valid[@]} ; i++ )) 
+	do
+		Name="${Valid[$i]}"
+		if [ "${LINE:0:${#Name}}" = "$Name" ]
+		then
+			return 1
+		fi
+	done
+
+	return 0
+}
+
+function PreProcess
+{
+	local	IFS=$'\n'
+	local	INPUT="$1"
+	local	OUTPUT="$2"
+	
+	rm -f "$OUTPUT" &> /dev/null
+
+	while read -r LINE
+	do
+		
+		if [ "${LINE:0:1}" == "#" ]
+		then
+			continue
+		fi
+
+		IsMacro "$LINE"
+		if [ $? -ne 0 ]
+		then
+			LINE="#$LINE"
+		fi
+
+		echo "${LINE// -/ PPPRREFIX_}" >> "$OUTPUT"
+
+	done < "$INPUT"
+}
+
+function PostProcess
+{
+	local	IFS=$'\n'
+	local	INPUT="$1"
+	local	OUTPUT="$2"
+
+	rm -f "$OUTPUT" &> /dev/null
+
+	while read -r LINE
+	do
+
+		echo "${LINE//PPPRREFIX_/-}" >> "$OUTPUT"
+
+	done < "$INPUT"
+}
+
+SRC=""
+DST=""
+PROCESSTYPE=-1
+
+while [ -n "$1" ]
+do
+
+	if [ "$1" = "--preparse" ]
+	then
+		PROCESSTYPE=0
+	elif [ "$1" = "--postparse" ]
+	then
+		PROCESSTYPE=1
+	elif [ "$1" = "--input" ]
+	then
+		SRC="$2"
+		shift
+	elif [ "$1" = "--output" ]
+	then
+		DST="$2"
+		shift
+
+	fi
+
+	shift
+done
+
+if [ -z "$SRC" -o -z "$DST" -o $PROCESSTYPE -eq -1 ]
+then
+	echo "Usage: winebuildpp [--preparse] [--postparse] --input <file.spec> --output <file.spec.pre>"
+	exit 1
+fi
+
+case "$PROCESSTYPE" in
+
+0)	PreProcess "$SRC" "$DST";;
+1)	PostProcess "$SRC" "$DST";;
+*)	echo "Unsupported PROCESSTYPE"
+	exit 1
+;;
+esac
+

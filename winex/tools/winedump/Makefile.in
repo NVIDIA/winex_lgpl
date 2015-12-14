@@ -1,0 +1,36 @@
+DEFS      = -D__WINE__
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+
+PROGRAMS = winedump
+MODULE   = none
+
+C_SRCS = \
+	debug.c \
+	main.c  \
+	misc.c  \
+	msmangle.c  \
+	output.c  \
+	pe.c \
+	search.c  \
+	symbol.c
+
+all: $(PROGRAMS)
+
+@MAKE_RULES@
+
+winedump: $(OBJS)
+	$(CC) $(CFLAGS) -o winedump $(OBJS) $(LDFLAGS)
+
+install:: $(PROGRAMS)
+	[ -d $(bindir) ] || $(MKDIR) $(bindir)
+	$(INSTALL_PROGRAM) winedump $(bindir)/winedump
+	$(INSTALL_SCRIPT) $(SRCDIR)/function_grep.pl $(bindir)/function_grep.pl
+
+uninstall::
+	$(RM) $(bindir)/winedump
+	$(RM) $(bindir)/function_grep.pl
+
+### Dependencies:

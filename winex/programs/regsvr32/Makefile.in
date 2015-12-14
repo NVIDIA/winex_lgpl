@@ -1,0 +1,14 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = regsvr32
+EXTRADEFS = -DUSE_WS_PREFIX
+#IMPORTS   = kernel32
+
+C_SRCS = \
+	regsvr32.c
+
+@MAKE_PROG_RULES@
+
+### Dependencies:

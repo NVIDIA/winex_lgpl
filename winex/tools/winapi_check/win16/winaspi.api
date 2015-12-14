@@ -1,0 +1,13 @@
+%long
+
+DWORD
+
+%segptr
+
+FARPROC16
+SEGPTR
+
+%word
+
+BOOL16
+WORD

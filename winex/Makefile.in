@@ -1,0 +1,227 @@
+# This Makefile understands the following targets:
+#
+# all (default):   build wine
+# clean:           remove all intermediate files
+# distclean:       also remove all files created by configure
+# test:            run tests
+# testclean:       clean test results to force running all tests again
+# install:         install everything
+# uninstall:       uninstall everything
+# depend:          create the dependencies
+# etags:           create a TAGS file for Emacs.
+# manpages:        compile manpages for Wine API
+# finalize         custom file post link task(s)
+#
+
+# Directories
+
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = .
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+LIBEXT    = @LIBEXT@
+MODULE    = wine
+IMPORTS   = ntdll
+DLLEXTPTH = @DLLEXTPTH@
+EXDLLSLINK= @EXDLLSLINK@
+COPYSDK   = @COPYSDKFILE@
+SDKPATH   = @SDKPATH@
+TOOLSDIR  = @TOOLSDIR@
+
+@BUILDROOT_ONLY@PATH := ${PATH}:@BUILDROOT@/bin
+
+# Stand-alone programs
+PROGRAMS = #server/wineserver
+@DARWIN_FALSE@PROGRAMS += miscemu/wine-preloader
+
+# Programs that link with libwine
+#LIBPROGRAMS = \
+#	programs/wineconsole/wineconsole \
+#	programs/winedbg/winedbg \
+#	programs/regapi/regapi
+
+# Libraries (not dlls) to build
+LIBRARIES = \
+	libs/wine/libwine.$(LIBEXT) \
+	libs/openssl/libwine_openssl.$(LIBEXT) \
+	libs/port/libwine_port.$(LIBEXT) \
+	libs/unicode/libwine_unicode.$(LIBEXT) \
+	libs/uuid/libwine_uuid.$(LIBEXT) \
+#	server/libwineserver.$(LIBEXT) \
+#	libs/bstring/bstring.o
+
+# Libraries symlinks to create at the top level
+LIBSYMLINKS = \
+	libwine.$(LIBEXT) \
+	libwine_openssl.$(LIBEXT) \
+	libwine_port.$(LIBEXT) \
+	libwine_unicode.$(LIBEXT) \
+	libwine_uuid.$(LIBEXT) \
+#	libwineserver.$(LIBEXT)
+
+# Sub-directories to run make depend/clean into
+SUBDIRS = \
+	$(INSTALLSUBDIRS) \
+#	programs
+
+# Sub-directories to run make install into
+INSTALLSUBDIRS = \
+	dlls \
+	documentation \
+	include \
+	tools \
+	libs/openssl \
+	libs/port \
+	libs/unicode \
+	libs/uuid \
+	libs/wine \
+	libs/wpp
+
+# Sub-directories to run make test into
+TESTSUBDIRS = dlls
+
+EMUOBJS = \
+	miscemu/miscemu.o
+
+all: Make.rules  libs/wpp libs/port tools $(PROGRAMS) $(LIBPROGRAMS) $(LIBSYMLINKS) wine #\
+#	@PRELOADER_BINARY@
+	@echo "Wine build complete."
+
+WINAPI_CHECK_EXTRA_FLAGS = --global
+
+@MAKE_RULES@
+
+Make.rules: Make.rules.in configure
+	@echo $? is newer than 'Make.rules', please rerun ./configure!
+	@exit 1
+
+LDEXECFLAGS = @LDEXECFLAGS@
+LIBUPDATE = @LIBUPDATE@ 
+@DARWIN_TRUE@LDEXECFLAGS += -Iinclude $(TOPSRCDIR)/miscemu/mac.S
+
+wine: dlls #$(EMUOBJS)
+#	$(CC) -o wine $(LDEXECFLAGS) $(EMUOBJS) -L$(DLLDIR) $(IMPORTS:%=-l%) $(LIBWINE) $(LIBUNICODE) $(LIBPORT) $(LIBS) $(LIBSDL) $(LDFLAGS)
+
+install_wine:
+	[ -d $(bindir) ] || $(MKDIR) $(bindir)
+	$(INSTALL_PROGRAM) wine $(bindir)/wine
+
+install:: all install_wine $(INSTALLSUBDIRS:%=%/__install__)
+	-$(LDCONFIG)
+
+uninstall:: $(INSTALLSUBDIRS:%=%/__uninstall__)
+	cd $(bindir) && $(RM) wine
+
+sdk:: all
+	${COPYSDK} ${LIBEXT} ${prefix} ${SDKPATH}
+
+$(EMUOBJS) $(PROGRAMS) $(LIBPROGRAMS) $(LIBRARIES): dummy
+	@cd `dirname $@` && $(MAKE) `basename $@`
+
+libwine.$(LIBEXT): libs/wine/libwine.$(LIBEXT)
+	$(RM) $@ && $(LN_S) libs/wine/libwine.$(LIBEXT) $@
+
+libwine_tsx11.$(LIBEXT): libs/tsx11/libwine_tsx11.$(LIBEXT)
+	$(RM) $@ && $(LN_S) libs/tsx11/libwine_tsx11.$(LIBEXT) $@
+
+libwine_ipc.$(LIBEXT): libs/ipc/libwine_ipc.$(LIBEXT)
+	$(RM) $@ && $(LN_S) libs/ipc/libwine_ipc.$(LIBEXT) $@
+
+libwine_openssl.$(LIBEXT): libs/openssl/libwine_openssl.$(LIBEXT)
+	$(RM) $@ && $(LN_S) libs/openssl/libwine_openssl.$(LIBEXT) $@
+
+libwine_unicode.$(LIBEXT): libs/unicode/libwine_unicode.$(LIBEXT)
+	$(RM) $@ && $(LN_S) libs/unicode/libwine_unicode.$(LIBEXT) $@
+
+libwine_uuid.$(LIBEXT): libs/uuid/libwine_uuid.$(LIBEXT)
+	$(RM) $@ && $(LN_S) libs/uuid/libwine_uuid.$(LIBEXT) $@
+
+libwpp.a: libs/wpp/libwpp.a
+	$(RM) $@ && $(LN_S) libs/wpp/libwpp.a $@
+
+libwine_port.$(LIBEXT): libs/port/libwine_port.$(LIBEXT)
+	$(RM) $@ && $(LN_S) libs/port/libwine_port.$(LIBEXT) $@
+
+libwine_xaudio.$(LIBEXT): libs/xaudio/libwine_xaudio.$(LIBEXT)
+	$(RM) $@ && $(LN_S) libs/xaudio/libwine_xaudio.$(LIBEXT) $@
+
+libwineserver.$(LIBEXT): server/libwineserver.$(LIBEXT)
+	$(RM) $@ && $(LN_S) server/libwineserver.$(LIBEXT) $@
+
+wine-preloader: miscemu/wine-preloader
+	$(RM) $@ && $(LN_S) miscemu/wine-preloader $@
+
+# Dependencies between directories
+
+$(PROGRAMS): libwpp.a libwine_port.$(LIBEXT) $(TOOLS) $(PROTOCOLFILES)
+
+$(EMUOBJS): $(TOOLS) dlls
+
+$(LIBPROGRAMS) $(DLLEXTPTH): $(TOOLS) dlls wine
+
+server $(TOOLS): libwpp.a libwine_unicode.$(LIBEXT) libwine_ipc.$(LIBEXT) $(PROTOCOLFILES)
+server/wineserver: libwine_port.$(LIBEXT) libwineserver.$(LIBEXT)
+server/libwineserver.$(LIBEXT): libwine_unicode.$(LIBEXT)
+
+$(PROTOCOLFILES): server/protocol.def
+	$(TOPSRCDIR)/tools/make_requests $(TOPSRCDIR)
+
+libs/port/libwine_port.$(LIBEXT): libs/unicode/libwine_unicode.$(LIBEXT)
+libs/uuid/libwine_uuid.$(LIBEXT): include
+
+include: tools/widl/widl
+
+tools: $(TOOLS)
+
+tools/widl/widl: libwpp.a libwine_port.$(LIBEXT)
+
+dlls: $(TOOLS) $(LIBRARIES) include $(PROTOCOLFILES)
+
+checklink::
+	$(CC) -o checklink $(TOPSRCDIR)/libs/wine/checklink.c $(LIBWINE) $(LIBS) && $(RM) checklink
+
+install_programs: dummy
+	@cd programs && $(MAKE) install
+
+uninstall_programs: dummy
+	@cd programs && $(MAKE) uninstall
+
+checklink::
+	@cd dlls && $(MAKE) checklink
+	@cd debugger && $(MAKE) checklink
+
+check test::
+	@cd programs/winetest && $(MAKE) test
+	@cd dlls && $(MAKE) test
+
+TAGS etags:
+	etags `find $(TOPSRCDIR) -name '*.[chS]' -print | grep -v dbgmain`
+
+ctags:
+	ctags `find $(TOPSRCDIR) -name '*.[chS]' -print | grep -v dbgmain`
+
+manpages:
+	-$(MKDIR) $(TOPOBJDIR)/documentation/man3w
+	for i in $(SUBDIRS); do (cd $$i && $(MAKE) man); done
+
+htmlpages:
+	-$(MKDIR) $(TOPOBJDIR)/documentation/html
+	for i in $(SUBDIRS); do (cd $$i && $(MAKE) html); done
+
+clean::
+	$(RM) wine
+	$(RM) $(PROTOCOLFILES)
+
+distclean:: clean
+	@for i in $$($(TOPOBJDIR)/config.status --help | grep -A 1 "Configuration files:" | tail -n 1) ; do $(RM) $$i; done
+	@$(RM)    $(TOPOBJDIR)/config.* $(TOPOBJDIR)/TAGS $(TOPOBJDIR)/Make.rules $(TOPOBJDIR)/Makenative.rules $(TOPOBJDIR)/dlls/Makedll.rules $(TOPOBJDIR)/programs/Makeprog.rules $(TOPOBJDIR)/include/config.h $(TOPOBJDIR)/include/wine/version.h
+	@$(RM) -r $(TOPOBJDIR)/autom4te.cache
+	@if test -L $(TOPSRCDIR)/$(EXDLLSLINK); then unlink $(TOPSRCDIR)/$(EXDLLSLINK); fi
+	@find . -type d -empty -delete
+
+# Test rules
+
+$(TESTSUBDIRS:%=%/__test__): wine
+$(TESTSUBDIRS:%=%/__crosstest__): $(TOOLS) include
+
+### Dependencies:

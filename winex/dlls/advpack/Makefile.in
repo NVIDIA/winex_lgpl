@@ -1,0 +1,18 @@
+EXTRADEFS = -D__WINESRC__
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = advpack
+SOVERSION = 1.0
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).@OUTPUTEXT@
+
+C_SRCS = \
+	advpack.c \
+	reg.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

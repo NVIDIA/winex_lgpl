@@ -1,0 +1,17 @@
+EXTRADEFS = -D__WINESRC__ -DSTRICT
+EXTRAINCL = -I$(TOPSRCDIR)/include-lgpl -I$(TOPOBJDIR)/include-lgpl 
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = userenv
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).@OUTPUTEXT@
+
+C_SRCS = \
+	userenv_main.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

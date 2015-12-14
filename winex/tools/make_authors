@@ -1,0 +1,87 @@
+#! /usr/bin/perl
+#
+# Generate AUTHORS and dlls/shell32/authors.h
+#
+open(AUTHORS,"<AUTHORS") or die "Can't open AUTHORS";
+open(NEWAUTHORS,">AUTHORS.new");
+while(<AUTHORS>)
+  {
+    print NEWAUTHORS;
+    last if /^ReWind is/;
+  }
+while(<AUTHORS>)
+  {
+    chop;
+    s/^and //;
+    s/[,.]$//;
+    push @authors, $_;
+  }
+close(AUTHORS);
+sub inside
+  {
+    my ($b) = @_;
+    printf"$b\n";
+    @bnames = split(" ",$b);
+    for ($i = 0; $i <= $#authors; $i++)
+    {
+      @anames = split(" ",$authors[$i]);
+      printf "$anames[-1] $bnames[-1] $anames[0] $bnames[0]\n";
+      return 1 if ($anames[-1] eq $bnames[-1] && $anames[0] eq $bnames[0]);
+    }
+    printf "not inside\n";
+    return 0;
+  }      
+# Sort them
+sub cmpnames
+  {
+    @anames = split(" ",$a);
+    @bnames = split(" ",$b);
+    $ret = $anames[-1] cmp $bnames[-1];
+    $ret = $anames[0] cmp $bnames[0] unless $ret;
+    return $ret;
+  }
+@authors = sort cmpnames @authors;
+
+# Print authors
+for ($i = 0; $i < $#authors; $i++)
+  {
+    print NEWAUTHORS "$authors[$i],\n";
+  }
+print NEWAUTHORS "and $authors[$#authors].\n";
+print "Created AUTHORS.new\n";
+
+# merge info from AUTHORS.Wine
+open(AUTHORS,"<AUTHORS.Wine") or die "Can't open AUTHORS.Wine";
+while(<AUTHORS>)
+  {
+    last if /^Wine is/;
+  }
+while(<AUTHORS>)
+  {
+     chop;
+     s/^and //;
+     s/[,.]$//;
+     push @authors, $_ unless (inside($_));
+  }
+@authors = sort cmpnames @authors;
+
+# Build authors.h file
+open(NEWAUTHORS_H,">dlls/shell32/authors.h");
+
+print NEWAUTHORS_H <<EOF;
+#ifndef __WINE_AUTHORS_H
+#define __WINE_AUTHORS_H
+
+static const char * const SHELL_People[] =
+{
+EOF
+
+# Print authors
+for ($i = 0; $i <= $#authors; $i++)
+  {
+    print NEWAUTHORS_H "    \"$authors[$i]\",\n";
+  }
+print NEWAUTHORS_H "    0\n};\n";
+print NEWAUTHORS_H "\n#endif  /* __WINE_AUTHORS_H */\n";
+
+print "Created dlls/shell32/authors.h\n";

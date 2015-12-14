@@ -1,0 +1,38 @@
+DEFS      = -D__WINE__
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+
+PROGRAMS = winebuild
+MODULE   = none
+
+C_SRCS = \
+	import.c \
+	main.c \
+	parser.c \
+	relay.c \
+	res16.c \
+	res32.c \
+	spec16.c \
+	spec32.c \
+	utils.c
+
+all: $(PROGRAMS)
+
+@MAKE_RULES@
+
+winebuild: $(OBJS) $(TOPOBJDIR)/libs/unicode/libwine_unicode.$(LIBEXT)
+	$(CC) $(CFLAGS) -o winebuild $(OBJS) $(LIBUNICODE) $(LDFLAGS)
+
+$(TOPOBJDIR)/libs/unicode/libwine_unicode.$(LIBEXT):
+	cd `dirname $@` && $(MAKE) `basename $@`
+
+install:: $(PROGRAMS)
+	[ -d $(bindir) ] || $(MKDIR) $(bindir)
+	$(INSTALL_PROGRAM) winebuild $(bindir)/winebuild
+
+uninstall::
+	$(RM) $(bindir)/winebuild
+
+### Dependencies:
