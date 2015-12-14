@@ -1,0 +1,716 @@
+;; Registry settings for dlls/mshtml
+
+;; Typelib registration
+[HKEY_LOCAL_MACHINE\Software\Classes\Typelib\{3050F1C5-98B5-11CF-BB82-00AA00BDCE0B}\4.0\0\win32]
+@="C:\windows\system32\mshtml.tlb"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\Typelib\{3050F1C5-98B5-11CF-BB82-00AA00BDCE0B}\4.0\FLAGS]
+@="0"
+
+[HKEY_LOCAL_MACHINE_Software\Classes\Typelib\{3050F1C5-98B5-11CF-BB82-00AA00BDCE0B}\4.0\HELPDIR]
+@="C:\windows\system32"
+
+[Software\\Classes\\Interface\\{3050F507-98B5-11CF-BB82-00AA00BDCE0B}] 1222289041
+@="DispHTMLBody"
+
+[Software\\Classes\\Interface\\{3050F507-98B5-11CF-BB82-00AA00BDCE0B}\\ProxyStubClsid] 1222289041
+@="{00020424-0000-0000-C000-000000000046}"
+
+[Software\\Classes\\Interface\\{3050F507-98B5-11CF-BB82-00AA00BDCE0B}\\ProxyStubClsid32] 1222289041
+@="{00020424-0000-0000-C000-000000000046}"
+
+[Software\\Classes\\Interface\\{3050F507-98B5-11CF-BB82-00AA00BDCE0B}\\TypeLib] 1222289041
+@="{3050F1C5-98B5-11CF-BB82-00AA00BDCE0B}"
+"Version"="4.0"
+
+;; Generated from mshtml.inf
+
+[HKEY_LOCAL_MACHINE\Software\Classes\.bmp]
+"Content Type"="image/bmp"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\.css]
+"Content Type"="text/css"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\.dib]
+"Content Type"="image/bmp"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\.gif]
+@="giffile"
+"Content Type"="image/gif"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\.htc]
+"Content Type"="text/x-component"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\.ico]
+"Content Type"="image/x-icon"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\.jfif]
+@="pjpegfile"
+"Content Type"="image/jpeg"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\.jpe]
+@="jpegfile"
+"Content Type"="image/jpeg"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\.jpeg]
+@="jpegfile"
+"Content Type"="image/jpeg"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\.jpg]
+@="jpegfile"
+"Content Type"="image/jpeg"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\.mht]
+@="mhtmlfile"
+"Content Type"="message/rfc822"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\.mhtml]
+@="mhtmlfile"
+"Content Type"="message/rfc822"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\.png]
+@="pngfile"
+"Content Type"="image/png"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\.txt]
+"Content Type"="text/plain"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\.xbm]
+"Content Type"="image/x-xbitmap"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\BMPFilter.CoBMPFilter]
+@="CoBMPFilter Class"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\BMPFilter.CoBMPFilter.1]
+@="CoBMPFilter Class"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\BMPFilter.CoBMPFilter.1\CLSID]
+@="{607FD4E8-0A03-11D1-AB1D-00C04FC9B304}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\BMPFilter.CoBMPFilter\CLSID]
+@="{607FD4E8-0A03-11D1-AB1D-00C04FC9B304}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{05F6FE1A-ECEF-11D0-AAE7-00C04FC9B304}]
+@="IntDitherer Class"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{05F6FE1A-ECEF-11D0-AAE7-00C04FC9B304}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{18845040-0FA5-11D1-BA19-00C04FD912D0}]
+@="Microsoft HTML Load Options"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{18845040-0FA5-11D1-BA19-00C04FD912D0}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{25336920-03F9-11CF-8FD0-00AA00686F13}]
+@="HTML Document"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{25336920-03F9-11CF-8FD0-00AA00686F13}\BrowseInPlace]
+@=""
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{25336920-03F9-11CF-8FD0-00AA00686F13}\EnablePlugin\.css]
+@="PointPlus plugin"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{25336920-03F9-11CF-8FD0-00AA00686F13}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{25336920-03F9-11CF-8FD0-00AA00686F13}\MiscStatus]
+@="2228625"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{25336920-03F9-11CF-8FD0-00AA00686F13}\ProgID]
+@="htmlfile"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{25336920-03F9-11CF-8FD0-00AA00686F13}\Version]
+@="6.0"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{25336921-03F9-11CF-8FD0-00AA00686F13}]
+@="Microsoft HTML Document 6.0"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{25336921-03F9-11CF-8FD0-00AA00686F13}\BrowseInPlace]
+@=""
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{25336921-03F9-11CF-8FD0-00AA00686F13}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{25336921-03F9-11CF-8FD0-00AA00686F13}\MiscStatus]
+@="0"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{25336921-03F9-11CF-8FD0-00AA00686F13}\ProgID]
+@="htmlfile_FullWindowEmbed"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F163-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft HTML External Document"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F163-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F17F-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft HTML Generic Page"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F17F-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F1FC-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft HTML Anchor Page"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F1FC-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F232-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft HTML Background Page"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F232-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F296-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft HTML Inline Style Page"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F296-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F391-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft HTML Window Security Proxy"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F391-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3B2-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft HTML Javascript Pluggable Protocol"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3B2-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3B3-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft Image Element Browse Property Page"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3B3-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3B4-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft Document Browse Property Page"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3B4-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3BB-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft Anchor Element Browse Property Page"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3BB-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3BC-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft HTML Resource Pluggable Protocol"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3BC-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3C2-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft HTML DwnBindInfo"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3C2-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3D6-98B5-11CF-BB82-00AA00BDCE0B}]
+@="IImgCtx"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3D6-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3D6-98B5-11CF-BB82-00AA00BDCE0B}\ProgID]
+@="IImgCtx"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3D9-98B5-11CF-BB82-00AA00BDCE0B}]
+@="MHTML Document"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3D9-98B5-11CF-BB82-00AA00BDCE0B}\BrowseInPlace]
+@=""
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3D9-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3D9-98B5-11CF-BB82-00AA00BDCE0B}\MiscStatus]
+@="2228625"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3D9-98B5-11CF-BB82-00AA00BDCE0B}\ProgID]
+@="mhtmlfile"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3D9-98B5-11CF-BB82-00AA00BDCE0B}\Version]
+@="6.0"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3DA-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft HTML Mailto Pluggable Protocol"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F3DA-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F406-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft HTML About Pluggable Protocol"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F406-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F499-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft HTML Recalc"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F499-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F4E7-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft HTML Server Document 6.0"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F4E7-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F4F0-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft Scriptlet svr om Uses"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F4F0-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="c:\windows\system32\mshtml"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F4F0-98B5-11CF-BB82-00AA00BDCE0B}\ProgID]
+@="Scriptlet.SvrOm"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F4F8-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft Html Component"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F4F8-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="c:\windows\system32\mshtml"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F5C8-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft HTA Document 6.0"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F5C8-98B5-11CF-BB82-00AA00BDCE0B}\BrowseInPlace]
+@=""
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F5C8-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F5C8-98B5-11CF-BB82-00AA00BDCE0B}\MiscStatus]
+@="2228625"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F5C8-98B5-11CF-BB82-00AA00BDCE0B}\Version]
+@="6.0"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F667-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft Html Popup Window"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F667-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="c:\windows\system32\mshtml"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F67D-98B5-11CF-BB82-00AA00BDCE0B}]
+@="Microsoft Html Document for Popup Window"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{3050F67D-98B5-11CF-BB82-00AA00BDCE0B}\InProcServer32]
+@="c:\windows\system32\mshtml"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{429AF92C-A51F-11D2-861E-00C04FA35C89}]
+@="Trident API"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{429AF92C-A51F-11D2-861E-00C04FA35C89}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{5AAF51B2-B1F0-11D1-B6AB-00A0C90833E9}]
+@="Microsoft Scriptlet Element Behavior Handler"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{5AAF51B2-B1F0-11D1-B6AB-00A0C90833E9}\InProcServer32]
+@="c:\windows\system32\mshtml"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{5AAF51B2-B1F0-11D1-B6AB-00A0C90833E9}\ProgID]
+@="Scriptlet.Behavior"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{5AAF51B3-B1F0-11D1-B6AB-00A0C90833E9}]
+@="Microsoft Scriptlet HiFiTimer Uses"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{5AAF51B3-B1F0-11D1-B6AB-00A0C90833E9}\InProcServer32]
+@="c:\windows\system32\mshtml"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{5AAF51B3-B1F0-11D1-B6AB-00A0C90833E9}\ProgID]
+@="Scriptlet.HiFiTimer"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{607FD4E8-0A03-11D1-AB1D-00C04FC9B304}]
+@=""
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{607FD4E8-0A03-11D1-AB1D-00C04FC9B304}\InProcServer32]
+@="c:\windows\system32\mshtml"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{65014010-9F62-11D1-A651-00600811D5CE}]
+@="Microsoft CrSource 4.0"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{65014010-9F62-11D1-A651-00600811D5CE}\BrowseInPlace]
+@=""
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{65014010-9F62-11D1-A651-00600811D5CE}\EnablePlugin\.css]
+@="PointPlus plugin"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{65014010-9F62-11D1-A651-00600811D5CE}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{65014010-9F62-11D1-A651-00600811D5CE}\MiscStatus]
+@="2228625"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{65014010-9F62-11D1-A651-00600811D5CE}\ProgID]
+@="CrSource"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{65014010-9F62-11D1-A651-00600811D5CE}\Version]
+@="4.0"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{76E67A63-06E9-11D2-A840-006008059382}]
+@="Microsoft HTML Resource Pluggable Protocol"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{76E67A63-06E9-11D2-A840-006008059382}\InProcServer32]
+@="mshtml.dll"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{AE24FDAE-03C6-11D1-8B76-0080C744F389}]
+@="Microsoft Scriptlet Component"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{AE24FDAE-03C6-11D1-8B76-0080C744F389}\Control]
+@=""
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{AE24FDAE-03C6-11D1-8B76-0080C744F389}\InProcServer32]
+@="c:\windows\system32\mshtml"
+"ThreadingModel"="Apartment"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{AE24FDAE-03C6-11D1-8B76-0080C744F389}\MiscStatus]
+@="0"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{AE24FDAE-03C6-11D1-8B76-0080C744F389}\MiscStatus\1]
+@="131473"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{AE24FDAE-03C6-11D1-8B76-0080C744F389}\ProgID]
+@="ScriptBridge.ScriptBridge.1"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{AE24FDAE-03C6-11D1-8B76-0080C744F389}\Programmable]
+@=""
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{AE24FDAE-03C6-11D1-8B76-0080C744F389}\TypeLib]
+@="{3050F1C5-98B5-11CF-BB82-00AA00BDCE0B}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{AE24FDAE-03C6-11D1-8B76-0080C744F389}\Version]
+@="4.0"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{AE24FDAE-03C6-11D1-8B76-0080C744F389}\VersionIndependentProgID]
+@="ScriptBridge.ScriptBridge"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\GIFFilter.CoGIFFilter.1]
+@="CoGIFFilter Class"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\GIFFilter.CoGIFFilter.1\CLSID]
+@="{607FD4E8-0A03-11D1-AB1D-00C04FC9B304}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\GIFFilter.CoGIFFilter\CLSID]
+@="{607FD4E8-0A03-11D1-AB1D-00C04FC9B304}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\ICOFilter.CoICOFilter]
+@="CoICOFilter Class"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\ICOFilter.CoICOFilter.1]
+@="CoICOFilter Class"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\ICOFilter.CoICOFilter.1\CLSID]
+@="{607FD4E8-0A03-11D1-AB1D-00C04FC9B304}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\ICOFilter.CoICOFilter\CLSID]
+@="{607FD4E8-0A03-11D1-AB1D-00C04FC9B304}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\IImgCtx]
+@="IImgCtx"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\IImgCtx\CLSID]
+@="{3050F3D6-98B5-11CF-BB82-00AA00BDCE0B}h"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\InternetShortcut\shell\print\command]
+@="rundll32.exe mshtml.dll,PrintHTML "
+
+[HKEY_LOCAL_MACHINE\Software\Classes\InternetShortcut\shell\printto\command]
+@="rundll32.exe mshtml.dll,PrintHTML "
+
+[HKEY_LOCAL_MACHINE\Software\Classes\JPEGFilter.CoJPEGFilter]
+@="CoJPEGFilter Class"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\JPEGFilter.CoJPEGFilter.1]
+@="CoJPEGFilter Class"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\JPEGFilter.CoJPEGFilter.1\CLSID]
+@="{607FD4E8-0A03-11D1-AB1D-00C04FC9B304}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\JPEGFilter.CoJPEGFilter\CLSID]
+@="{607FD4E8-0A03-11D1-AB1D-00C04FC9B304}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\image/bmp]
+"Extension"=".bmp"
+"Image Filter CLSID"="{607FD4E8-0A03-11D1-AB1D-00C04FC9B304}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\image/bmp\Bits]
+"0"=hex:02,00,00,00,FF,FF,42,4D
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\image/gif]
+"CLSID"="{25336920-03F9-11CF-8FD0-00AA00686F13}"
+"Extension"=".gif"
+"Image Filter CLSID"="{607FD4E8-0A03-11D1-AB1D-00C04FC9B304}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\image/gif\Bits]
+"0"=hex:04,00,00,00,FF,FF,FF,FF,47,49,46,38
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\image/jpeg]
+"CLSID"="{25336920-03F9-11CF-8FD0-00AA00686F13}"
+"Extension"=".jpg"
+"Image Filter CLSID"="{607FD4E8-0A03-11D1-AB1D-00C04FC9B304}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\image/jpeg\Bits]
+"0"=hex:02,00,00,00,FF,FF,FF,D8
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\image/pjpeg]
+"CLSID"="{25336920-03F9-11CF-8FD0-00AA00686F13}"
+"Extension"=".jpg"
+"Image Filter CLSID"="{607FD4E8-0A03-11D1-AB1D-00C04FC9B304}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\image/pjpeg\Bits]
+"0"=hex:02,00,00,00,FF,FF,FF,D8
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\image/png]
+"Extension"=".png"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\image/x-icon]
+"CLSID"="{25336920-03F9-11CF-8FD0-00AA00686F13}"
+"Extension"=".ico"
+"Image Filter CLSID"="{607FD4E8-0A03-11D1-AB1D-00C04FC9B304}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\image/x-jg]
+"CLSID"="{25336920-03F9-11CF-8FD0-00AA00686F13}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\image/x-png]
+"Extension"=".png"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\image/x-wmf]
+"Image Filter CLSID"="{607FD4E8-0A03-11D1-AB1D-00C04FC9B304}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\image/x-wmf\Bits]
+"0"=hex:04,00,00,00,FF,FF,FF,FF,D7,CD,C6,9A
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\image/x-xbitmap]
+"CLSID"="{25336920-03F9-11CF-8FD0-00AA00686F13}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\image/xbm]
+"Extension"=".xbm"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\message/rfc822]
+"CLSID"="{3050F3D9-98B5-11CF-BB82-00AA00BDCE0B}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\text/css]
+"Extension"=".css"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\text/html]
+"CLSID"="{25336920-03F9-11CF-8FD0-00AA00686F13}"
+"Encoding"=hex:08,00,00,00
+"Extension"=".htm"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\text/plain]
+"CLSID"="{25336920-03F9-11CF-8FD0-00AA00686F13}"
+"Encoding"=hex:07,00,00,00
+"Extension"=".txt"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\text/x-component]
+"CLSID"="{3050F4F8-98B5-11CF-BB82-00AA00BDCE0B}"
+"Extension"=".htc"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\MIME\Database\Content Type\text/x-scriptlet]
+"CLSID"="{AE24FDAE-03C6-11D1-8B76-0080C744F389}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\PROTOCOLS\Handler\about]
+"CLSID"="{3050F406-98B5-11CF-BB82-00AA00BDCE0B}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\PROTOCOLS\Handler\javascript]
+"CLSID"="{3050F3B2-98B5-11CF-BB82-00AA00BDCE0B}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\PROTOCOLS\Handler\mailto]
+"CLSID"="{3050F3DA-98B5-11CF-BB82-00AA00BDCE0B}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\PROTOCOLS\Handler\res]
+"CLSID"="{3050F3BC-98B5-11CF-BB82-00AA00BDCE0B}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\PROTOCOLS\Handler\sysimage]
+"CLSID"="{76E67A63-06E9-11D2-A840-006008059382}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\PROTOCOLS\Handler\vbscript]
+"CLSID"="{3050F3B2-98B5-11CF-BB82-00AA00BDCE0B}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\ScriptBridge.ScriptBridge]
+@="Microsoft Scriptlet Component"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\ScriptBridge.ScriptBridge.1]
+@="Microsoft Scriptlet Component"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\ScriptBridge.ScriptBridge.1\CLSID]
+@="{AE24FDAE-03C6-11D1-8B76-0080C744F389}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\ScriptBridge.ScriptBridge\CurVer]
+@="ScriptBridge.ScriptBridge.1"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\Scriptlet.Behavior]
+@="Element Behavior Handler"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\Scriptlet.Behavior\CLSID]
+@="{5AAF51B2-B1F0-11D1-B6AB-00A0C90833E9}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\Scriptlet.HiFiTimer]
+@="HiFiTimer Uses"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\Scriptlet.HiFiTimer\CLSID]
+@="{5AAF51B3-B1F0-11D1-B6AB-00A0C90833E9}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\Scriptlet.SvrOm]
+@="Server OM Uses"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\Scriptlet.SvrOm\CLSID]
+@="{3050F4F0-98B5-11CF-BB82-00AA00BDCE0B}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\WMFFilter.CoWMFFilter]
+@="CoWMFFilter Class"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\WMFFilter.CoWMFFilter.1]
+@="CoWMFFilter Class"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\WMFFilter.CoWMFFilter.1\CLSID]
+@="{607FD4E8-0A03-11D1-AB1D-00C04FC9B304}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\WMFFilter.CoWMFFilter\CLSID]
+@="{607FD4E8-0A03-11D1-AB1D-00C04FC9B304}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\giffile]
+@="GIF Image"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\giffile\CLSID]
+@="{25336920-03F9-11CF-8FD0-00AA00686F13}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\giffile\shell\open\ddeexec]
+@=""
+
+[HKEY_LOCAL_MACHINE\Software\Classes\giffile\shell\open\ddeexec\Topic]
+@="WWW_OpenURL"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\htmlfile]
+@="HTML Document"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\htmlfile\BrowseInPlace]
+@=""
+
+[HKEY_LOCAL_MACHINE\Software\Classes\htmlfile\CLSID]
+@="{25336920-03F9-11CF-8FD0-00AA00686F13}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\htmlfile\shell\print\command]
+@="rundll32.exe mshtml.dll,PrintHTML "
+
+[HKEY_LOCAL_MACHINE\Software\Classes\htmlfile\shell\printto\command]
+@="rundll32.exe mshtml.dll,PrintHTML "
+
+[HKEY_LOCAL_MACHINE\Software\Classes\htmlfile_FullWindowEmbed]
+@="HTML Plugin Document"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\htmlfile_FullWindowEmbed\BrowseInPlace]
+@=""
+
+[HKEY_LOCAL_MACHINE\Software\Classes\htmlfile_FullWindowEmbed\CLSID]
+@="{25336921-03F9-11CF-8FD0-00AA00686F13}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\jpegfile]
+@="JPEG Image"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\jpegfile\CLSID]
+@="{25336920-03F9-11CF-8FD0-00AA00686F13}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\jpegfile\shell\open\ddeexec]
+@=""
+
+[HKEY_LOCAL_MACHINE\Software\Classes\jpegfile\shell\open\ddeexec\Topic]
+@="WWW_OpenURL"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\mhtmlfile]
+@="MHTML Document"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\mhtmlfile\BrowseInPlace]
+@=""
+
+[HKEY_LOCAL_MACHINE\Software\Classes\mhtmlfile\CLSID]
+@="{3050F3D9-98B5-11CF-BB82-00AA00BDCE0B}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\pjpegfile]
+@="JPEG Image"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\pjpegfile\CLSID]
+@="{25336920-03F9-11CF-8FD0-00AA00686F13}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\pjpegfile\shell\open\ddeexec]
+@=""
+
+[HKEY_LOCAL_MACHINE\Software\Classes\pjpegfile\shell\open\ddeexec\Topic]
+@="WWW_OpenURL"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\pngfile]
+@="PNG Image"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\pngfile\CLSID]
+@="{25336920-03F9-11CF-8FD0-00AA00686F13}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\pngfile\shell\open\ddeexec]
+@=""
+
+[HKEY_LOCAL_MACHINE\Software\Classes\pngfile\shell\open\ddeexec\Topic]
+@="WWW_OpenURL"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\xbmfile]
+@="XBM Image"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\xbmfile\CLSID]
+@="{25336920-03F9-11CF-8FD0-00AA00686F13}"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\xbmfile\shell\open\ddeexec]
+@=""
+
+[HKEY_LOCAL_MACHINE\Software\Classes\xbmfile\shell\open\ddeexec\Topic]
+@="WWW_OpenURL"
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer\AboutURLs]
+"PostNotCached"="res://mshtml.dll/repost.htm"
+"blank"="res://mshtml.dll/blank.htm"
+"mozilla"="res://mshtml.dll/about.moz"
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer\Default Behaviors]
+"TIME"="CLSID:476C391C-3E0D-11D2-B948-00C04FA32195"
+"VML"="CLSID:10072CEC-8CC1-11D1-986E-00A0C955B42E"
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer\Version Vector]
+"IE"="6.0000"
+

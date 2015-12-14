@@ -1,0 +1,27 @@
+%long
+
+LHCLIENTDOC
+LONG
+
+%ptr
+
+LHCLIENTDOC *
+LPOLEOBJECT
+
+%segptr
+
+SEGPTR
+
+%str
+
+LPCSTR
+
+%word
+
+BOOL16
+HDC16
+OLESTATUS
+UINT16
+
+
+

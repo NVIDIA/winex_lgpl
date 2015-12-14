@@ -1,0 +1,16 @@
+EXTRADEFS = -D__WINESRC__ -DSTRICT
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = usp10
+
+LDDLLFLAGS = @LDDLLFLAGS@
+SYMBOLFILE = $(MODULE).@OUTPUTEXT@
+
+C_SRCS = \
+	usp10.c
+
+@MAKE_DLL_RULES@
+
+### Dependencies:

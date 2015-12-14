@@ -1,0 +1,84 @@
+EXTRADEFS = -D_GDI32_
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = gdi32
+SOVERSION = 1.0
+ALTNAMES  = gdi dispdib wing
+IMPORTS   = kernel32 ntdll
+EXTRAINCL = @FREETYPEINCL@ @FONTCONFINCL@
+EXTRALIBS = $(LIBUNICODE)
+
+SYMBOLFILE = $(MODULE).@OUTPUTEXT@
+
+C_SRCS = \
+	bidi16.c \
+	bitblt.c \
+	bitmap.c \
+	brush.c \
+	clipping.c \
+	color.c \
+	dc.c \
+	dcvalues.c \
+	dib.c \
+	dispdib.c \
+	driver.c \
+	enhmetafile.c \
+	env.c \
+	escape.c \
+	font.c \
+	fontengine.c \
+	freetype.c \
+	gdiobj.c \
+	gdi_main.c \
+	linedda.c \
+	mapping.c \
+	metafile.c \
+	painting.c \
+	palette.c \
+	path.c \
+	pen.c \
+	printdrv.c \
+	region.c \
+	text.c \
+	wing.c
+
+RC_SRCS= \
+	version.rc
+
+RC_SRCS16= \
+	version16.rc
+
+GLUE = \
+	dc.c \
+	font.c \
+	gdiobj.c \
+	linedda.c \
+	metafile.c \
+	printdrv.c
+
+EXTRA_OBJS = \
+	enhmetafiledrv/enhmetafiledrv.o \
+	metafiledrv/metafiledrv.o \
+	win16drv/win16drv.o
+
+SUBDIRS = \
+	enhmetafiledrv \
+	metafiledrv \
+	win16drv
+
+@MAKE_DLL_RULES@
+
+$(EXTRA_OBJS): dummy
+	@cd `dirname $@` && $(MAKE) `basename $@`
+
+# Special rules for 16-bit resource files
+
+version16.res: version16.rc
+	$(LDPATH) $(WRC) $(DIVINCL) -o $@ -w16 -m -r $(SRCDIR)/version16.rc
+
+$(OBJDIR)/gdi.spec.c: version16.res
+
+### Dependencies:
+

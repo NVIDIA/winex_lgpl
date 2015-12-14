@@ -1,0 +1,14 @@
+%long
+
+DWORD
+LONG
+
+%void
+
+void
+
+%word
+
+BOOL16
+INT16
+UINT16

@@ -1,0 +1,115 @@
+
+
+import "objidl.idl";
+import "oleidl.idl";
+import "oaidl.idl";
+import "docobj.idl";
+import "servprov.idl";
+
+typedef enum _ADDURL_FLAG
+{
+    ADDURL_FIRST                = 0,
+    ADDURL_ADDTOHISTORYANDCACHE = 0,
+    ADDURL_ADDTOCACHE           = 1,
+    ADDURL_Max                  = 0x7fffffff
+} ADDURL_FLAG;
+
+
+[
+    object,
+    uuid(3c374a42-bae4-11cf-bf7d-00aa006946ee),
+    pointer_default(unique)
+]
+interface IEnumSTATURL : IUnknown
+{
+    typedef [unique] IEnumSTATURL *LPENUMSTATURL;
+	
+    typedef struct _STATURL
+    {
+        DWORD cbSize;
+        LPWSTR pwcsUrl;
+        LPWSTR pwcsTitle;
+        FILETIME ftLastVisited;
+        FILETIME ftLastUpdated;
+        FILETIME ftExpires;
+        DWORD dwFlags;
+    } STATURL, *LPSTATURL;
+
+    HRESULT Next(
+        [in] ULONG celt,
+        [in, out] LPSTATURL rgelt,
+        [in, out] ULONG *pceltFetched);
+
+    HRESULT Skip([in] ULONG celt);
+    HRESULT Reset();
+    HRESULT Clone([out] IEnumSTATURL **ppenum);
+
+    HRESULT SetFilter(
+        [in] LPCOLESTR poszFilter,
+        [in] DWORD dwFlags);
+}
+
+
+[
+    object,
+    uuid(3c374a41-bae4-11cf-bf7d-00aa006946ee),
+    pointer_default(unique)
+]
+interface IUrlHistoryStg : IUnknown
+{
+    typedef [unique] IUrlHistoryStg *LPURLHISTORYSTG;
+	
+    HRESULT AddUrl(
+        [in] LPCOLESTR pocsUrl,
+        [in, unique] LPCOLESTR pocsTitle,
+        [in] DWORD dwFlags);
+
+    HRESULT DeleteUrl(
+        [in] LPCOLESTR pocsUrl,
+        [in] DWORD dwFlags);
+
+    HRESULT QueryUrl(
+        [in] LPCOLESTR pocsUrl,
+        [in] DWORD dwFlags,
+        [in, out, unique] LPSTATURL lpSTATURL);
+	
+    HRESULT BindToObject(
+        [in] LPCOLESTR pocsUrl,
+        [in] REFIID riid,
+        [out, iid_is(riid)] void **ppvOut);
+
+    HRESULT EnumUrls(
+        [out] IEnumSTATURL **ppEnum);	
+}
+
+
+[
+    object,
+    uuid(afa0dc11-c313-11d0-831a-00c04fd5ae38),
+    pointer_default(unique)
+]
+interface IUrlHistoryStg2 : IUrlHistoryStg
+{
+    typedef [unique] IUrlHistoryStg2 *LPURLHISTORYSTG2;
+
+    HRESULT AddUrlAndNotify(
+        [in] LPCOLESTR pocsUrl,
+        [in,unique] LPCOLESTR pocsTitle,
+        [in] DWORD dwFlags,
+        [in] BOOL fWriteHistory,
+        [in] IOleCommandTarget *poctNotify,
+        [in, unique] IUnknown *punkISFolder);
+
+    HRESULT ClearHistory();
+}
+
+
+[
+    object,
+    uuid(bc40bec1-c493-11d0-831b-00C04fd5ae38),
+    pointer_default(unique)
+]
+interface IUrlHistoryNotify : IOleCommandTarget
+{
+    typedef [unique] IUrlHistoryNotify *LPURLHISTORYNOTIFY;
+}

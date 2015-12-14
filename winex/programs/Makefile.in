@@ -1,0 +1,44 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = none
+
+SUBDIRS = \
+	avitools \
+	clock \
+	cmdlgtst \
+	control \
+	msiexec \
+	notepad \
+	osversioncheck \
+	progman \
+	regapi \
+	regsvr32 \
+	regtest \
+	rpcss \
+	uninstaller \
+	view \
+	wcmd \
+	winebrowserlink \
+	wineconsole \
+	winedbg \
+	winemine \
+	winetest \
+	winhelp \
+	winver
+
+all: $(SUBDIRS)
+
+@MAKE_RULES@
+
+$(SUBDIRS:%=%/__checklink__): dummy
+	@cd `dirname $@` && $(MAKE) checklink
+
+install:: $(SUBDIRS:%=%/__install__)
+
+uninstall:: $(SUBDIRS:%=%/__uninstall__)
+
+checklink:: $(SUBDIRS:%=%/__checklink__)
+
+### Dependencies:

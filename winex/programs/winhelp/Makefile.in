@@ -1,0 +1,39 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = winhelp
+PROGRAMS  = hlp2sgml
+IMPORTS   = advapi32 comctl32 shlwapi shell32 ole32 rpcrt4 comdlg32 winspool.drv user32 gdi32 kernel32 ntdll
+
+C_SRCS = \
+	winhelp.c \
+	hlpfile.c \
+	macro.c \
+	string.c
+
+EXTRA_SRCS = macro.yacc.y macro.lex.l
+EXTRA_OBJS = y.tab.o @LEX_OUTPUT_ROOT@.o
+
+RC_SRCS = rsrc.rc
+
+@MAKE_PROG_RULES@
+
+all: $(PROGRAMS)
+
+hlp2sgml: hlp2sgml.o hlpfile.o
+	$(CC) -o hlp2sgml hlp2sgml.o hlpfile.o
+
+install::
+	$(INSTALL_PROGRAM) hlp2sgml $(bindir)/hlp2sgml
+
+uninstall::
+	$(RM) $(bindir)/hlp2sgml
+
+y.tab.c y.tab.h: macro.yacc.y
+	$(YACC) -d -t $(SRCDIR)/macro.yacc.y
+
+@LEX_OUTPUT_ROOT@.c: macro.lex.l
+	$(LEX) -8 -i $(SRCDIR)/macro.lex.l
+
+### Dependencies:

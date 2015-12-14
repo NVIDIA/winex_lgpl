@@ -1,0 +1,37 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = winedbg
+
+C_SRCS = \
+	break.c \
+	db_disasm.c \
+	display.c \
+	expr.c \
+	ext_debugger.c \
+	gdbproxy.c \
+	hash.c \
+	info.c \
+	memory.c \
+	module.c \
+	msc.c \
+	registers.c \
+	source.c \
+	stabs.c	\
+	stack.c \
+	types.c \
+	winedbg.c
+
+EXTRA_SRCS = dbg.y debug.l
+EXTRA_OBJS = y.tab.o @LEX_OUTPUT_ROOT@.o
+
+@MAKE_PROG_RULES@
+
+y.tab.c y.tab.h: dbg.y
+	$(YACC) -d -t $(SRCDIR)/dbg.y
+
+@LEX_OUTPUT_ROOT@.c: debug.l
+	$(LEX) -8 -I $(SRCDIR)/debug.l
+
+### Dependencies:

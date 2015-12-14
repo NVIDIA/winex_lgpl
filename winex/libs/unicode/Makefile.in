@@ -1,0 +1,122 @@
+DLLFLAGS  = @DLLFLAGS@
+DEFS      = -D__WINE__
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+LIBEXT    = @LIBEXT@
+MODULE    = none
+SONAME    = libwine_unicode.so
+
+CODEPAGES = \
+	037 \
+	424 \
+	437 \
+	500 \
+	737 \
+	775 \
+	850 \
+	852 \
+	855 \
+	856 \
+	857 \
+	860 \
+	861 \
+	862 \
+	863 \
+	864 \
+	865 \
+	866 \
+	869 \
+	874 \
+	875 \
+	878 \
+	932 \
+	936 \
+	949 \
+	950 \
+	1006 \
+	1026 \
+	1250 \
+	1251 \
+	1252 \
+	1253 \
+	1254 \
+	1255 \
+	1256 \
+	1257 \
+	1258 \
+	10000 \
+	10006 \
+	10007 \
+	10029 \
+	10079 \
+	10081 \
+	20127 \
+	20866 \
+	20932 \
+	21866 \
+	28591 \
+	28592 \
+	28593 \
+	28594 \
+	28595 \
+	28596 \
+	28597 \
+	28598 \
+	28599 \
+	28600 \
+	28603 \
+	28604 \
+	28605 \
+	28606
+
+C_SRCS = \
+	casemap.c \
+	collation.c \
+	compose.c \
+	cptable.c \
+	fold.c \
+	mbtowc.c \
+	sortkey.c \
+	string.c \
+	utf8.c \
+	wctomb.c \
+	wctype.c \
+	$(CODEPAGES:%=c_%.c)
+
+all: libwine_unicode.$(LIBEXT)
+
+@MAKE_RULES@
+
+libwine_unicode.$(LIBEXT): $(OBJS)
+	$(LDSHARED) @PACKAGE_LINK@ $(OBJS) -o $@
+
+libwine_unicode.a: $(OBJS)
+	$(RM) $@
+	$(AR) $@ $(OBJS)
+	$(RANLIB) $@
+
+# --export-all don't work correctly because of dllwrap's bug
+libwine_unicode.dll: $(OBJS) wine_unicode.def
+	$(DLLWRAP) $(DLLWRAPFLAGS) --def wine_unicode.def --implib libwine_unicode.a -o libwine_unicode.dll $(OBJS)
+
+install_so: libwine_unicode.$(LIBEXT)
+	[ -d $(libdir) ] || $(MKDIR) $(libdir)
+	$(INSTALL_PROGRAM) libwine_unicode.$(LIBEXT) $(libdir)/libwine_unicode.$(LIBEXT)
+
+install_dylib: install_so
+
+install_a: libwine_unicode.a
+	[ -d $(libdir) ] || $(MKDIR) $(libdir)
+	$(INSTALL_DATA) libwine_unicode.a $(libdir)/libwine_unicode.a
+
+install:: all $(LIBEXT:%=install_%)
+
+uninstall::
+	cd $(libdir) && $(RM) libwine_unicode.a libwine_unicode.$(LIBEXT)
+
+clean::
+	$(RM) libwine_unicode.$(LIBEXT)
+
+### Dependencies:

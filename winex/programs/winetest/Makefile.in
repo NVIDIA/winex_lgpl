@@ -1,0 +1,35 @@
+EXTRADEFS = `perl -MExtUtils::Embed -e ccflags`
+EXTRALIBS = `perl -MExtUtils::Embed -e ldopts`
+EXTRAINCL = `perl -MExtUtils::Embed -e perl_inc`
+XSUBPPDIR = `perl -MConfig -e 'print $$Config::Config{privlibexp}'`/ExtUtils
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = winetest
+
+C_SRCS = winetest.c
+
+EXTRA_OBJS = wine.o
+
+EXTRASUBDIRS = include tests
+
+PLTESTS = \
+	tests/wine.pl
+
+@MAKE_PROG_RULES@
+
+wine.c: wine.xs
+	perl $(XSUBPPDIR)/xsubpp -typemap $(XSUBPPDIR)/typemap $(SRCDIR)/wine.xs >wine.c || $(RM) wine.c
+
+install::
+	[ -d $(libdir) ] || $(MKDIR) $(libdir)
+	$(INSTALL_DATA) wine.pm $(libdir)/wine.pm
+
+uninstall::
+	cd $(libdir) && $(RM) wine.pm
+
+clean::
+	$(RM) wine.c
+
+### Dependencies:

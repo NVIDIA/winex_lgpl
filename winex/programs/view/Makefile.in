@@ -1,0 +1,17 @@
+TOPSRCDIR = @top_srcdir@
+TOPOBJDIR = ../..
+SRCDIR    = @srcdir@
+VPATH     = @srcdir@
+MODULE    = view
+
+C_SRCS = \
+	init.c \
+	view.c \
+	winmain.c
+
+RC_SRCS = \
+	viewrc.rc
+
+@MAKE_PROG_RULES@
+
+### Dependencies:
