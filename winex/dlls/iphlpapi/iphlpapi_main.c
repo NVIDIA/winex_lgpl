@@ -157,13 +157,28 @@ DWORD WINAPI AllocateAndGetIfTableFromStack(PMIB_IFTABLE *ppIfTable,
 
 static int IpAddrTableSorter(const void *a, const void *b)
 {
-  int ret;
+  if (a != NULL && b != NULL)
+  {
+    const MIB_IPADDRROW *row1 = (const MIB_IPADDRROW *)a;
+    const MIB_IPADDRROW *row2 = (const MIB_IPADDRROW *)b;
 
-  if (a && b)
-    ret = ((const MIB_IPADDRROW*)a)->dwAddr - ((const MIB_IPADDRROW*)b)->dwAddr;
-  else
-    ret = 0;
-  return ret;
+
+    if (row1->dwAddr > row2->dwAddr)
+      return 1;
+
+    if (row1->dwAddr < row2->dwAddr)
+      return -1;
+
+    return 0;
+  }
+
+  else if (a != NULL)
+    return 1;
+
+  else if (b != NULL)
+    return -1;
+
+  return 0;
 }
 
 
@@ -234,7 +249,7 @@ NETIO_STATUS WINAPI CancelMibChangeNotify2(HANDLE handle)
 
 NETIO_STATUS WINAPI ConvertInterfaceLuidToGuid(const NET_LUID *InterfaceLuid, GUID *InterfaceGuid)
 {
-    FIXME("stub! {InterfaceLuid = %p {Value = {%06llx-%06llx-%04llx}}, InterfaceGuid = %p}\n",
+    FIXME("stub! {InterfaceLuid = %p {Value = {%06x-%06x-%04x}}, InterfaceGuid = %p}\n",
             InterfaceLuid, InterfaceLuid->Info.Reserved, InterfaceLuid->Info.NetLuidIndex, InterfaceLuid->Info.IfType, InterfaceGuid);
 
     if (InterfaceLuid == NULL || InterfaceGuid == NULL)
@@ -991,9 +1006,9 @@ static ULONG adapterAddressesFromIndex(ULONG family, ULONG flags, IF_INDEX index
                 /* set the lifetime values are for this address .  These values are just shy of
                    91.5 years... for some reason... that's what XP seems to set for all
                    interfaces. */
-                ua->ValidLifetime           = 2877947399;
-                ua->PreferredLifetime       = 2877947399;
-                ua->LeaseLifetime           = 2877947399;
+                ua->ValidLifetime           = 2877947399u;
+                ua->PreferredLifetime       = 2877947399u;
+                ua->LeaseLifetime           = 2877947399u;
 
                 sa = (struct WS_sockaddr_in *)ua->Address.lpSockaddr;
                 sa->sin_family           = WS_AF_INET;
@@ -1822,10 +1837,11 @@ DWORD WINAPI GetIfTable(PMIB_IFTABLE pIfTable, PULONG pdwSize, BOOL bOrder)
           pIfTable->dwNumEntries = 0;
           for (ndx = 0; ndx < table->numIndexes; ndx++) {
             pIfTable->table[ndx].dwIndex = table->indexes[ndx];
-            GetIfEntry(&pIfTable->table[ndx]);
-            pIfTable->dwNumEntries++;
+            ret = GetIfEntry(&pIfTable->table[ndx]);
+            if (ret == NO_ERROR)
+              pIfTable->dwNumEntries++;
           }
-          if (bOrder)
+          if (bOrder && pIfTable->dwNumEntries > 0)
             qsort(pIfTable->table, pIfTable->dwNumEntries, sizeof(MIB_IFROW),
              IfTableSorter);
           ret = NO_ERROR;

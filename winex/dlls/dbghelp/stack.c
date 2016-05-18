@@ -158,10 +158,13 @@ static inline void addr_64to32(const ADDRESS64* addr64, ADDRESS* addr32)
 
 static inline BOOL sw_read_mem(struct stack_walk_callback* cb, DWORD addr, void* ptr, DWORD sz)
 {
+    DWORD bytesRead;
+
+
     if (cb->is32)
-        return cb->u.s32.f_read_mem(cb->hProcess, addr, ptr, sz, NULL);
+        return cb->u.s32.f_read_mem(cb->hProcess, addr, ptr, sz, &bytesRead);
     else
-        return cb->u.s64.f_read_mem(cb->hProcess, addr, ptr, sz, NULL);
+        return cb->u.s64.f_read_mem(cb->hProcess, addr, ptr, sz, &bytesRead);
 }
 
 static inline DWORD sw_xlat_addr(struct stack_walk_callback* cb, ADDRESS* addr)
