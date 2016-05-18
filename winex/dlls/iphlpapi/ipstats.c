@@ -1637,8 +1637,17 @@ static int compare_ipnet_rows(const void *a, const void *b)
 {
     const MIB_IPNETROW *rowA = a;
     const MIB_IPNETROW *rowB = b;
+    DWORD addr1 = ntohl(rowA->dwAddr);
+    DWORD addr2 = ntohl(rowB->dwAddr);
 
-    return ntohl(rowA->dwAddr) - ntohl(rowB->dwAddr);
+
+    if (addr1 > addr2)
+        return 1;
+
+    if (addr1 < addr2)
+        return -1;
+
+    return 0;
 }
 
 
@@ -1989,7 +1998,7 @@ static unsigned int find_owning_pid( struct pid_map *map, unsigned int num_entri
     unsigned int i, len_socket;
     char socket[32];
 
-    sprintf( socket, "socket:[%lu]", inode );
+    sprintf( socket, "socket:[%tu]", inode );
     len_socket = strlen( socket );
     for (i = 0; i < num_entries; i++)
     {
