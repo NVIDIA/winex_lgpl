@@ -27,6 +27,7 @@
 #include "winternl.h"
 #include "iphlpapi.h"
 #include "netioapi.h"
+#include "wine/tg_types.h"
 #include "wine/debug.h"
 
 DEFAULT_DEBUG_CHANNEL(iphlpapi);
@@ -34,10 +35,7 @@ DEFAULT_DEBUG_CHANNEL(iphlpapi);
 
 static const char *IPHLPAPI_getAddressFamilyName(ULONG af)
 {
-#define GETNAME(x)  case x: return #x
-
-    switch (af)
-    {
+    BEGINNAMEMAPNOPREFIX(af)
         GETNAME(WS(AF_UNSPEC));
         GETNAME(WS(AF_UNIX));
         GETNAME(WS(AF_INET));
@@ -68,11 +66,7 @@ static const char *IPHLPAPI_getAddressFamilyName(ULONG af)
         GETNAME(WS(AF_12844));
         GETNAME(WS(AF_IRDA));
         GETNAME(WS(AF_NETDES));
-        default:
-            return "<unknown_family>";
-    }
-
-#undef GETNAME
+    ENDNAMEMAP("<unknown_family>");
 }
 
 static void IPHLPAPI_dumpSocketAddress___(SOCKET_ADDRESS *addr)
@@ -193,10 +187,7 @@ static void IPHLPAPI_dumpPrefixAddress___(IP_ADAPTER_PREFIX *addr)
 
 static const char *IPHLPAPI_getOperStatusName(IF_OPER_STATUS status)
 {
-#define GETNAME(x)  case x: return #x
-
-    switch (status)
-    {
+    BEGINNAMEMAPNOPREFIX(status)
         GETNAME(IfOperStatusUp);
         GETNAME(IfOperStatusDown);
         GETNAME(IfOperStatusTesting);
@@ -204,19 +195,12 @@ static const char *IPHLPAPI_getOperStatusName(IF_OPER_STATUS status)
         GETNAME(IfOperStatusDormant);
         GETNAME(IfOperStatusNotPresent);
         GETNAME(IfOperStatusLowerLayerDown);
-        default:
-            return "<unknown_status>";
-    }
-
-#undef GETNAME
+    ENDNAMEMAP("<unknown_status>");
 }
 
 static const char *IPHLPAPI_getIfTypeName(ULONG ifType)
 {
-#define GETNAME(x)  case x: return #x
-
-    switch (ifType)
-    {
+    BEGINNAMEMAPNOPREFIX(ifType)
         GETNAME(IF_TYPE_OTHER);
         GETNAME(IF_TYPE_ETHERNET_CSMACD);
         GETNAME(IF_TYPE_ISO88025_TOKENRING);
@@ -226,11 +210,7 @@ static const char *IPHLPAPI_getIfTypeName(ULONG ifType)
         GETNAME(IF_TYPE_IEEE80211);
         GETNAME(IF_TYPE_TUNNEL);
         GETNAME(IF_TYPE_IEEE1394);
-        default:
-            return "<unknown_type>";
-    }
-
-#undef GETNAME
+    ENDNAMEMAP("<unknown_type>");
 }
 
 void IPHLPAPI_dumpAdapterAddresses(IP_ADAPTER_ADDRESSES *addr)
