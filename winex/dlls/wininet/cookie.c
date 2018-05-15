@@ -688,7 +688,7 @@ DWORD get_cookie(const WCHAR *host, const WCHAR *path, const WCHAR *name, WCHAR 
 
         else
         {
-            TRACE("ran out of buffer space.  Given %u, requred %d\n", *size, cnt + 1);
+            TRACE("ran out of buffer space.  Given %u, required %d\n", *size, cnt + 1);
             return ERROR_INSUFFICIENT_BUFFER;
         }
     }
