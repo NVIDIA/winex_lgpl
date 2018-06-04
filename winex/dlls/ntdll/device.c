@@ -30,7 +30,7 @@
 #include "winnt.h"
 #include "msdos.h"
 #include "miscemu.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "wine/server.h"
 #include "wine/hardware.h"
 #include "wine/debug.h"

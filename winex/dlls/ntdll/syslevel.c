@@ -15,7 +15,7 @@
 #endif
 #include "winternl.h"
 #include "syslevel.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "wine/hardware.h"
 #include "wine/debug.h"
 

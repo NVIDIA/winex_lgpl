@@ -11,7 +11,7 @@
 #include "winbase.h"
 #include "wingdi.h"
 #include "winuser.h"
-#include "thread.h"
+#include "wine/thread.h"
 
 #define WH_NB_HOOKS (WH_MAXHOOK-WH_MINHOOK+1)
 

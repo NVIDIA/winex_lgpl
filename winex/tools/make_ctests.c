@@ -102,11 +102,66 @@ static char* basename( const char* filename )
     return out;
 }
 
+static char *dirbasename( const char *filename )
+{
+    char *buffer;
+    char *p[2];
+    size_t len;
+
+
+    len = strlen(filename);
+    buffer = xmalloc(len + 1);
+    memcpy(buffer, filename, sizeof(char) * (len + 1));
+
+    /* remove the trailing separator (if any) for consistency in paths. */
+    if (buffer[len - 1] == '/' || buffer[len - 1] == '\\')
+        buffer[len - 1] = 0;
+
+    /* chop off the file/folder name portion. */
+    p[0] = strrchr(buffer, '/');
+    p[1] = strrchr(buffer, '\\');
+
+    if (p[1] > p[0])
+        p[0] = p[1];
+
+    if (p[0] != NULL)
+        p[0][0] = 0;
+
+    /* no path separators -> just a filename => no base directory, just return an empty string. */
+    else
+    {
+        buffer[0] = 0;
+        return buffer;
+    }
+
+    /* chop off the next folder name and return that as the path. */
+    p[0] = strrchr(buffer, '/');
+    p[1] = strrchr(buffer, '\\');
+
+    if (p[1] > p[0])
+        p[0] = p[1];
+
+    /* no additional path separators -> assume root folder => return the remaining string as
+         the base directory name. */
+    if (p[0] == NULL)
+        return buffer;
+
+    p[0]++;
+    len = strlen(p[0]);
+    p[1] = xmalloc(len + 1);
+    memcpy(p[1], p[0], sizeof(char) * (len + 1));
+    free(buffer);
+
+    return p[1];
+}
+
 int main( int argc, const char** argv )
 {
     int i, count = 0;
     FILE *out = stdout;
     char **tests = xmalloc( argc * sizeof(*tests) );
+    char *module;
+    char  cwd[256];
 
     for (i = 1; i < argc; i++)
     {
@@ -117,6 +172,10 @@ int main( int argc, const char** argv )
         }
         tests[count++] = basename( argv[i] );
     }
+
+    getcwd(cwd, sizeof(cwd) / sizeof(cwd[0]));
+    module = dirbasename(cwd);
+
 
     atexit( cleanup_files );
     signal( SIGTERM, exit_on_signal );
@@ -146,10 +205,10 @@ int main( int argc, const char** argv )
              "const struct test winetest_testlist[] =\n"
              "{\n" );
 
-    for (i = 0; i < count; i++) fprintf( out, "    { \"%s\", func_%s },\n", tests[i], tests[i] );
+    for (i = 0; i < count; i++) fprintf( out, "    { \"%s\", \"%s\", func_%s },\n", module, tests[i], tests[i] );
 
     fprintf( out,
-             "    { 0, 0 }\n"
+             "    { 0, 0, 0 }\n"
              "};\n" );
 
     if (output_file && fclose( out ))

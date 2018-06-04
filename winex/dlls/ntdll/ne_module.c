@@ -25,7 +25,7 @@
 #include "task.h"
 #include "snoop.h"
 #include "builtin16.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "wine/debug.h"
 
 WINE_DEFAULT_DEBUG_CHANNEL(module);

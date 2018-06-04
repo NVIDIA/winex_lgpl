@@ -199,7 +199,7 @@ typedef struct {
     INT16 nroargs;      /* nr of optional arguments */
 #endif
     /* optional attribute fields, the number of them is variable */
-    INT   OptAttr[1];
+    INT_PTR   OptAttr[1];
 /*
 0*  INT   helpcontext;
 1*  INT   oHelpString;

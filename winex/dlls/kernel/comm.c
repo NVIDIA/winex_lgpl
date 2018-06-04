@@ -71,7 +71,7 @@
 
 #include "wine/server.h"
 #include "wine/file.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 
 #include "wine/debug.h"
 

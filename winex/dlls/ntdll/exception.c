@@ -18,7 +18,7 @@
 #include "winternl.h"
 #include "global.h"
 #include "wine/exception.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "miscemu.h"
 #include "wine/server.h"
 #include "wine/debug.h"

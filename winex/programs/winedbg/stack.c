@@ -11,7 +11,7 @@
 #include <stdlib.h>
 
 #include "debugger.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "winbase.h"
 
 #ifdef __i386__

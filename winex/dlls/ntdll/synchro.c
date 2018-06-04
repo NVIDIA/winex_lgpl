@@ -17,7 +17,7 @@
 #include <string.h>
 
 #include "wine/file.h"  /* for DOSFS_UnixTimeToFileTime */
-#include "thread.h"
+#include "wine/thread.h"
 #include "winerror.h"
 #include "wine/server.h"
 #include "async.h"

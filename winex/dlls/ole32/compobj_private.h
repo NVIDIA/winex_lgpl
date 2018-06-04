@@ -14,7 +14,7 @@
 
 #include "wtypes.h"
 #include "dcom.h"
-#include "thread.h"
+#include "wine/thread.h"
 
 /* exported interface */
 typedef struct tagXIF {

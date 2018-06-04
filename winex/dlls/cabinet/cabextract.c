@@ -1456,11 +1456,11 @@ static int LZXinit(int window, cab_decomp_state *decomp_state) {
   LZX(window_size) = wndsize;
 
   /* initialise static tables */
-  for (i=0, j=0; i <= 50; i += 2) {
+  for (i=0, j=0; i < 50; i += 2) {
     CAB(extra_bits)[i] = CAB(extra_bits)[i+1] = j; /* 0,0,0,0,1,1,2,2,3,3... */
     if ((i != 0) && (j < 17)) j++; /* 0,0,1,2,3,4...15,16,17,17,17,17... */
   }
-  for (i=0, j=0; i <= 50; i++) {
+  for (i=0, j=0; i < 50; i++) {
     CAB(lzx_position_base)[i] = j; /* 0,1,2,3,4,6,8,12,16,24,32,... */
     j += 1 << CAB(extra_bits)[i]; /* 1,1,1,1,2,2,4,4,8,8,16,16,32,32,... */
   }

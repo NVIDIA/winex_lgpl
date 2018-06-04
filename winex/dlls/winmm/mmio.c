@@ -28,7 +28,7 @@
 
 #include "wine/mmsystem16.h"
 #include "wine/winbase16.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "wine/file.h"
 #include "winemm.h"
 

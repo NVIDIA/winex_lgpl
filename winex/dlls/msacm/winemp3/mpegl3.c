@@ -32,6 +32,7 @@
 #include "mpg123.h"
 #include "mpglib.h"
 
+#include "wine/format_string_types.h"
 #include "wine/debug.h"
 
 WINE_DEFAULT_DEBUG_CHANNEL(mpeg3);
@@ -47,7 +48,7 @@ static	DWORD	MPEG3_drvOpen(LPCSTR str)
 /***********************************************************************
  *           MPEG3_drvClose
  */
-static	DWORD	MPEG3_drvClose(DWORD dwDevID)
+static	DWORD	MPEG3_drvClose(DWORD_PTR dwDevID)
 {
     return 1;
 }
@@ -120,27 +121,6 @@ static	DWORD	MPEG3_GetFormatIndex(LPWAVEFORMATEX wfx)
     }
 
     return 0xFFFFFFFF;
-}
-
-/***********************************************************************
- *           R16
- *
- * Read a 16 bit sample (correctly handles endianess)
- */
-static inline short  R16(const unsigned char* src)
-{
-    return (short)((unsigned short)src[0] | ((unsigned short)src[1] << 8));
-}
-
-/***********************************************************************
- *           W16
- *
- * Write a 16 bit sample (correctly handles endianess)
- */
-static inline void  W16(unsigned char* dst, short s)
-{
-    dst[0] = LOBYTE(s);
-    dst[1] = HIBYTE(s);
 }
 
 static void mp3_horse(PACMDRVSTREAMINSTANCE adsi,
@@ -436,7 +416,7 @@ static	LRESULT	MPEG3_StreamOpen(PACMDRVSTREAMINSTANCE adsi)
         return MMSYSERR_NOMEM;
     }
 
-    adsi->dwDriver = (DWORD)aad;
+    adsi->dwDriver = (DWORD_PTR)aad;
     aad->convert = mp3_horse;
 
     InitMP3(&aad->mp);
@@ -454,17 +434,6 @@ static	LRESULT	MPEG3_StreamClose(PACMDRVSTREAMINSTANCE adsi)
     ExitMP3(&((AcmMpeg3Data*)adsi->dwDriver)->mp);
     HeapFree(GetProcessHeap(), 0, (void*)adsi->dwDriver);
     return MMSYSERR_NOERROR;
-}
-
-/***********************************************************************
- *           MPEG3_round
- *
- */
-static	inline DWORD	MPEG3_round(DWORD a, DWORD b, DWORD c)
-{
-    assert(a && b && c);
-    /* to be sure, always return an entire number of c... */
-    return ((double)a * (double)b + (double)c - 1) / (double)c;
 }
 
 /***********************************************************************
@@ -583,11 +552,11 @@ static LRESULT MPEG3_StreamConvert(PACMDRVSTREAMINSTANCE adsi, PACMDRVSTREAMHEAD
 /**************************************************************************
  * 			MPEG3_DriverProc			[exported]
  */
-LRESULT CALLBACK	MPEG3_DriverProc(DWORD dwDevID, HDRVR hDriv, UINT wMsg,
+LRESULT CALLBACK	MPEG3_DriverProc(DWORD_PTR dwDevID, HDRVR hDriv, UINT wMsg,
 					 LPARAM dwParam1, LPARAM dwParam2)
 {
-    TRACE("(%08x %08x %04x %08lx %08lx);\n",
-	  dwDevID, (DWORD)hDriv, wMsg, dwParam1, dwParam2);
+    TRACE("(" DWORD_PTR_FMT " %p %04x " DWORD_PTR_FMT " " DWORD_PTR_FMT ");\n",
+	  dwDevID, hDriv, wMsg, dwParam1, dwParam2);
 
     SetLastError(ERROR_SUCCESS);
 

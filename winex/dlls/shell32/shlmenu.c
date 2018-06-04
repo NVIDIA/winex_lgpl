@@ -12,7 +12,7 @@
 #include "shlobj.h"
 #include "undocshell.h"
 #include "shlwapi.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "shell32_main.h"
 #include "shlguid.h"
 

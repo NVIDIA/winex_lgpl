@@ -12,7 +12,7 @@
 #include "debugger.h"
 
 #include "winternl.h"
-#include "thread.h"
+#include "wine/thread.h"
 #include "wincon.h"
 #include "wingdi.h"
 #include "winuser.h"

@@ -25,7 +25,7 @@
 #include "task.h"
 #include "winpos.h"
 #include "winerror.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "wine/debug.h"
 
 WINE_DEFAULT_DEBUG_CHANNEL(win);

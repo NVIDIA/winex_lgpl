@@ -107,7 +107,7 @@ static HRESULT WINAPI UrlHistoryStg_ClearHistory(IUrlHistoryStg2 *iface)
     return E_NOTIMPL;
 }
 
-static const IUrlHistoryStg2Vtbl UrlHistoryStg2Vtbl = {
+static IUrlHistoryStg2Vtbl UrlHistoryStg2Vtbl = {
     UrlHistoryStg_QueryInterface,
     UrlHistoryStg_AddRef,
     UrlHistoryStg_Release,

@@ -2208,7 +2208,7 @@ static nsresult NSAPI nsIOService_ExtractScheme(nsIIOService *iface, const nsACS
     return nsIIOService_ExtractScheme(nsio, urlString, _retval);
 }
 
-static const nsIIOServiceVtbl nsIOServiceVtbl = {
+static nsIIOServiceVtbl nsIOServiceVtbl = {
     nsIOService_QueryInterface,
     nsIOService_AddRef,
     nsIOService_Release,
@@ -2262,7 +2262,7 @@ static nsresult NSAPI nsNetUtil_ParseContentType(nsINetUtil *iface, const nsACSt
     return nsres;
 }
 
-static const nsINetUtilVtbl nsNetUtilVtbl = {
+static nsINetUtilVtbl nsNetUtilVtbl = {
     nsNetUtil_QueryInterface,
     nsNetUtil_AddRef,
     nsNetUtil_Release,
@@ -2336,7 +2336,7 @@ static nsresult NSAPI nsIOServiceFactory_LockFactory(nsIFactory *iface, PRBool l
     return NS_OK;
 }
 
-static const nsIFactoryVtbl nsIOServiceFactoryVtbl = {
+static nsIFactoryVtbl nsIOServiceFactoryVtbl = {
     nsIOServiceFactory_QueryInterface,
     nsIOServiceFactory_AddRef,
     nsIOServiceFactory_Release,

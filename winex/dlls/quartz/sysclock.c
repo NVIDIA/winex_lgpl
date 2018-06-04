@@ -195,7 +195,7 @@ DWORD WINAPI IReferenceClock_TimerEntry( LPVOID lpvParam )
 	DWORD	dwRes;
 	DWORD	dwTimeout;
 
-	TGSetThreadName(-1, "QUARTZ timer");
+	THREAD_setThreadName(-1, "QUARTZ timer");
 
 	/* initialize the message queue. */
 	PeekMessageA( &msg, (HWND)NULL, 0, 0, PM_NOREMOVE );

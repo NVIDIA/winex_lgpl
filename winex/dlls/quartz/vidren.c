@@ -630,7 +630,7 @@ static DWORD WINAPI VIDREN_ThreadEntry( LPVOID pv )
 	CVideoRendererImpl*	This = (CVideoRendererImpl*)pv;
 	MSG	msg;
 
-	TGSetThreadName(-1, "QUARTZ video renderer");
+	THREAD_setThreadName(-1, "QUARTZ video renderer");
 
 	TRACE("(%p)\n",This);
 	if ( !VIDREN_Create( (HWND)NULL, This ) )
@@ -2041,7 +2041,7 @@ IVideoWindow_fnget_WindowStyle(IVideoWindow* iface,long* plStyle)
 		goto end;
 	}
 
-	*plStyle = (LONG)GetWindowLongA( This->m_hwnd, GWL_STYLE );
+	*plStyle = GetWindowLongA( This->m_hwnd, GWL_STYLE );
 	hr = S_OK;
 end:
 	LeaveCriticalSection ( &This->basefilter.csFilter );
@@ -2097,7 +2097,7 @@ IVideoWindow_fnget_WindowStyleEx(IVideoWindow* iface,long* plExStyle)
 		goto end;
 	}
 
-	*plExStyle = (LONG)GetWindowLongA( This->m_hwnd, GWL_EXSTYLE );
+	*plExStyle = GetWindowLongA( This->m_hwnd, GWL_EXSTYLE );
 	hr = S_OK;
 end:
 	LeaveCriticalSection ( &This->basefilter.csFilter );

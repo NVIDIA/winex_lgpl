@@ -918,7 +918,19 @@ do { \
     ((crit)->DebugInfo) = (PRTL_CRITICAL_SECTION_DEBUG)(name); \
   } \
 } while(0)
+
+#define __CRITICAL_SECTION_DEFINE(crit, function) do{ \
+        static char name[sizeof(__FUNCTION__) + sizeof(#crit) + 16]; \
+        snprintf(name, sizeof(name), "%d %s() %s", __LINE__, __FUNCTION__, #crit); \
+        function(crit); \
+        CRITICAL_SECTION_NAME(crit, name); \
+    } while (0)
+
+#define CRITICAL_SECTION_DEFINE(crit)     __CRITICAL_SECTION_DEFINE(crit, InitializeCriticalSection)
+#define RTL_CRITICAL_SECTION_DEFINE(crit) __CRITICAL_SECTION_DEFINE(crit, RtlInitializeCriticalSection)
 #endif
+
+
 
 typedef struct {
 	DWORD dwOSVersionInfoSize;
@@ -2164,7 +2176,7 @@ static inline PVOID GetFiberData(void)
 
 BOOL        WINAPI wine_get_unix_file_name( LPCSTR dos, LPSTR buffer, DWORD len );
 BOOL        WINAPI wine_get_unix_file_nameW( LPCWSTR dos, LPWSTR buffer, DWORD len );
-VOID        WINAPI TGSetThreadName(DWORD dwThreadID, LPCSTR pName);
+VOID               THREAD_setThreadName(DWORD dwThreadID, LPCSTR pName);
 
 
 /* a few optimizations for i386/gcc */

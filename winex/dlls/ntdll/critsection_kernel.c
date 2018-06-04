@@ -20,7 +20,7 @@
 #include "winternl.h"
 #include "wine/port.h"
 #include "wine/debug.h"
-#include "thread.h"
+#include "wine/thread.h"
 
 WINE_DEFAULT_DEBUG_CHANNEL(win32);
 WINE_DECLARE_DEBUG_CHANNEL(relay);

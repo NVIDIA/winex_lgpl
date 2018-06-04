@@ -24,7 +24,7 @@
 #include "winnls.h"
 #include "winerror.h"
 #include "wine/module.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "wine/debug.h"
 
 WINE_DEFAULT_DEBUG_CHANNEL(resource);

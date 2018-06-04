@@ -10,7 +10,7 @@
 #include "user.h"
 #include "win.h"
 #include "task.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 
 static HWND16 hwndSysModal;
 

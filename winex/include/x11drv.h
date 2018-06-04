@@ -27,7 +27,7 @@ typedef int Status;
 #include "user.h"
 #include "bitmap.h"
 #include "win.h"
-#include "thread.h"
+#include "wine/thread.h"
 
 struct tagBITMAPOBJ;
 struct tagCURSORICONINFO;

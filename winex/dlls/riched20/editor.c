@@ -735,7 +735,7 @@ ME_StreamInRTFString(ME_TextEditor *editor, BOOL selection, char *string)
   data.string = string;
   data.length = strlen(string);
   data.pos = 0;
-  es.dwCookie = (DWORD)&data;
+  es.dwCookie = (DWORD_PTR)&data;
   es.pfnCallback = ME_ReadFromRTFString;
   ME_StreamIn(editor, SF_RTF | (selection ? SFF_SELECTION : 0), &es);
 }
@@ -1932,7 +1932,7 @@ LRESULT WINAPI RichEditANSIWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lP
       return 0;
     gds.hData = GetClipboardData(cf);
     gds.nLength = 0;
-    es.dwCookie = (DWORD)&gds;
+    es.dwCookie = (DWORD_PTR)&gds;
     es.pfnCallback = dwFormat == SF_RTF ? ME_ReadFromHGLOBALRTF : ME_ReadFromHGLOBALUnicode;
     ME_StreamIn(editor, dwFormat|SFF_SELECTION, &es);
 

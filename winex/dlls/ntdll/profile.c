@@ -32,7 +32,7 @@
 #include "wine/unicode.h"
 #include "winreg.h"
 #include "wine/file.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "wine/debug.h"
 #include "options.h"
 #include "wine/server.h"

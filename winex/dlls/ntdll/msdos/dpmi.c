@@ -22,7 +22,7 @@
 #include "selectors.h"
 #include "callback.h"
 #include "wine/debug.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 
 WINE_DEFAULT_DEBUG_CHANNEL(int31);
 

@@ -14,7 +14,7 @@
 #include <stdio.h>
 
 #include "winnt.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "wine/module.h"
 #include "wine/port.h"
 #include "wine/hardware.h"

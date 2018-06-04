@@ -20,7 +20,7 @@
 #include "winnls.h"
 #include "wine/debug.h"
 #include "winerror.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 
 #include "winternl.h"
 #include "winreg.h"

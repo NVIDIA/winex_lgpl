@@ -37,7 +37,7 @@
 #include "windef.h"
 #include "objbase.h"
 #include "oleauto.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "wine/debug.h"
 #include "winerror.h"
 #include "parsedt.h"

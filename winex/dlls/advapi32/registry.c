@@ -22,7 +22,7 @@
 #include "winreg.h"
 #include "winerror.h"
 #include "wine/unicode.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "wine/file.h"
 #include "wine/server.h"
 #include "wine/debug.h"

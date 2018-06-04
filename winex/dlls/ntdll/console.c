@@ -26,7 +26,7 @@
 #include "winnls.h"
 #include "winerror.h"
 #include "wincon.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "wine/server.h"
 #include "wine/exception.h"
 #include "wine/debug.h"

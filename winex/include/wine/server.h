@@ -9,7 +9,7 @@
 
 #include <assert.h>
 
-#include "thread.h"
+#include "wine/thread.h"
 #include "wine/exception.h"
 #include "wine/server_protocol.h"
 

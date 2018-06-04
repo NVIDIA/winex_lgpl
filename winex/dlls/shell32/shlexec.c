@@ -21,7 +21,7 @@
 #include "winreg.h"
 #include "winbase.h"
 #include "winuser.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "wine/file.h"
 #include "shellapi.h"
 #include "shlobj.h"

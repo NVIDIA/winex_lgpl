@@ -17,7 +17,7 @@
 #include "winerror.h"
 
 #include "wine/winbase16.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "winternl.h"
 #include "selectors.h"
 

@@ -18,6 +18,9 @@
 #undef __NO_HAD_RPC_NO_WINDOWS_H
 #endif
 
+typedef unsigned char __RPC_FAR *RPC_CSTR;
+typedef unsigned short __RPC_FAR *RPC_WSTR;
+
 #ifndef GUID_DEFINED
 #include "guiddef.h"
 #endif

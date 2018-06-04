@@ -12,8 +12,8 @@
 
 #include <ctype.h>
 
-#include "thread.h"
-#include "stackframe.h"
+#include "wine/thread.h"
+#include "wine/stackframe.h"
 
 #include "build.h"
 

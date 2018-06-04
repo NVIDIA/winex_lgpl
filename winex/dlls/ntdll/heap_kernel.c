@@ -24,7 +24,7 @@
 #include "wine/unicode.h"
 #include "selectors.h"
 #include "global.h"
-#include "thread.h"
+#include "wine/thread.h"
 #include "toolhelp.h"
 #include "wine/debug.h"
 

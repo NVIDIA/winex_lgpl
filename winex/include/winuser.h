@@ -4199,6 +4199,9 @@ BOOL      WINAPI GetClassInfoExW(HINSTANCE,LPCWSTR,WNDCLASSEXW *);
 LONG        WINAPI GetClassLongA(HWND,INT);
 LONG        WINAPI GetClassLongW(HWND,INT);
 #define     GetClassLong WINELIB_NAME_AW(GetClassLong)
+LONG_PTR    WINAPI GetClassLongPtrA(HWND,INT);
+LONG_PTR    WINAPI GetClassLongPtrW(HWND,INT);
+#define     GetClassLongPtr WINELIB_NAME_AW(GetClassLongPtr)
 INT       WINAPI GetClassNameA(HWND,LPSTR,INT);
 INT       WINAPI GetClassNameW(HWND,LPWSTR,INT);
 #define     GetClassName WINELIB_NAME_AW(GetClassName)
@@ -4470,6 +4473,9 @@ BOOL        WINAPI SetCaretBlinkTime(UINT);
 BOOL        WINAPI SetCaretPos(INT,INT);
 LONG        WINAPI SetClassLongA(HWND,INT,LONG);
 LONG        WINAPI SetClassLongW(HWND,INT,LONG);
+#define     SetClassLong WINELIB_NAME_AW(SetClassLong)
+LONG_PTR    WINAPI SetClassLongPtrA(HWND,INT,LONG_PTR);
+LONG_PTR    WINAPI SetClassLongPtrW(HWND,INT,LONG_PTR);
 #define     SetClassLong WINELIB_NAME_AW(SetClassLong)
 WORD        WINAPI SetClassWord(HWND,INT,WORD);
 HANDLE    WINAPI SetClipboardData(UINT,HANDLE);

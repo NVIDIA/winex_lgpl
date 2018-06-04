@@ -9,7 +9,7 @@
  */
 
 #include <string.h>
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "windef.h"
 #include "mmddk.h"
 #include "winemm.h"

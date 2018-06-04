@@ -126,7 +126,7 @@
  */
 %option stack
 %option 8bit never-interactive
-%option nounput
+%option nounput noinput
 %option prefix="ppy_"
 
 %x pp_pp

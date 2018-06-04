@@ -11,7 +11,7 @@
 #include "wine/winbase16.h"
 #include "wine/winuser16.h"
 #include "services.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "wine/hardware.h"
 #include "wine/debug.h"
 

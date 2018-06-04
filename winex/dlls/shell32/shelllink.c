@@ -28,7 +28,7 @@
 #include "undocshell.h"
 #include "bitmaps/wine.xpm"
 
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "wine/file.h"
 #include "pidl.h"
 #include "shell32_main.h"

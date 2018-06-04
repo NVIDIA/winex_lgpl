@@ -16,7 +16,7 @@
 #include "wine/exception.h"
 #include "builtin16.h"
 #include "wine/module.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "wine/hardware.h"
 
 #include "build.h"

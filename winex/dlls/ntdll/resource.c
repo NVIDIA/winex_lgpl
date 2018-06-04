@@ -23,7 +23,7 @@
 #include "winbase.h"
 #include "wine/winbase16.h"
 #include "wine/exception.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "cursoricon.h"
 #include "wine/module.h"
 #include "wine/file.h"

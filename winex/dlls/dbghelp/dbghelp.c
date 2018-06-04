@@ -28,7 +28,6 @@
 #include "wdbgexts.h"
 #include "winnls.h"
 #include "wine/exception.h"
-#include "wine/winbase16.h"
 #include "wine/nt_config.h"
 
 

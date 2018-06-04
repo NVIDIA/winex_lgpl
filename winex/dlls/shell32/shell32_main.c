@@ -27,7 +27,7 @@
 #include "undocshell.h"
 #include "wine/winuser16.h"
 #include "authors.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "wine/file.h"
 #include "pidl.h"
 #include "shell32_main.h"

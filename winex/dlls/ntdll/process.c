@@ -43,7 +43,7 @@
 #include "drive.h"
 #include "wine/module.h"
 #include "wine/file.h"
-#include "thread.h"
+#include "wine/thread.h"
 #include "winerror.h"
 #include "wincon.h"
 #include "wine/server.h"

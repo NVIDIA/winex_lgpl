@@ -13,7 +13,7 @@
 #include "wine/winbase16.h"
 #include "winnt.h"
 #include "wine/module.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "selectors.h"
 #include "builtin16.h"
 #include "syslevel.h"

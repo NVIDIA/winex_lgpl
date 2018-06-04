@@ -11,7 +11,7 @@
 #include "wownt32.h"
 #include "wine/file.h"
 #include "miscemu.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "wine/debug.h"
 
 WINE_DEFAULT_DEBUG_CHANNEL(thunk);

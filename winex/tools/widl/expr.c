@@ -595,9 +595,7 @@ static struct expression_type resolve_expression(const struct expr_loc *expr_loc
 
 const type_t *expr_resolve_type(const struct expr_loc *expr_loc, const type_t *cont_type, const expr_t *expr)
 {
-    struct expression_type expr_type;
-    expr_type = resolve_expression(expr_loc, cont_type, expr);
-    return expr_type.type;
+    return resolve_expression(expr_loc, cont_type, expr).type;
 }
 
 void write_expr(FILE *h, const expr_t *e, int brackets,

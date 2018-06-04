@@ -81,7 +81,6 @@ static const WCHAR *create_system_dirid( int dirid )
     static const WCHAR Help[]    = {'\\','h','e','l','p',0};
     static const WCHAR Fonts[]   = {'\\','f','o','n','t','s',0};
     static const WCHAR Viewers[] = {'\\','v','i','e','w','e','r','s',0};
-    static const WCHAR System[]  = {'\\','s','y','s','t','e','m',0};
     static const WCHAR Spool[]   = {'\\','s','p','o','o','l',0};
     static const WCHAR UserProfile[] = {'U','S','E','R','P','R','O','F','I','L','E',0};
 
@@ -125,10 +124,6 @@ static const WCHAR *create_system_dirid( int dirid )
         break;
     case DIRID_BOOT:
         return C_Root;  /* FIXME */
-    case DIRID_SYSTEM16:
-        GetWindowsDirectoryW( buffer, MAX_PATH );
-        strcatW( buffer, System );
-        break;
     case DIRID_SPOOL:
     case DIRID_SPOOLDRIVERS:  /* FIXME */
         GetWindowsDirectoryW( buffer, MAX_PATH );
@@ -170,7 +165,7 @@ const WCHAR *DIRID_get_string( HINF hinf, int dirid )
 {
     int i;
 
-    if (dirid == DIRID_ABSOLUTE || dirid == DIRID_ABSOLUTE_16BIT) dirid = DIRID_NULL;
+    if (dirid == DIRID_ABSOLUTE) dirid = DIRID_NULL;
 
     if (dirid >= DIRID_USER)
     {

@@ -1217,7 +1217,7 @@ static DWORD WINAPI OutputPinAsync_ThreadEntry( LPVOID pv )
 	BOOL bInFlush = FALSE;
 	HRESULT hr;
 
-	TGSetThreadName(-1, "QUARTZ output pin");
+	THREAD_setThreadName(-1, "QUARTZ output pin");
 
 	while ( bLoop )
 	{

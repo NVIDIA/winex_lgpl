@@ -47,7 +47,7 @@
 #include "wine/winbase16.h"
 #include "drive.h"
 #include "wine/file.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "msdos.h"
 #include "wincon.h"
 #include "wine/mem_file.h"

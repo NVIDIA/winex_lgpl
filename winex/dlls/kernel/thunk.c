@@ -25,10 +25,10 @@
 #include "wine/hardware.h"
 #include "wine/debug.h"
 #include "flatthunk.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "wine/module.h"
 #include "selectors.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "task.h"
 
 WINE_DEFAULT_DEBUG_CHANNEL(thunk);

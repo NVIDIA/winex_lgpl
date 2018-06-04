@@ -51,7 +51,7 @@ typedef struct {
     LONG ref;
 } MsiActiveScriptSite;
 
-static const struct IActiveScriptSiteVtbl ASS_Vtbl;
+static struct IActiveScriptSiteVtbl ASS_Vtbl;
 
 static HRESULT create_ActiveScriptSite(IUnknown *pUnkOuter, LPVOID *ppObj)
 {
@@ -361,7 +361,7 @@ static HRESULT WINAPI MsiActiveScriptSite_OnLeaveScript(IActiveScriptSite* iface
     return S_OK;
 }
 
-static const struct IActiveScriptSiteVtbl ASS_Vtbl =
+static struct IActiveScriptSiteVtbl ASS_Vtbl =
 {
     MsiActiveScriptSite_QueryInterface,
     MsiActiveScriptSite_AddRef,

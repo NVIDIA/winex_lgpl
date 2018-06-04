@@ -1095,7 +1095,7 @@ static BOOL elf_load_file(struct process* pcs, const WCHAR* filename,
         {
             Elf32_Dyn       dyn;
             char*           ptr = (char*)fmap.sect[esm.sidx].shdr.sh_addr;
-            unsigned long   len;
+            SIZE_T          len;
 
             do
             {

@@ -540,4 +540,6 @@ typedef enum CV_call_e
     CV_CALL_ALPHACALL,
     CV_CALL_PPCCALL,
     CV_CALL_RESERVED,
+
+    CV_CALL_INVALID = -1,
 } CV_call_e;

@@ -20,7 +20,7 @@
 #include "wine/debug.h"
 #include <winnt.h>
 #include "winver.h"
-#include "thread.h"
+#include "wine/thread.h"
 #include "dbghelp.h"
 #include "psapi.h"
 #include "wine/unhandledException.h"

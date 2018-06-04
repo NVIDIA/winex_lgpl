@@ -22,7 +22,7 @@
 #include "vfw16.h"
 #include "wine/winbase16.h"
 #include "wine/debug.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 
 WINE_DEFAULT_DEBUG_CHANNEL(msvideo);
 

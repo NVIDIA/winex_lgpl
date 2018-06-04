@@ -15,7 +15,7 @@
 #include "wine/debug.h"
 #include "windef.h"
 #include "winerror.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 
 #include "winternl.h"
 #include "winreg.h"

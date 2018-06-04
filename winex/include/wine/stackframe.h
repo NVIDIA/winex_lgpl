@@ -9,7 +9,7 @@
 
 #include <string.h>
 
-#include "thread.h"
+#include "wine/thread.h"
 #include "winnt.h"
 #include "wine/winbase16.h"
 

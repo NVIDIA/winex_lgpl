@@ -9,7 +9,7 @@
 #include "config.h"
 
 #include "winternl.h"
-#include "thread.h"
+#include "wine/thread.h"
 #include "wine/debug.h"
 #include "heapfuncs.h"
 

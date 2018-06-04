@@ -122,9 +122,6 @@ static struct wine_preload_info preload_info[] =
     { (void *)PE_EXE_ADDR,      PE_EXE_RANGE,      0 },  /* default PE exe range (may be set with WINEPRELOADRESERVE) */
     { (void *)SHMSERVER_ADDR,   SHMSERVER_SIZE,    PRELOAD_INFO_SERVERADDR }, /* shared memory server */
     { (void *)KUSERDATA_ADDR,   KUSERDATA_RANGE,   0 },  /* KUSER_SHARED_DATA, should actually be size of the structure */
-#ifdef __INTEL_CE__
-    { (void *)SYSTEM_HEAP_BASE, SYSTEM_HEAP_RANGE, 0 },  /* system heap */
-#endif
     { (void *)CRTS_ADDR,        CRTS_RANGE,        0 },  /* reserve the range requested by the CRTs */
     { 0, 0, PRELOAD_INFO_NULL }                          /* end of list */
 };

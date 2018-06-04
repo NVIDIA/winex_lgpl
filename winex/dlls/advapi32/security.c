@@ -9,7 +9,7 @@
 
 #include "windef.h"
 #include "winerror.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "winternl.h"
 #include "ntsecapi.h"
 #include "accctrl.h"

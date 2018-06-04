@@ -78,7 +78,6 @@ WINE_DEFAULT_DEBUG_CHANNEL(wininet);
 static const WCHAR g_szHttp1_0[] = {'H','T','T','P','/','1','.','0',0};
 static const WCHAR g_szHttp1_1[] = {'H','T','T','P','/','1','.','1',0};
 static const WCHAR szOK[] = {'O','K',0};
-static const WCHAR szDefaultHeader[] = {'H','T','T','P','/','1','.','0',' ','2','0','0',' ','O','K',0};
 static const WCHAR hostW[] = { 'H','o','s','t',0 };
 static const WCHAR szAuthorization[] = { 'A','u','t','h','o','r','i','z','a','t','i','o','n',0 };
 static const WCHAR szProxy_Authorization[] = { 'P','r','o','x','y','-','A','u','t','h','o','r','i','z','a','t','i','o','n',0 };
@@ -1545,6 +1544,12 @@ static UINT HTTP_EncodeBase64( LPCSTR bin, unsigned int len, LPWSTR base64 )
                ((x) >= 'a' && (x) <= 'z') ? (x) - 'a' + 26 : \
                ((x) >= '0' && (x) <= '9') ? (x) - '0' + 52 : \
                ((x) == '+') ? 62 : ((x) == '/') ? 63 : -1)
+/* note that the last four values in this table are explicitly set to -1 to avoid a compile
+   warning on some platforms.  On clang, the compiler picks out the term "((x) - '0') + 52"
+   as being a potential overflow for parameter values of 252 or greater in the CH() macro.
+   Even though those particular values will never be evaluated on that path, the compiler
+   still squawks about it as a warning.  No amount of bracketing or range checking seems
+   to silence these warnings. */
 static const signed char HTTP_Base64Dec[256] =
 {
     CH( 0),CH( 1),CH( 2),CH( 3),CH( 4),CH( 5),CH( 6),CH( 7),CH( 8),CH( 9),
@@ -1572,7 +1577,7 @@ static const signed char HTTP_Base64Dec[256] =
     CH(220),CH(221),CH(222),CH(223),CH(224),CH(225),CH(226),CH(227),CH(228),CH(229),
     CH(230),CH(231),CH(232),CH(233),CH(234),CH(235),CH(236),CH(237),CH(238),CH(239),
     CH(240),CH(241),CH(242),CH(243),CH(244),CH(245),CH(246),CH(247),CH(248), CH(249),
-    CH(250),CH(251),CH(252),CH(253),CH(254),CH(255),
+    CH(250),CH(251),-1,-1,-1,-1,
 };
 #undef CH
 

@@ -3,9 +3,6 @@
 #include "windef.h"
 #include "wingdi.h"
 
-#include "wine/debug.h"
-WINE_DEFAULT_DEBUG_CHANNEL(quartz);
-
 #include "videoblt.h"
 
 

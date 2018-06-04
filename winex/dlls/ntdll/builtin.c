@@ -17,7 +17,7 @@
 #include "wine/file.h"
 #include "wine/module.h"
 #include "miscemu.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "wine/debug.h"
 #include "toolhelp.h"
 #include "wine/hardware.h"

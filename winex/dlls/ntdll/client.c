@@ -45,7 +45,7 @@
 #endif
 
 #include "wine/winbase16.h"
-#include "thread.h"
+#include "wine/thread.h"
 #include "wine/server.h"
 #include "winerror.h"
 #include "options.h"

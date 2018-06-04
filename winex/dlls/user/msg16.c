@@ -12,7 +12,7 @@
 #include "message.h"
 #include "spy.h"
 #include "task.h"
-#include "thread.h"
+#include "wine/thread.h"
 #include "win.h"
 #include "wine/debug.h"
 

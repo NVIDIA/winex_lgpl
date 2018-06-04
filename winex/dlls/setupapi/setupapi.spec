@@ -9,7 +9,6 @@ import ntdll.dll
 import version.dll
 import rpcrt4.dll
 import shell32.dll
-import wow32.dll
 
 
 @ stub AcquireSCMLock

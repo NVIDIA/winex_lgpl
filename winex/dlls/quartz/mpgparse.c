@@ -49,8 +49,6 @@ WINE_DEFAULT_DEBUG_CHANNEL(quartz);
 
 static const WCHAR QUARTZ_MPEG1Parser_Name[] =
 { 'M','P','E','G','-','I',' ','S','p','l','i','t','t','e','r',0 };
-static const WCHAR QUARTZ_MPEG2Parser_Name[] =
-{ 'M','P','E','G','-','2',' ','S','p','l','i','t','t','e','r',0 };
 static const WCHAR QUARTZ_MPGParserInPin_Name[] =
 { 'I','n',0 };
 static const WCHAR QUARTZ_MPGParserOutPin_VideoPinName[] =

@@ -8,13 +8,11 @@
 
 #include "config.h"
 
+#include <stdio.h>
 #include "windef.h"
 #include "winbase.h"
 #include "winerror.h"
 #include "objbase.h"
-
-#include "wine/debug.h"
-WINE_DEFAULT_DEBUG_CHANNEL(quartz);
 
 #include "quartz_private.h"
 #include "complist.h"

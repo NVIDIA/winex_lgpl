@@ -40,7 +40,7 @@
 #include "initguid.h"
 #include "winioctl.h"
 #include "rpc.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "rpcdce.h"
 
 #include "setupapi_private.h"
@@ -268,7 +268,7 @@ BOOL WINAPI SetupDiBuildClassInfoListExW(
 		}
 		TRACE("Guid: %p\n", &szKeyName[1]);
 
-		UuidFromStringW(&szKeyName[1],
+		UuidFromStringW((RPC_WSTR)&szKeyName[1],
 				&ClassGuidList[dwGuidListIndex]);
 	    }
 
@@ -446,7 +446,7 @@ BOOL WINAPI SetupDiClassGuidsFromNameExW(
 			}
 			TRACE("Guid: %p\n", &szKeyName[1]);
 
-			UuidFromStringW(&szKeyName[1],
+			UuidFromStringW((RPC_WSTR)&szKeyName[1],
 					&ClassGuidList[dwGuidListIndex]);
 		    }
 
@@ -1921,7 +1921,7 @@ HKEY WINAPI SetupDiOpenClassRegKeyExW(
         PCWSTR MachineName,
         PVOID Reserved)
 {
-    LPWSTR lpGuidString;
+    RPC_WSTR lpGuidString;
     HKEY hClassesKey;
     HKEY hClassKey;
     LPCWSTR lpKeyName;

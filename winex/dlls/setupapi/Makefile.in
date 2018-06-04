@@ -5,16 +5,11 @@ SRCDIR    = @srcdir@
 VPATH     = @srcdir@
 MODULE    = setupapi
 SOVERSION = 1.0
-ALTNAMES  = setupx
 
 LDDLLFLAGS = @LDDLLFLAGS@
 SYMBOLFILE = $(MODULE).@OUTPUTEXT@
 
 C_SRCS = \
-	devinst16.c \
-	infparse.c \
-	setupx_main.c \
-	virtcopy.c \
 	devinst.c \
 	dirid.c \
 	diskspace.c \
@@ -24,8 +19,6 @@ C_SRCS = \
 	queue.c \
 	setupcab.c \
 	stubs.c
-
-SPEC_SRCS16 = setupx.spec
 
 RC_SRCS= setupapi.rc
 

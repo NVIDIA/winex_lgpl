@@ -786,7 +786,7 @@ BOOL symt_get_info(const struct symt* type, IMAGEHLP_SYMBOL_TYPE_INFO req,
 
     case TI_GET_CALLING_CONVENTION:
         if (type->tag != SymTagFunctionType) return FALSE;
-        if (((const struct symt_function_signature*)type)->call_conv == -1)
+        if (((const struct symt_function_signature*)type)->call_conv == CV_CALL_INVALID)
         {
             FIXME("No support for calling convention for this signature\n");
             X(DWORD) = CV_CALL_FAR_C; /* FIXME */

@@ -31,9 +31,9 @@
 #include "services.h"
 #include "wine/server.h"
 #include "syslevel.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "task.h"
-#include "thread.h"
+#include "wine/thread.h"
 #include "toolhelp.h"
 #include "wine/hardware.h"
 

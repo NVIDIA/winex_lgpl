@@ -31,7 +31,7 @@
 #include "toolhelp.h"
 #include "selectors.h"
 #include "miscemu.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "wine/module.h"
 #include "wine/debug.h"
 #include "winerror.h"

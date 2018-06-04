@@ -14,7 +14,7 @@
 #include "winbase.h"
 #include "winnt.h"
 #include "snoop.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "wine/port.h"
 #include "wine/debug.h"
 #include "wine/exception.h"

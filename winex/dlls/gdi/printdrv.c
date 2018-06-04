@@ -28,7 +28,7 @@
 #include "winreg.h"
 #include "wine/debug.h"
 #include "gdi.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "wine/file.h"
 
 WINE_DEFAULT_DEBUG_CHANNEL(print);

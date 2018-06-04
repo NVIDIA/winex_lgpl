@@ -28,7 +28,6 @@
 #include "dbghelp_private.h"
 #include "wine/debug.h"
 #include "wine/module.h"
-#include "heap.h"
 #include "crc32.h"
 #include <fcntl.h>
 #include <unistd.h>

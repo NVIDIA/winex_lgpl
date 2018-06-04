@@ -37,7 +37,7 @@
 #include "winreg.h"
 #include "drive.h"
 #include "wine/file.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "msdos.h"
 #include "options.h"
 #include "wine/debug.h"

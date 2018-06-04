@@ -33,7 +33,7 @@
 #ifdef HAVE_SYS_MMAN_H
 #include <sys/mman.h>
 #endif
-#include "thread.h"
+#include "wine/thread.h"
 #include "wine/server.h"
 #include "winbase.h"
 #include "wine/winbase16.h"

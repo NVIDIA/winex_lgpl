@@ -879,7 +879,7 @@ static  void    dump_exception_info(struct dump_context* dc,
         TRACE("    ExceptionAddress =   %p\n", prec->ExceptionAddress);
         TRACE("    NumberParameters =   0x%08x\n", prec->NumberParameters);
         for (i = 0; i < min(prec->NumberParameters, EXCEPTION_MAXIMUM_PARAMETERS); i++)
-            TRACE("        ExceptionInformation[%d] = 0x%08x\n", i, prec->ExceptionInformation[i]);
+            TRACE("        ExceptionInformation[%d] = 0x%08lx\n", i, prec->ExceptionInformation[i]);
     }
 
     mdExcpt.ExceptionRecord.ExceptionCode = prec->ExceptionCode;

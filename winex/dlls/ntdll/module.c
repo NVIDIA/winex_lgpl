@@ -19,7 +19,7 @@
 #include "wine/winbase16.h"
 #include "winerror.h"
 #include "winternl.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "wine/file.h"
 #include "wine/module.h"
 #include "wine/debug.h"

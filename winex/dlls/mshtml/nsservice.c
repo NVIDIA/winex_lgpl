@@ -103,7 +103,7 @@ static nsresult NSAPI nsWindowCreator_CreateChromeWindow2(nsIWindowCreator2 *ifa
     return NS_OK;
 }
 
-static const nsIWindowCreator2Vtbl nsWindowCreatorVtbl = {
+static nsIWindowCreator2Vtbl nsWindowCreatorVtbl = {
     nsWindowCreator_QueryInterface,
     nsWindowCreator_AddRef,
     nsWindowCreator_Release,
@@ -262,7 +262,7 @@ static nsresult NSAPI nsPromptService_Select(nsIPromptService *iface,
     return NS_ERROR_NOT_IMPLEMENTED;
 }
 
-static const nsIPromptServiceVtbl PromptServiceVtbl = {
+static nsIPromptServiceVtbl PromptServiceVtbl = {
     nsPromptService_QueryInterface,
     nsPromptService_AddRef,
     nsPromptService_Release,
@@ -368,7 +368,7 @@ static nsresult NSAPI nsTooltipTextProvider_GetNodeText(nsITooltipTextProvider *
     return NS_OK;
 }
 
-static const nsITooltipTextProviderVtbl nsTooltipTextProviderVtbl = {
+static nsITooltipTextProviderVtbl nsTooltipTextProviderVtbl = {
     nsTooltipTextProvider_QueryInterface,
     nsTooltipTextProvider_AddRef,
     nsTooltipTextProvider_Release,

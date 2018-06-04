@@ -29,7 +29,7 @@
 #include "wine/winbase16.h"
 #include "global.h"
 #include "instance.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 
 #include "wine/debug.h"
 

@@ -38,7 +38,7 @@
 #include "wine/winbase16.h"
 #include "drive.h"
 #include "wine/file.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "msdos.h"
 #include "winternl.h"
 #include "options.h"

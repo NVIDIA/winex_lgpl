@@ -13,7 +13,7 @@
 #include "wine/winbase16.h"
 #include "wine/winuser16.h"
 #include "dlgs.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "user.h"
 #include "wine/debug.h"
 

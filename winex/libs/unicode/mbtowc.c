@@ -194,7 +194,15 @@ static inline int mbstowcs_dbcs( const struct dbcs_table *table,
         }
         else *dst = cp2uni[*src];
     }
-    if (srclen) return -1;  /* overflow */
+
+    /* overflow */
+    if (srclen > 0)
+    {
+        /* make sure the last remaining byte isn't just a partial character that we've ignored. */
+        if (srclen != 1 || cp2uni_lb[*src] == 0)
+            return -1;
+    }
+
     return dstlen - len;
 }
 
@@ -242,7 +250,15 @@ static int mbstowcs_dbcs_decompose( const struct dbcs_table *table,
         dst += res;
         len -= res;
     }
-    if (srclen) return -1;  /* overflow */
+
+    /* overflow */
+    if (srclen > 0)
+    {
+        /* make sure the last remaining byte isn't just a partial character that we've ignored. */
+        if (srclen != 1 || cp2uni_lb[*src] == 0)
+            return -1;
+    }
+
     return dstlen - len;
 }
 

@@ -1067,4 +1067,4 @@ debug_channels (comm console debugstr dll int iocomp resource stress
 
 # Unix files
 @ stdcall wine_get_unix_file_name(str ptr long) wine_get_unix_file_name
-@ stub TGSetThreadName
+@ stub THREAD_setThreadName

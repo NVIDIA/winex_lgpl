@@ -18,7 +18,7 @@
 #include "win.h"
 #include "user.h"
 #include "hook.h"
-#include "thread.h"
+#include "wine/thread.h"
 #include "wine/debug.h"
 #include "wine/server.h"
 #include "spy.h"

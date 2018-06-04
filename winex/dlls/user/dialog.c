@@ -26,7 +26,7 @@
 #include "wine/winbase16.h"
 #include "wine/unicode.h"
 #include "controls.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "win.h"
 #include "user.h"
 #include "wine/debug.h"

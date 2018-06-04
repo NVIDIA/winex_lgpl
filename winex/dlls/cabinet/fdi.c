@@ -719,11 +719,11 @@ static int LZXfdi_init(int window, fdi_decomp_state *decomp_state) {
   LZX(window_size) = wndsize;
 
   /* initialize static tables */
-  for (i=0, j=0; i <= 50; i += 2) {
+  for (i=0, j=0; i < 50; i += 2) {
     CAB(extra_bits)[i] = CAB(extra_bits)[i+1] = j; /* 0,0,0,0,1,1,2,2,3,3... */
     if ((i != 0) && (j < 17)) j++; /* 0,0,1,2,3,4...15,16,17,17,17,17... */
   }
-  for (i=0, j=0; i <= 50; i++) {
+  for (i=0, j=0; i < 50; i++) {
     CAB(lzx_position_base)[i] = j; /* 0,1,2,3,4,6,8,12,16,24,32,... */
     j += 1 << CAB(extra_bits)[i]; /* 1,1,1,1,2,2,4,4,8,8,16,16,32,32,... */
   }
@@ -1942,7 +1942,7 @@ static int fdi_decomp(struct fdi_file *fi, int savemode, fdi_decomp_state *decom
 
           do {
 
-            pathlen = (userpath) ? strlen(userpath) : 0;
+            pathlen = strlen(userpath);
             filenamelen = (cab->mii.nextname) ? strlen(cab->mii.nextname) : 0;
 
             /* slight overestimation here to save CPU cycles in the developer's brain */

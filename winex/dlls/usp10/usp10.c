@@ -205,11 +205,6 @@ static inline LONG get_cache_height(SCRIPT_CACHE *psc)
     return ((ScriptCache *)*psc)->tm.tmHeight;
 }
 
-static inline BYTE get_cache_pitch_family(SCRIPT_CACHE *psc)
-{
-    return ((ScriptCache *)*psc)->tm.tmPitchAndFamily;
-}
-
 static inline WORD get_cache_glyph(SCRIPT_CACHE *psc, WCHAR c)
 {
     WORD *block = ((ScriptCache *)*psc)->glyphs[c >> GLYPH_BLOCK_SHIFT];

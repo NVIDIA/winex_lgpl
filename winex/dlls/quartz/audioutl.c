@@ -3,12 +3,7 @@
  */
 
 #include "config.h"
-
 #include "windef.h"
-
-#include "wine/debug.h"
-WINE_DEFAULT_DEBUG_CHANNEL(quartz);
-
 #include "audioutl.h"
 
 

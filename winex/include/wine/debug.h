@@ -167,16 +167,6 @@ inline static const char *debugstack( unsigned int upto, CONTEXT *ctx ) { return
         } \
     } while (0)
 
-#define __CRITICAL_SECTION_DEFINE(crit, function) do{ \
-        static char name[sizeof(__FUNCTION__) + sizeof(#crit) + 16]; \
-        snprintf(name, sizeof(name), "%d %s() %s", __LINE__, __FUNCTION__, #crit); \
-        function(crit); \
-        CRITICAL_SECTION_NAME(crit, name); \
-    } while (0)
-
-#define CRITICAL_SECTION_DEFINE(crit)     __CRITICAL_SECTION_DEFINE(crit, InitializeCriticalSection)
-#define RTL_CRITICAL_SECTION_DEFINE(crit) __CRITICAL_SECTION_DEFINE(crit, RtlInitializeCriticalSection)
-
 
 #ifdef __i386__
 /* Memory watchpoints */

@@ -140,7 +140,7 @@ BOOL WINAPI CertAddEncodedCertificateToStore(HCERTSTORE hCertStore,
             if(CertGetStoreProperty(hCertStore, CERT_STORE_DEBUG_NAME_PROP_ID, pvData, &cbData))
                 snprintf(temp, sizeof(temp), "CertAddEncodedCertificateToStore-%s", pvData);
             else
-                snprintf(temp, sizeof(temp), "CertAddEncodedCertificateToStore-%x", (DWORD)hcs);
+                snprintf(temp, sizeof(temp), "CertAddEncodedCertificateToStore-%x", (DWORD_PTR)hcs);
 
             Cert_SaveCert(cert, temp);
         }
@@ -3184,8 +3184,8 @@ static void CRYPT_MakeCertInfo(PCERT_INFO info, const CRYPT_DATA_BLOB *pSerialNu
 }
  
 typedef RPC_STATUS (RPC_ENTRY *UuidCreateFunc)(UUID *);
-typedef RPC_STATUS (RPC_ENTRY *UuidToStringFunc)(UUID *, unsigned char **);
-typedef RPC_STATUS (RPC_ENTRY *RpcStringFreeFunc)(unsigned char **);
+typedef RPC_STATUS (RPC_ENTRY *UuidToStringFunc)(UUID *, RPC_CSTR *);
+typedef RPC_STATUS (RPC_ENTRY *RpcStringFreeFunc)(RPC_CSTR *);
 
 static HCRYPTPROV CRYPT_CreateKeyProv(void)
 {
@@ -3208,7 +3208,7 @@ static HCRYPTPROV CRYPT_CreateKeyProv(void)
 
             if (status == RPC_S_OK || status == RPC_S_UUID_LOCAL_ONLY)
             {
-                unsigned char *uuidStr;
+                RPC_CSTR uuidStr;
 
                 status = uuidToString(&uuid, &uuidStr);
                 if (status == RPC_S_OK)

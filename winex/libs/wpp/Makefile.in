@@ -1,7 +1,7 @@
 TOPSRCDIR = @top_srcdir@
 TOPOBJDIR = ../..
-SRCDIR    = @srcdir@
-VPATH     = @srcdir@
+SRCDIR    ?= @top_srcdir@/libs/wpp
+VPATH     ?= @top_srcdir@/libs/wpp
 MODULE    = libwpp.a
 EXTRAINCL = -I$(TOPSRCDIR)/include-lgpl -I$(TOPOBJDIR)/include-lgpl
 
@@ -15,7 +15,6 @@ EXTRA_OBJS = $(OBJDIR)/ppy.tab.o $(OBJDIR)/@LEX_OUTPUT_ROOT@.o
 all: $(MODULE)
 
 @MAKE_RULES@
-@BUILD_NATIVE@
 
 $(MODULE): $(OBJS)
 	$(RM) $@

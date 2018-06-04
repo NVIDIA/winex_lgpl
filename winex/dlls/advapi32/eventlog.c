@@ -10,7 +10,7 @@
 #include "winbase.h"
 #include "windef.h"
 #include "winerror.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 
 #include "wine/debug.h"
 

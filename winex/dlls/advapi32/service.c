@@ -14,7 +14,7 @@
 #include "winerror.h"
 #include "winreg.h"
 #include "wine/unicode.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "wine/debug.h"
 
 WINE_DEFAULT_DEBUG_CHANNEL(advapi);

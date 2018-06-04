@@ -22,14 +22,14 @@
 #include <sched.h>
 
 #include "wine/winbase16.h"
-#include "thread.h"
+#include "wine/thread.h"
 #include "task.h"
 #include "wine/module.h"
 #include "winerror.h"
 #include "selectors.h"
 #include "winnt.h"
 #include "wine/server.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "wine/debug.h"
 #include "winnls.h"
 

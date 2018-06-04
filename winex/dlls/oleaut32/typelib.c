@@ -56,7 +56,7 @@
 
 #include "wine/unicode.h"
 #include "objbase.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "ole2disp.h"
 #include "typelib.h"
 #include "wine/debug.h"

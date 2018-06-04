@@ -18,7 +18,7 @@
 #include "winnls.h"
 #include "comctl32.h"
 #include "wine/debug.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 
 
 /******************************************************************************

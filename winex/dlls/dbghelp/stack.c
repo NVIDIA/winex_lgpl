@@ -32,8 +32,8 @@
 #define WIN32_NO_STATUS
 #include "dbghelp_private.h"
 #include "winternl.h"
-#include "wine/winbase16.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
+#include "wine/thread.h"
 #include "wine/debug.h"
 
 WINE_DEFAULT_DEBUG_CHANNEL(dbghelp);
@@ -62,7 +62,7 @@ static BOOL CALLBACK read_mem(HANDLE hProcess, DWORD addr, void* buffer,
                               DWORD size, LPDWORD nread)
 {
     SIZE_T      r;
-    if (!ReadProcessMemory(hProcess, (void*)addr, buffer, size, (SIZE_T*)&r)) return FALSE;
+    if (!ReadProcessMemory(hProcess, (void*)addr, buffer, size, &r)) return FALSE;
     if (nread) *nread = r;
     return TRUE;
 }
@@ -71,7 +71,7 @@ static BOOL CALLBACK read_mem64(HANDLE hProcess, DWORD64 addr, void* buffer,
                                 DWORD size, LPDWORD nread)
 {
     SIZE_T      r;
-    if (!ReadProcessMemory(hProcess, (void*)(DWORD_PTR)addr, buffer, size, (SIZE_T*)&r)) return FALSE;
+    if (!ReadProcessMemory(hProcess, (void*)(DWORD_PTR)addr, buffer, size, &r)) return FALSE;
     if (nread) *nread = r;
     return TRUE;
 }

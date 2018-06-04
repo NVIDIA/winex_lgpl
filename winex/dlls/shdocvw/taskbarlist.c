@@ -85,7 +85,7 @@ static HRESULT WINAPI TaskbarList_SetActiveAlt(ITaskbarList *iface, HWND hwnd)
 
 
 
-static const ITaskbarListVtbl TaskbarListVtbl = {
+static ITaskbarListVtbl TaskbarListVtbl = {
     TaskbarList_QueryInterface,
     TaskbarList_AddRef,
     TaskbarList_Release,

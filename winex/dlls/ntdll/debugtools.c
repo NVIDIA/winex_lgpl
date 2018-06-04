@@ -18,7 +18,7 @@
 
 #include "wine/debug.h"
 #include "wine/exception.h"
-#include "thread.h"
+#include "wine/thread.h"
 #include "winbase.h"
 #include "winnt.h"
 #include "winternl.h"

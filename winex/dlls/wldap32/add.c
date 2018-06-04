@@ -36,9 +36,10 @@
 #include "winldap_private.h"
 #include "wldap32.h"
 
+#ifdef HAVE_LDAP
 WINE_DEFAULT_DEBUG_CHANNEL(wldap32);
 
-#ifdef HAVE_LDAP
+
 static LDAPMod *nullattrs[] = { NULL };
 #endif
 

@@ -26,7 +26,7 @@
 #include "win.h"
 #include "queue.h"
 #include "user.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "struct32.h"
 #include "winproc.h"
 #include "wine/debug.h"

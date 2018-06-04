@@ -22,7 +22,7 @@
 #include "instance.h"
 #include "local.h"
 #include "wine/module.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "toolhelp.h"
 #include "wine/debug.h"
 

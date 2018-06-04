@@ -231,6 +231,8 @@ debug_channels (accel caret class clipboard combo comm cursor dc ddeml dialog
 @ stdcall GetClassInfoW(long wstr ptr) GetClassInfoW
 @ stdcall GetClassLongA(long long) GetClassLongA
 @ stdcall GetClassLongW(long long) GetClassLongW
+@ stub    GetClassLongPtrA
+@ stub    GetClassLongPtrW
 @ stdcall GetClassNameA(long ptr long) GetClassNameA
 @ stdcall GetClassNameW(long ptr long) GetClassNameW
 @ stdcall GetClassWord(long long) GetClassWord
@@ -489,6 +491,8 @@ debug_channels (accel caret class clipboard combo comm cursor dc ddeml dialog
 @ stdcall SetCaretPos(long long) SetCaretPos
 @ stdcall SetClassLongA(long long long) SetClassLongA
 @ stdcall SetClassLongW(long long long) SetClassLongW
+@ stub    SetClassLongPtrA
+@ stub    SetClassLongPtrW
 @ stdcall SetClassWord(long long long) SetClassWord
 @ stdcall SetClipboardData(long long) SetClipboardData
 @ stdcall SetClipboardViewer(long) SetClipboardViewer

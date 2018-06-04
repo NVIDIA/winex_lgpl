@@ -58,7 +58,7 @@
 
 #include "winbase.h"
 #include "winnt.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "commctrl.h"
 #include "wine/debug.h"
 

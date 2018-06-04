@@ -376,7 +376,7 @@ DWORD WINAPI CParserImplThread_Entry( LPVOID pv )
 	IMediaSample*	pSample;
 	MSG	msg;
 
-	TGSetThreadName(-1, "QUARTZ parser");
+	THREAD_setThreadName(-1, "QUARTZ parser");
 
 	/* initialize the message queue. */
 	PeekMessageA( &msg, (HWND)NULL, 0, 0, PM_NOREMOVE );

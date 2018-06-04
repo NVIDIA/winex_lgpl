@@ -12,7 +12,7 @@
 
 #include "winbase.h"
 #include "windef.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "wine/debug.h"
 
 

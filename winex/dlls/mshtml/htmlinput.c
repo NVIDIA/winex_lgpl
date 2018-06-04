@@ -992,7 +992,7 @@ static HRESULT WINAPI HTMLInputTextElement_createTextRange(IHTMLInputTextElement
 
 #undef HTMLINPUT_THIS
 
-static const IHTMLInputTextElementVtbl HTMLInputTextElementVtbl = {
+static IHTMLInputTextElementVtbl HTMLInputTextElementVtbl = {
     HTMLInputTextElement_QueryInterface,
     HTMLInputTextElement_AddRef,
     HTMLInputTextElement_Release,
@@ -1092,6 +1092,7 @@ HTMLElement *HTMLInputElement_Create(nsIDOMHTMLElement *nselem)
     HTMLInputElement *ret = heap_alloc_zero(sizeof(HTMLInputElement));
     nsresult nsres;
 
+    ret->lpHTMLInputTextElementVtbl = &HTMLInputTextElementVtbl;
     ret->lpHTMLInputElementVtbl = &HTMLInputElementVtbl;
     ret->element.node.vtbl = &HTMLInputElementImplVtbl;
 

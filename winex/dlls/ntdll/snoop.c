@@ -15,7 +15,7 @@
 #include "wine/winbase16.h"
 #include "wine/library.h"
 #include "global.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "builtin16.h"
 #include "toolhelp.h"
 #include "snoop.h"

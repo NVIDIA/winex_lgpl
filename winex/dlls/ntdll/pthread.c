@@ -23,7 +23,7 @@
 #include <dlfcn.h>
 
 #include "winbase.h"
-#include "thread.h"
+#include "wine/thread.h"
 #include "winternl.h"
 
 #if defined(HAVE_MUTEX_M_KIND)

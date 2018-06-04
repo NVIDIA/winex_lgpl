@@ -25,7 +25,7 @@
 #include "task.h"
 #include "wine/file.h"
 #include "wine/module.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "builtin16.h"
 #include "wine/debug.h"
 

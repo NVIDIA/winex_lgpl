@@ -441,7 +441,7 @@ static mach_port_t gExceptionPort;
 #define T_UNKNOWN     (-1)  /* Unknown fault (TRAP_sig not defined) */
 
 #include "wine/exception.h"
-#include "stackframe.h"
+#include "wine/stackframe.h"
 #include "global.h"
 #include "miscemu.h"
 #include "syslevel.h"

@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "gdi.h"
-#include "heap.h"
+#include "wine/heapstr.h"
 #include "wine/debug.h"
 #include "font.h"
 #include "winerror.h"

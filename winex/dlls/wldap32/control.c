@@ -36,7 +36,9 @@
 #include "winldap_private.h"
 #include "wldap32.h"
 
+#ifdef HAVE_LDAP
 WINE_DEFAULT_DEBUG_CHANNEL(wldap32);
+#endif
 
 /***********************************************************************
  *      ldap_control_freeA     (WLDAP32.@)
